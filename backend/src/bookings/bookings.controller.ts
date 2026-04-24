@@ -10,6 +10,12 @@ type JwtUser = { sub: string; email: string };
 export class BookingsController {
   constructor(private readonly bookings: BookingsService) {}
 
+  @Get()
+  @UseGuards(JwtAccessAuthGuard)
+  async getMy(@Req() req: { user: JwtUser }) {
+    return await this.bookings.getMyBookings({ userId: req.user.sub });
+  }
+
   @Get(':id')
   @UseGuards(JwtAccessAuthGuard)
   async getById(@Req() req: { user: JwtUser }, @Param('id') id: string) {

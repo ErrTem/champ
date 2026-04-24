@@ -1,11 +1,47 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { BOOKING_HOLD_TTL_MINUTES, SLOT_UNAVAILABLE_CODE } from './bookings.constants';
-import { BookingDto } from './dto/booking.dto';
+import { BookingDto, BookingListItemDto } from './dto/booking.dto';
 
 @Injectable()
 export class BookingsService {
   constructor(private readonly prisma: PrismaService) {}
+
+  private paymentStateFromBooking(input: { status: string }): string {
+    if (input.status === 'confirmed') return 'paid';
+    if (input.status === 'expired') return 'expired';
+    return 'unpaid';
+  }
+
+  async getMyBookings(input: { userId: string }): Promise<BookingListItemDto[]> {
+    const bookings = await this.prisma.booking.findMany({
+      where: { userId: input.userId },
+      select: {
+        id: true,
+        status: true,
+        expiresAtUtc: true,
+        slot: { select: { startsAtUtc: true, endsAtUtc: true } },
+        fighter: { select: { id: true, name: true } },
+        service: { select: { id: true, title: true, priceCents: true, currency: true } },
+      },
+      orderBy: [{ slot: { startsAtUtc: 'asc' } }, { id: 'asc' }],
+    });
+
+    return bookings.map((b) => ({
+      id: b.id,
+      status: b.status,
+      expiresAtUtc: b.expiresAtUtc.toISOString(),
+      startsAtUtc: b.slot.startsAtUtc.toISOString(),
+      endsAtUtc: b.slot.endsAtUtc.toISOString(),
+      fighterId: b.fighter.id,
+      fighterName: b.fighter.name,
+      serviceId: b.service.id,
+      serviceTitle: b.service.title,
+      priceCents: b.service.priceCents,
+      currency: b.service.currency,
+      paymentState: this.paymentStateFromBooking({ status: b.status }),
+    }));
+  }
 
   async getBookingForUser(input: { bookingId: string; userId: string }): Promise<BookingDto> {
     const booking = await this.prisma.booking.findFirst({
@@ -23,6 +59,8 @@ export class BookingsService {
             serviceId: true,
           },
         },
+        fighter: { select: { id: true, name: true } },
+        service: { select: { id: true, title: true, priceCents: true, currency: true } },
       },
     });
 
@@ -39,6 +77,15 @@ export class BookingsService {
         fighterId: booking.slot.fighterId,
         serviceId: booking.slot.serviceId,
       },
+      startsAtUtc: booking.slot.startsAtUtc.toISOString(),
+      endsAtUtc: booking.slot.endsAtUtc.toISOString(),
+      fighterId: booking.fighter.id,
+      fighterName: booking.fighter.name,
+      serviceId: booking.service.id,
+      serviceTitle: booking.service.title,
+      priceCents: booking.service.priceCents,
+      currency: booking.service.currency,
+      paymentState: this.paymentStateFromBooking({ status: booking.status }),
     };
   }
 
