@@ -41,7 +41,7 @@ Declared values (must be multiples of 4):
 | 2xl | 48px | Page section breaks |
 | 3xl | 64px | Rare hero spacing (not expected in Phase 05) |
 
-Exceptions: 12px/14px/18px allowed only for legacy alignment in existing pages; prefer snapping new UI to the declared scale.
+Legacy note: existing pages may contain off-scale spacing; Phase 05 UI must use only the declared scale above (no new off-scale values).
 
 Source: `DESIGN.md` (4px scale), existing pages (`payment-return`, `booking-success`) use 16px padding
 
@@ -102,6 +102,9 @@ Source: `.planning/phases/05-my-bookings-notifications/05-CONTEXT.md` (D-04, D-0
 
 ### My bookings (list) — MBB-01
 
+- **Hierarchy / focal point**:
+  - Primary: tab header + first upcoming booking row
+  - Secondary: status chips and supporting metadata
 - **Information architecture**: 2 tabs — **Upcoming** and **Past**.
 - **Sorting**:
   - Upcoming: soonest-first
@@ -125,6 +128,9 @@ Source: `.planning/phases/05-my-bookings-notifications/05-CONTEXT.md` (D-01..D-0
 
 ### Booking detail — MBB-02
 
+- **Hierarchy / focal point**:
+  - Primary: status + next action area (when `awaiting_payment`, the Pay now CTA)
+  - Secondary: booking fields grouped in a tonal card stack (fighter/service/time/price)
 - **Fields shown**: fighter, service, local time, booking status, payment state, price.
 - **Actions**:
   - If `awaiting_payment`: primary CTA **Pay now** (accent gradient).
