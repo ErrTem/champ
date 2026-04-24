@@ -88,7 +88,7 @@ Plans:
 
 Plans:
 
-- [ ] 03-01: Schedule model and slot generation/query API (timezone rules documented)
+- [x] 03-01: Schedule model and slot generation/query API (timezone rules documented)
 - [ ] 03-02: Booking entity, create-booking endpoint, concurrency tests
 - [ ] 03-03: Ionic calendar/slot selection UI and booking confirmation step (pre-pay)
 - [ ] 03-04: Edge cases: no slots, stale slot selection, friendly errors
