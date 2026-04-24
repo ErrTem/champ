@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: champ_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - champ_db:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      PORT: 3000
+      NODE_ENV: production
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/champ_dev
+      JWT_ACCESS_SECRET: change-me-min-32-chars-xxxxxxxxxxxx
+      JWT_REFRESH_SECRET: change-me-min-32-chars-xxxxxxxxxxxx
+    depends_on:
+      - db
+    ports:
+      - "3001:3000"
+
+volumes:
+  champ_db:
+
