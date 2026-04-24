@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: verifying
-stopped_at: Phase 5 context gathered
-last_updated: "2026-04-24T14:18:29.491Z"
+stopped_at: Phase 5 UI-SPEC approved
+last_updated: "2026-04-24T14:22:36.381Z"
 last_activity: 2026-04-24 — Phase 4 verification recorded (`.planning/phases/04-payments-confirmation/04-VERIFICATION.md`)
 progress:
   total_phases: 6
@@ -75,7 +75,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-24T14:18:29.485Z
-Stopped at: Phase 5 context gathered
-Resume file: .planning/phases/05-my-bookings-notifications/05-CONTEXT.md
+Last session: 2026-04-24T14:22:36.376Z
+Stopped at: Phase 5 UI-SPEC approved
+Resume file: .planning/phases/05-my-bookings-notifications/05-UI-SPEC.md
 Resume file: `.planning/phases/04-payments-confirmation/04-CONTEXT.md`
