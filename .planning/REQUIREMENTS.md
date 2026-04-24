@@ -47,8 +47,8 @@
 
 ### My bookings
 
-- [ ] **MBB-01**: User can list their own upcoming and past bookings
-- [ ] **MBB-02**: User can open a booking detail view with fighter, service, time, and status
+- [x] **MBB-01**: User can list their own upcoming and past bookings
+- [x] **MBB-02**: User can open a booking detail view with fighter, service, time, and status
 
 ### Notifications
 
@@ -119,8 +119,8 @@
 | PAY-03 | Phase 4 | Pending |
 | PAY-04 | Phase 4 | Pending |
 | BKG-04 | Phase 4 | Pending |
-| MBB-01 | Phase 5 | Pending |
-| MBB-02 | Phase 5 | Pending |
+| MBB-01 | Phase 5 | Completed (05-01) |
+| MBB-02 | Phase 5 | Completed (05-01) |
 | NOT-01 | Phase 5 | Pending |
 | NOT-02 | Phase 5 | Pending |
 | ADM-01 | Phase 6 | Pending |

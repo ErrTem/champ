@@ -142,7 +142,7 @@ Plans:
 
 Plans:
 
-- [ ] 05-01: List and detail booking APIs scoped by user
+- [x] 05-01: List and detail booking APIs scoped by user
 - [ ] 05-02: Ionic “My bookings” list + detail screens
 - [ ] 05-03: Outbound email integration for confirmation and cancellation hooks
 
