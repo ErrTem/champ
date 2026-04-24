@@ -1,0 +1,34 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-title>Success</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true" class="success-shell">
+  @if (loading) {
+    <section class="card glass">
+      <ion-skeleton-text class="line lg" animated="true"></ion-skeleton-text>
+      <ion-skeleton-text class="line md" animated="true"></ion-skeleton-text>
+    </section>
+  } @else if (error) {
+    <section class="card glass">
+      <p class="headline">Booking confirmed</p>
+      <p class="body">{{ error }}</p>
+      <ion-button class="kinetic-gradient" expand="block" routerLink="/profile">Go to My bookings</ion-button>
+    </section>
+  } @else if (data) {
+    <section class="card glass">
+      <p class="kicker">Booking confirmed</p>
+      <h2 class="headline">You’re all set</h2>
+      <p class="body">Your booking is confirmed. You can view details anytime in My bookings.</p>
+
+      <div class="meta">
+        <div><span class="label">Status</span> <span class="value">{{ data.status }}</span></div>
+        <div><span class="label">Booking ID</span> <span class="value mono">{{ data.id }}</span></div>
+      </div>
+
+      <ion-button class="kinetic-gradient" expand="block" routerLink="/profile">Go to My bookings</ion-button>
+    </section>
+  }
+</ion-content>
+

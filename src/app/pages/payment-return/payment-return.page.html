@@ -1,0 +1,27 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-title>Confirming</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true" class="return-shell">
+  <section class="card glass">
+    <p class="headline">Payment received</p>
+    <p class="body">{{ message }}</p>
+
+    @if (loading) {
+      <div class="spinner-row">
+        <ion-spinner name="crescent"></ion-spinner>
+        <span>Confirming your booking…</span>
+      </div>
+    }
+
+    @if (!loading && bookingId) {
+      <ion-button class="kinetic-gradient" expand="block" routerLink="/profile">Go to My bookings</ion-button>
+      <ion-button fill="clear" expand="block" [routerLink]="'/book'" [queryParams]="{ bookingId: bookingId, step: 'created' }">
+        Back to booking
+      </ion-button>
+    }
+  </section>
+</ion-content>
+

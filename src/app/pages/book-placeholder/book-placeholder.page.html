@@ -238,11 +238,31 @@
         </div>
 
         <p class="created-copy">
-          We’re holding this time for a short window. Payment will be available next.
+          We’re holding this time for a short window. Complete payment to confirm your booking.
         </p>
       </section>
 
-      <ion-button class="kinetic-gradient" expand="block" (click)="backToProfile()">Back to profile</ion-button>
+      @if (checkoutError) {
+        <section class="alert tonal">
+          <p class="alert-title">Payment couldn’t be started.</p>
+          <p class="alert-body">{{ checkoutError }}</p>
+        </section>
+      }
+
+      <ion-button
+        class="kinetic-gradient"
+        expand="block"
+        [disabled]="openingCheckout"
+        (click)="payNow()"
+      >
+        @if (openingCheckout) {
+          <ion-spinner name="crescent"></ion-spinner>
+          Opening checkout…
+        } @else {
+          Pay now
+        }
+      </ion-button>
+
       <ion-button fill="clear" expand="block" (click)="changeTime()">Change time</ion-button>
     }
 

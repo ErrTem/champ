@@ -17,6 +17,16 @@ export const routes: Routes = [
       import('./pages/book-placeholder/book-placeholder.page').then((m) => m.BookPlaceholderPage),
   },
   {
+    path: 'pay/return',
+    loadComponent: () =>
+      import('./pages/payment-return/payment-return.page').then((m) => m.PaymentReturnPage),
+  },
+  {
+    path: 'booking/success',
+    loadComponent: () =>
+      import('./pages/booking-success/booking-success.page').then((m) => m.BookingSuccessPage),
+  },
+  {
     path: 'home',
     loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
   },

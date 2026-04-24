@@ -1,0 +1,28 @@
+.return-shell {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 16px;
+}
+
+.card {
+  padding: 16px;
+  border-radius: 18px;
+}
+
+.headline {
+  font-size: 20px;
+  margin: 0 0 6px;
+}
+
+.body {
+  margin: 0 0 12px;
+  opacity: 0.8;
+}
+
+.spinner-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+

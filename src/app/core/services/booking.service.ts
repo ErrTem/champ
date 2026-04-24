@@ -56,5 +56,19 @@ export class BookingService {
       .post<Booking>(`${this.baseUrl}/bookings`, body, { withCredentials: true })
       .pipe(catchError((e) => throwError(() => coerceCreateBookingError(e))));
   }
+
+  getBooking(bookingId: string): Observable<Booking> {
+    return this.http.get<Booking>(`${this.baseUrl}/bookings/${encodeURIComponent(bookingId)}`, {
+      withCredentials: true,
+    });
+  }
+
+  createCheckoutSession(bookingId: string): Observable<{ checkoutUrl: string }> {
+    return this.http.post<{ checkoutUrl: string }>(
+      `${this.baseUrl}/bookings/${encodeURIComponent(bookingId)}/checkout-session`,
+      {},
+      { withCredentials: true },
+    );
+  }
 }
 

@@ -56,6 +56,7 @@ export class BookPlaceholderPage implements OnDestroy {
 
   fighterId: string | null = null;
   serviceId: string | null = null;
+  bookingId: string | null = null;
 
   fighter: FighterProfile | null = null;
   service: Service | null = null;
@@ -84,6 +85,9 @@ export class BookPlaceholderPage implements OnDestroy {
 
   createdBooking: Booking | null = null;
 
+  openingCheckout = false;
+  checkoutError = '';
+
   ionViewWillEnter(): void {
     if (!this.qpSub) {
       this.qpSub = this.route.queryParamMap.subscribe(() => this.loadFromUrl());
@@ -99,8 +103,68 @@ export class BookPlaceholderPage implements OnDestroy {
   loadFromUrl(): void {
     this.fighterId = this.route.snapshot.queryParamMap.get('fighterId');
     this.serviceId = this.route.snapshot.queryParamMap.get('serviceId');
+    this.bookingId = this.route.snapshot.queryParamMap.get('bookingId');
     const selectedDate = this.route.snapshot.queryParamMap.get('date');
     const selectedSlotId = this.route.snapshot.queryParamMap.get('slotId');
+    const stepFromUrl = this.route.snapshot.queryParamMap.get('step');
+    const notice = this.route.snapshot.queryParamMap.get('notice');
+
+    this.checkoutError = '';
+    if (notice === 'cancelled') {
+      this.checkoutError = 'Payment cancelled. You can try again.';
+    }
+
+    this.step = stepFromUrl === 'created' ? 'created' : stepFromUrl === 'review' ? 'review' : 'select';
+    this.selectedDate = selectedDate;
+    this.selectedSlotId = selectedSlotId;
+
+    if (this.bookingId) {
+      this.loadingSelection = true;
+      this.errorSelection = '';
+      this.fighter = null;
+      this.service = null;
+
+      this.booking.getBooking(this.bookingId).pipe(finalize(() => (this.loadingSelection = false))).subscribe({
+        next: (b) => {
+          this.createdBooking = b;
+          this.fighterId = b.slot.fighterId;
+          this.serviceId = b.slot.serviceId;
+          this.selectedSlotId = b.slot.slotId;
+          // Keep existing selectedDate if present; otherwise derive in DISPLAY_TIMEZONE.
+          if (!this.selectedDate) {
+            this.selectedDate = new Intl.DateTimeFormat('en-CA', {
+              timeZone: DISPLAY_TIMEZONE,
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            }).format(new Date(b.slot.startsAtUtc));
+          }
+
+          this.catalog
+            .getFighterProfile(this.fighterId)
+            .pipe(finalize(() => (this.loadingSelection = false)))
+            .subscribe({
+              next: (fighter) => {
+                this.fighter = fighter;
+                this.service = fighter.services.find((s) => s.id === this.serviceId) ?? null;
+                if (!this.service) {
+                  this.errorSelection = 'Selected service not found.';
+                  return;
+                }
+                this.buildHorizon();
+                this.loadAvailability();
+              },
+              error: () => {
+                this.errorSelection = "Couldn’t load selection. Check your connection and try again.";
+              },
+            });
+        },
+        error: () => {
+          this.errorSelection = "Couldn’t load booking. Try again.";
+        },
+      });
+      return;
+    }
 
     if (!this.fighterId || !this.serviceId) {
       this.loadingSelection = false;
@@ -109,10 +173,6 @@ export class BookPlaceholderPage implements OnDestroy {
       this.service = null;
       return;
     }
-
-    this.step = this.route.snapshot.queryParamMap.get('step') === 'review' ? 'review' : 'select';
-    this.selectedDate = selectedDate;
-    this.selectedSlotId = selectedSlotId;
 
     this.loadingSelection = true;
     this.errorSelection = '';
@@ -246,6 +306,7 @@ export class BookPlaceholderPage implements OnDestroy {
       .subscribe({
         next: (booking) => {
           this.createdBooking = booking;
+          this.bookingId = booking.id;
           this.step = 'created';
         },
         error: (e: CreateBookingError) => {
@@ -263,6 +324,24 @@ export class BookPlaceholderPage implements OnDestroy {
             title: 'Couldn’t reserve that slot.',
             body: 'Check your connection and try again.',
           };
+        },
+      });
+  }
+
+  payNow(): void {
+    if (!this.createdBooking?.id) return;
+    this.openingCheckout = true;
+    this.checkoutError = '';
+
+    this.booking
+      .createCheckoutSession(this.createdBooking.id)
+      .pipe(finalize(() => (this.openingCheckout = false)))
+      .subscribe({
+        next: (res) => {
+          window.location.href = res.checkoutUrl;
+        },
+        error: () => {
+          this.checkoutError = "Couldn’t open checkout. Check your connection and try again.";
         },
       });
   }
