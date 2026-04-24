@@ -1,4 +1,6 @@
 import { PrismaClient } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
+import { DateTime } from 'luxon';
 
 const prisma = new PrismaClient();
 
@@ -127,7 +129,68 @@ const fighters: SeedFighter[] = [
   },
 ];
 
+const TEST_USER = {
+  email: 'test@champ.local',
+  password: 'Pass_12345678',
+  name: 'Test User',
+};
+
+function generateSlotsForRules(args: {
+  fighterId: string;
+  serviceId: string;
+  durationMinutes: number;
+  rules: SeedScheduleRule[];
+  days: number;
+}): Array<{ fighterId: string; serviceId: string; startsAtUtc: Date; endsAtUtc: Date }> {
+  const { fighterId, serviceId, durationMinutes, rules, days } = args;
+  const tz = 'America/Los_Angeles';
+  const stepMinutes = 30;
+  const startLocal = DateTime.now().setZone(tz).startOf('day');
+  const out: Array<{ fighterId: string; serviceId: string; startsAtUtc: Date; endsAtUtc: Date }> = [];
+
+  for (let dayOffset = 0; dayOffset < days; dayOffset++) {
+    const dayLocal = startLocal.plus({ days: dayOffset }).startOf('day');
+    const dayOfWeek = dayLocal.weekday % 7; // Luxon Mon..Sun (1..7) -> 0..6 (Sun..Sat)
+    const dayRules = rules.filter((r) => r.dayOfWeek === dayOfWeek);
+
+    for (const r of dayRules) {
+      if (r.endMinute <= r.startMinute) continue;
+      const windowStart = dayLocal.plus({ minutes: r.startMinute });
+      const windowEnd = dayLocal.plus({ minutes: r.endMinute });
+      let cursor = windowStart;
+
+      while (cursor.plus({ minutes: durationMinutes }) <= windowEnd) {
+        const endsLocal = cursor.plus({ minutes: durationMinutes });
+        out.push({
+          fighterId,
+          serviceId,
+          startsAtUtc: cursor.toUTC().toJSDate(),
+          endsAtUtc: endsLocal.toUTC().toJSDate(),
+        });
+        cursor = cursor.plus({ minutes: stepMinutes });
+      }
+    }
+  }
+
+  return out;
+}
+
 async function main() {
+  // Ensure a stable test login user exists for manual QA.
+  const passwordHash = await bcrypt.hash(TEST_USER.password, 12);
+  await prisma.user.upsert({
+    where: { email: TEST_USER.email },
+    create: {
+      email: TEST_USER.email,
+      passwordHash,
+      name: TEST_USER.name,
+    },
+    update: {
+      passwordHash,
+      name: TEST_USER.name,
+    },
+  });
+
   for (const f of fighters) {
     const fighter = await prisma.fighter.upsert({
       where: { id: f.id },
@@ -195,6 +258,21 @@ async function main() {
           currency: s.currency ?? 'USD',
         },
       });
+    }
+
+    // Pre-generate some slots for published services so dev app has availability without extra clicks.
+    const publishedServices = f.services.filter((s) => s.published ?? true);
+    for (const s of publishedServices) {
+      const slots = generateSlotsForRules({
+        fighterId: fighter.id,
+        serviceId: s.id,
+        durationMinutes: s.durationMinutes,
+        rules,
+        days: 14,
+      });
+      if (slots.length > 0) {
+        await prisma.slot.createMany({ data: slots, skipDuplicates: true });
+      }
     }
   }
 }
