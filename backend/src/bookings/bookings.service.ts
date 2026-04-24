@@ -7,6 +7,41 @@ import { BookingDto } from './dto/booking.dto';
 export class BookingsService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async getBookingForUser(input: { bookingId: string; userId: string }): Promise<BookingDto> {
+    const booking = await this.prisma.booking.findFirst({
+      where: { id: input.bookingId, userId: input.userId },
+      select: {
+        id: true,
+        status: true,
+        expiresAtUtc: true,
+        slot: {
+          select: {
+            id: true,
+            startsAtUtc: true,
+            endsAtUtc: true,
+            fighterId: true,
+            serviceId: true,
+          },
+        },
+      },
+    });
+
+    if (!booking) throw new NotFoundException('Booking not found');
+
+    return {
+      id: booking.id,
+      status: booking.status,
+      expiresAtUtc: booking.expiresAtUtc.toISOString(),
+      slot: {
+        slotId: booking.slot.id,
+        startsAtUtc: booking.slot.startsAtUtc.toISOString(),
+        endsAtUtc: booking.slot.endsAtUtc.toISOString(),
+        fighterId: booking.slot.fighterId,
+        serviceId: booking.slot.serviceId,
+      },
+    };
+  }
+
   async createBooking(input: { userId: string; slotId: string }): Promise<BookingDto> {
     const { userId, slotId } = input;
 

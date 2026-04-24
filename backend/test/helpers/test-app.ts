@@ -14,6 +14,7 @@ export async function createTestApp(options?: {
 }> {
   process.env.NODE_ENV = 'test';
   process.env.STRIPE_SECRET_KEY ??= 'sk_test_dummy';
+  process.env.STRIPE_WEBHOOK_SECRET ??= 'whsec_test_dummy';
   process.env.PUBLIC_APP_URL ??= 'http://localhost:8100';
 
   let builder = Test.createTestingModule({
@@ -26,7 +27,7 @@ export async function createTestApp(options?: {
 
   const moduleRef = await builder.compile();
 
-  const app = moduleRef.createNestApplication();
+  const app = moduleRef.createNestApplication({ rawBody: true });
   await app.init();
 
   const request = supertest.agent(app.getHttpServer());

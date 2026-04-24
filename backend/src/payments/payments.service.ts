@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import type Stripe from 'stripe';
 import { PrismaService } from '../prisma/prisma.service';
 import { StripeClient } from './stripe.client';
 
@@ -84,6 +85,66 @@ export class PaymentsService {
     });
 
     return { checkoutUrl: session.url, sessionId: session.id };
+  }
+
+  async processStripeEvent(event: Stripe.Event): Promise<void> {
+    // Persist idempotency key first (D-09).
+    try {
+      await this.prisma.stripeWebhookEvent.create({
+        data: { stripeEventId: event.id, type: event.type },
+        select: { id: true },
+      });
+    } catch {
+      // Duplicate event id (or race) — treat as idempotent success.
+      return;
+    }
+
+    if (event.type !== 'checkout.session.completed') return;
+
+    const session = event.data.object as Stripe.Checkout.Session;
+    const bookingId = session.metadata?.bookingId;
+    if (!bookingId) return;
+
+    await this.confirmBookingAndConsumeSlot({
+      bookingId,
+      stripeCheckoutSessionId: session.id,
+    });
+  }
+
+  private async confirmBookingAndConsumeSlot(input: {
+    bookingId: string;
+    stripeCheckoutSessionId?: string;
+  }): Promise<void> {
+    await this.prisma.$transaction(async (tx) => {
+      const booking = await tx.booking.findUnique({
+        where: { id: input.bookingId },
+        select: { id: true, status: true, slotId: true, stripeCheckoutSessionId: true },
+      });
+      if (!booking) return;
+      if (booking.status === 'confirmed') return;
+      if (booking.status !== 'awaiting_payment') return;
+
+      await tx.booking.update({
+        where: { id: booking.id },
+        data: {
+          status: 'confirmed',
+          stripeCheckoutSessionId: booking.stripeCheckoutSessionId ?? input.stripeCheckoutSessionId,
+        },
+        select: { id: true },
+      });
+
+      await tx.slot.updateMany({
+        where: {
+          id: booking.slotId,
+          OR: [{ confirmedBookingId: null }, { confirmedBookingId: booking.id }],
+        },
+        data: {
+          confirmedBookingId: booking.id,
+          reservedBookingId: null,
+          reservedUntilUtc: null,
+        },
+      });
+    });
   }
 }
 

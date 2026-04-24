@@ -7,7 +7,7 @@ const stripe = new Stripe('sk_test_dummy', {
 
 export function createStripeSignatureHeader(params: {
   webhookSecret: string;
-  payload: string | Buffer;
+  payload: string;
   timestamp?: number;
 }): string {
   const timestamp = params.timestamp ?? Math.floor(Date.now() / 1000);

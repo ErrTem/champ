@@ -1,4 +1,4 @@
-import { Body, ConflictException, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, ConflictException, Controller, Get, Post, Req, UseGuards, Param } from '@nestjs/common';
 import { JwtAccessAuthGuard } from '../auth/guards/jwt-access.guard';
 import { BookingsService } from './bookings.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
@@ -9,6 +9,12 @@ type JwtUser = { sub: string; email: string };
 @Controller('bookings')
 export class BookingsController {
   constructor(private readonly bookings: BookingsService) {}
+
+  @Get(':id')
+  @UseGuards(JwtAccessAuthGuard)
+  async getById(@Req() req: { user: JwtUser }, @Param('id') id: string) {
+    return await this.bookings.getBookingForUser({ bookingId: id, userId: req.user.sub });
+  }
 
   @Post()
   @UseGuards(JwtAccessAuthGuard)
