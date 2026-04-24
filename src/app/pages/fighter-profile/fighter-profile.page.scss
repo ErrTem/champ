@@ -18,6 +18,15 @@
   backdrop-filter: blur(24px);
 }
 
+/* Ensure start slot stays compact (fix oversized back affordance). */
+.profile-topbar ion-back-button {
+  --padding-start: 6px;
+  --padding-end: 6px;
+  --icon-font-size: 20px;
+  width: auto;
+  max-width: 44px;
+}
+
 .profile-shell {
   --background: var(--bg);
 }

@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+  IonButtons,
   IonBackButton,
   IonButton,
   IonContent,
@@ -23,6 +24,7 @@ import { CatalogService } from '../../core/services/catalog.service';
     IonHeader,
     IonToolbar,
     IonTitle,
+    IonButtons,
     IonBackButton,
     IonContent,
     IonText,
