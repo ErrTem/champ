@@ -111,13 +111,14 @@ Plans:
 2. Successful webhook transitions booking to confirmed and removes availability for that slot.
 3. Duplicate webhook deliveries do not corrupt booking state.
 
-**Plans:** 3 plans
+**Plans:** 4 plans
 
 Plans:
 
-- [ ] 04-01: Stripe Checkout/session creation with booking metadata; return URLs
-- [ ] 04-02: Webhook endpoint with signature verification and idempotent state updates
-- [ ] 04-03: Ionic payment return UX and error/retry paths
+- [ ] 04-01: Backend test harness (Jest/Supertest) + Phase 4 integration tests (Nyquist Wave 0)
+- [ ] 04-02: Stripe Checkout Session create/reuse endpoint (one active session per booking; DB-authoritative price)
+- [ ] 04-03: Stripe webhook handler (signature verify + idempotent confirm + atomic slot consumption) + booking polling API
+- [ ] 04-04: Ionic “Pay now” + return UX (confirming poll) + booking success screen (UI-SPEC)
 
 **UI hint:** yes
 
