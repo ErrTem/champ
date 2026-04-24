@@ -84,9 +84,9 @@ export class MyBookingsPage {
     });
   }
 
-  setTab(value: string | null | undefined): void {
-    if (value === 'past') this.tab = 'past';
-    else this.tab = 'upcoming';
+  setTab(value: string | number | null | undefined): void {
+    const v = String(value ?? '');
+    this.tab = v === 'past' ? 'past' : 'upcoming';
   }
 
   get upcomingBookings(): BookingListItem[] {
