@@ -1,1 +1,106 @@
+.my-bookings-shell {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 16px;
+  --padding-bottom: 24px;
+}
+
+.tabs {
+  margin-bottom: 16px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.row {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  padding: 16px;
+  background: #1f1f1f;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.row-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fighter {
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+
+.service {
+  opacity: 0.85;
+}
+
+.meta {
+  opacity: 0.7;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.chip {
+  --background: rgba(255, 255, 255, 0.06);
+  --color: rgba(255, 255, 255, 0.92);
+}
+
+.chip-accent {
+  --background: rgba(255, 85, 64, 0.16);
+  --color: rgba(255, 180, 168, 0.95);
+}
+
+.state {
+  background: #1f1f1f;
+  border-radius: 12px;
+  padding: 24px 16px;
+  text-align: center;
+}
+
+.state-title {
+  font-weight: 900;
+  margin: 0 0 8px 0;
+}
+
+.state-body {
+  margin: 0 0 16px 0;
+  opacity: 0.85;
+}
+
+.row-skeleton {
+  pointer-events: none;
+}
+
+.skeleton-line {
+  width: 220px;
+  height: 16px;
+}
+
+.skeleton-line.short {
+  width: 160px;
+  height: 16px;
+}
+
+.skeleton-meta {
+  width: 140px;
+  height: 12px;
+}
+
+.skeleton-chip {
+  width: 120px;
+  height: 28px;
+  border-radius: 999px;
+}
+
 

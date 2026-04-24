@@ -4,5 +4,62 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen="true"></ion-content>
+<ion-content fullscreen="true" class="my-bookings-shell">
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <section class="tabs">
+    <ion-segment [value]="tab" (ionChange)="setTab($event.detail.value)">
+      <ion-segment-button value="upcoming">
+        <ion-label>Upcoming</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="past">
+        <ion-label>Past</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </section>
+
+  @if (loading) {
+    <section class="list">
+      @for (i of [0, 1, 2, 3, 4, 5]; track i) {
+        <div class="row row-skeleton">
+          <div class="row-main">
+            <ion-skeleton-text animated="true" class="skeleton-line"></ion-skeleton-text>
+            <ion-skeleton-text animated="true" class="skeleton-line short"></ion-skeleton-text>
+            <ion-skeleton-text animated="true" class="skeleton-meta"></ion-skeleton-text>
+          </div>
+          <ion-skeleton-text animated="true" class="skeleton-chip"></ion-skeleton-text>
+        </div>
+      }
+    </section>
+  } @else if (error) {
+    <section class="state state-error">
+      <p class="state-title">We couldn’t load your bookings.</p>
+      <p class="state-body">Check your connection and try again.</p>
+      <ion-button class="kinetic-gradient" expand="block" (click)="fetch()">Retry</ion-button>
+    </section>
+  } @else if (visibleBookings.length === 0) {
+    <section class="state state-empty">
+      <p class="state-title">No bookings yet</p>
+      <p class="state-body">When you book a session, it’ll appear here. Explore fighters to get started.</p>
+      <ion-button class="kinetic-gradient" expand="block" (click)="explore()">Explore fighters</ion-button>
+    </section>
+  } @else {
+    <section class="list">
+      @for (b of visibleBookings; track b.id) {
+        <button class="row" type="button" (click)="openBooking(b.id)">
+          <div class="row-main">
+            <div class="fighter">{{ b.fighterName }}</div>
+            <div class="service">{{ b.serviceTitle }}</div>
+            <div class="meta">{{ formatPacificDateTime(b.startsAtUtc) }}</div>
+          </div>
+          <ion-chip class="chip" [class.chip-accent]="b.status === 'awaiting_payment'">
+            <ion-label>{{ statusLabel(b.status) }}</ion-label>
+          </ion-chip>
+        </button>
+      }
+    </section>
+  }
+</ion-content>
 
