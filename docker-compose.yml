@@ -14,17 +14,14 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    env_file:
+      - ./.env
     environment:
       PORT: 3000
       NODE_ENV: production
       DATABASE_URL: postgresql://postgres:postgres@db:5432/champ_dev
       JWT_ACCESS_SECRET: change-me-min-32-chars-xxxxxxxxxxxx
       JWT_REFRESH_SECRET: change-me-min-32-chars-xxxxxxxxxxxx
-      # Stripe (test mode)
-      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
-      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
-      # Used to build success/cancel return URLs (points back to frontend)
-      PUBLIC_APP_URL: ${PUBLIC_APP_URL:-http://localhost:8100}
     depends_on:
       - db
     ports:
