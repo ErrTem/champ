@@ -4,5 +4,64 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen="true"></ion-content>
+<ion-content fullscreen="true" class="detail-shell">
+  @if (loading) {
+    <section class="card glass">
+      <ion-skeleton-text class="line lg" animated="true"></ion-skeleton-text>
+      <ion-skeleton-text class="line md" animated="true"></ion-skeleton-text>
+      <ion-skeleton-text class="line md" animated="true"></ion-skeleton-text>
+    </section>
+  } @else if (error) {
+    <section class="card glass">
+      <p class="headline">Couldn’t load booking</p>
+      <p class="body">{{ error }}</p>
+      <ion-button class="kinetic-gradient" expand="block" (click)="fetch()">Retry</ion-button>
+    </section>
+  } @else if (data) {
+    <section class="card glass">
+      <p class="kicker">Booking</p>
+      <h2 class="headline">{{ data.fighterName ?? '—' }}</h2>
+      <p class="body">{{ data.serviceTitle ?? '—' }}</p>
+
+      <div class="meta">
+        <div class="meta-row">
+          <span class="label">Time</span>
+          <span class="value">{{ formatPacificDateTime(data.startsAtUtc ?? data.slot?.startsAtUtc) }}</span>
+        </div>
+        <div class="meta-row">
+          <span class="label">Status</span>
+          <ion-chip class="chip" [class.chip-accent]="data.status === 'awaiting_payment'">
+            <ion-label>{{ statusLabel(data.status) }}</ion-label>
+          </ion-chip>
+        </div>
+        <div class="meta-row">
+          <span class="label">Payment</span>
+          <span class="value">{{ data.paymentState ?? '—' }}</span>
+        </div>
+        <div class="meta-row">
+          <span class="label">Price</span>
+          <span class="value">{{ formatPrice(data.priceCents, data.currency) }}</span>
+        </div>
+        <div class="meta-row">
+          <span class="label">Booking ID</span>
+          <span class="value mono">{{ data.id }}</span>
+        </div>
+      </div>
+
+      @if (checkoutError) {
+        <p class="body body-error">{{ checkoutError }}</p>
+      }
+
+      @if (data.status === 'awaiting_payment') {
+        <ion-button class="kinetic-gradient" expand="block" (click)="payNow()" [disabled]="openingCheckout">
+          @if (openingCheckout) {
+            Opening checkout…
+          } @else {
+            Pay now
+          }
+        </ion-button>
+      }
+    </section>
+  }
+</ion-content>
 
