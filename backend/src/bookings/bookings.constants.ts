@@ -1,0 +1,4 @@
+export const BOOKING_HOLD_TTL_MINUTES = 15;
+
+export const SLOT_UNAVAILABLE_CODE = 'SLOT_UNAVAILABLE' as const;
+
