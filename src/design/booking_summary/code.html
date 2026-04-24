@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Elite Athletic - Booking Summary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-surface": "#e2e2e2",
+              "surface-container-low": "#1b1b1b",
+              "on-primary-fixed": "#410000",
+              "surface-tint": "#ffb4a8",
+              "surface-variant": "#353535",
+              "on-primary-container": "#5c0000",
+              "secondary-container": "#af8d11",
+              "on-secondary-container": "#342800",
+              "on-primary": "#690100",
+              "surface-container-lowest": "#0e0e0e",
+              "background": "#131313",
+              "on-tertiary-fixed": "#001a40",
+              "primary-fixed-dim": "#ffb4a8",
+              "on-tertiary-container": "#00285b",
+              "tertiary-fixed": "#d7e2ff",
+              "error-container": "#93000a",
+              "inverse-primary": "#c00100",
+              "surface-bright": "#393939",
+              "surface-container-high": "#2a2a2a",
+              "surface-dim": "#131313",
+              "inverse-on-surface": "#303030",
+              "on-secondary": "#3c2f00",
+              "on-surface": "#e2e2e2",
+              "tertiary-fixed-dim": "#acc7ff",
+              "tertiary-container": "#488fff",
+              "surface-container": "#1f1f1f",
+              "tertiary": "#acc7ff",
+              "on-tertiary": "#002f67",
+              "on-background": "#e2e2e2",
+              "outline": "#b18780",
+              "primary": "#ffb4a8",
+              "on-tertiary-fixed-variant": "#004491",
+              "on-primary-fixed-variant": "#930100",
+              "surface-container-highest": "#353535",
+              "on-error-container": "#ffdad6",
+              "on-secondary-fixed-variant": "#574500",
+              "secondary": "#e9c349",
+              "primary-container": "#ff5540",
+              "outline-variant": "#603e39",
+              "on-surface-variant": "#ebbbb4",
+              "surface": "#131313",
+              "on-error": "#690005",
+              "secondary-fixed": "#ffe088",
+              "secondary-fixed-dim": "#e9c349",
+              "error": "#ffb4ab",
+              "primary-fixed": "#ffdad4",
+              "on-secondary-fixed": "#241a00"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        font-size: 20px;
+      }
+      .glass-card {
+        background: rgba(31, 31, 31, 0.6);
+        backdrop-filter: blur(12px);
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body min-h-screen pb-32 selection:bg-primary-container selection:text-white">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-zinc-950/70 backdrop-blur-xl flex justify-between items-center px-6 py-4 w-full bg-gradient-to-b from-black/20 to-transparent">
+<div class="flex items-center gap-4">
+<button class="active:scale-95 duration-200 transition-opacity hover:opacity-80">
+<span class="material-symbols-outlined text-zinc-400">arrow_back</span>
+</button>
+<h1 class="font-headline font-black uppercase tracking-tighter text-2xl text-red-600 dark:text-red-500 italic">ELITE ATHLETIC</h1>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden active:scale-95 duration-200 cursor-pointer">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="Close up portrait of a professional athlete" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBV2a-4EKOxW65mh2Gd_B7NvEGL4tVVxu0f7Lei0Fb1j3vy_9NlJnRi2gOWDo5W9RTBEwDYbZjB-G1fys4kGjUr2yL7pN9MCQs-EalEC_vfDxs_lDOOnxdhesy3lUcnE88_xK_t0eMzSn6PWwlCk4Q-bbWbyoWBzLSeDm6VJgtH3rbIYo7dOT8Ze0cbm-2_cCaKIOApABikkdmUpJnkPkP-T3WXMyGNE6q1uldr51p-ZIBxz4jaHqI6pWy0TZ4wy7v-tF1d7bfskMY"/>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-2xl mx-auto">
+<!-- Section: Screen Title -->
+<section class="mb-10">
+<span class="text-secondary font-label text-[10px] uppercase tracking-[0.2em] mb-2 block">Secure Checkout</span>
+<h2 class="font-headline font-black text-5xl leading-none tracking-tighter uppercase italic">Review<br/>Booking</h2>
+</section>
+<!-- Section: Booking Summary Card -->
+<section class="mb-8 relative overflow-hidden">
+<div class="absolute -top-12 -right-12 w-48 h-48 bg-primary/10 rounded-full blur-[80px]"></div>
+<div class="glass-card rounded-lg p-6 relative z-10">
+<div class="flex flex-col md:flex-row gap-6">
+<div class="w-full md:w-32 h-40 rounded bg-surface-container-highest overflow-hidden shrink-0">
+<img alt="Fighter" class="w-full h-full object-cover grayscale contrast-125" data-alt="High contrast muscular professional MMA fighter in training stance" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDF7JILRfUnImqGdSJyV1ixLdneaR7wO1x0Ce086Rv-oxv9XVVaDV_vMGJzhMHfyWQ-_YJ901NwD8PTOcEnlkyilBKUHT_wMK7wmgtFl1V2HbBF3ecWMl76ZoYKhYnYxn1PM-9kTRWM2w4k5rgCptAQzJicDhjha175Jxmt2JmDetkgSF7CmBnFjeybzTblu1eckKe93wwc1h8I_51TZjnjt_LK-rhJXB77w5O7y86daMnXe3fqTcPrl2_Ptg0bqyJjf5GQHmk8RN0"/>
+</div>
+<div class="flex flex-col justify-between py-1">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="bg-secondary-container text-on-secondary-container text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Elite Tier</span>
+</div>
+<h3 class="font-headline font-extrabold text-2xl tracking-tight text-on-surface mb-1">ALEX "THE REAPER" VANCE</h3>
+<p class="text-on-surface-variant font-medium text-sm flex items-center gap-2 uppercase tracking-widest opacity-80">
+<span class="material-symbols-outlined scale-75">sports_kabaddi</span>
+                                Pro MMA Technical Sparring
+                            </p>
+</div>
+<div class="mt-4 space-y-2">
+<div class="flex items-center gap-4 text-sm text-zinc-400">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary scale-90">calendar_today</span>
+<span>OCT 24, 2024</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary scale-90">schedule</span>
+<span>09:00 AM — 10:30 AM</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 text-sm text-zinc-400">
+<span class="material-symbols-outlined text-primary scale-90">location_on</span>
+<span class="uppercase tracking-wide">The Obsidian Pit, Downtown</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Payment Methods -->
+<section class="mb-12">
+<h4 class="font-headline font-bold text-lg uppercase tracking-tight mb-4 flex items-center gap-2">
+                Payment Method
+                <div class="h-[1px] flex-grow bg-surface-container-highest ml-2"></div>
+</h4>
+<div class="space-y-3">
+<!-- Apple Pay (Primary) -->
+<div class="bg-surface-container-lowest p-5 rounded flex items-center justify-between cursor-pointer border border-transparent hover:border-primary/20 transition-all group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-8 bg-white rounded-sm flex items-center justify-center">
+<svg class="h-5" fill="black" viewbox="0 0 50 20"><path d="M12.63 12.04c.05.07.05.15 0 .22l-1.4 1.83c-.06.08-.17.09-.23.03l-1.07-.94c-.06-.05-.07-.16-.01-.22l.53-.59c.06-.07.16-.08.23-.02l.61.54.91-1.18c.06-.08.16-.08.22-.02l.21.35zm3.76-1.56c1.1 0 1.95.83 1.95 2.08s-.85 2.08-1.95 2.08c-1.11 0-1.96-.83-1.96-2.08s.85-2.08 1.96-2.08zm0 .74c-.69 0-1.17.57-1.17 1.34s.48 1.34 1.17 1.34 1.17-.57 1.17-1.34c0-.77-.48-1.34-1.17-1.34zm4.11-.64h.79v4.06h-.79v-.41c-.24.3-.64.49-1.09.49-.86 0-1.55-.73-1.55-2.07s.69-2.07 1.55-2.07c.45 0 .85.19 1.09.49v-.49zm-1.02.7c-.63 0-1.05.57-1.05 1.37s.42 1.37 1.05 1.37 1.05-.57 1.05-1.37c0-.81-.42-1.37-1.05-1.37zM24.78 10.58h.79v5.44h-.79v-1.38c-.24.3-.64.49-1.09.49-.86 0-1.55-.73-1.55-2.07s.69-2.07 1.55-2.07c.45 0 .85.19 1.09.49v-.49zm-1.02.7c-.63 0-1.05.57-1.05 1.37s.42 1.37 1.05 1.37 1.05-.57 1.05-1.37c0-.81-.42-1.37-1.05-1.37zM26.4 8.76h.79v5.88h-.79V8.76zm4.94 3.7c-.05.81-.66 1.4-1.58 1.4-.95 0-1.61-.75-1.61-2.05s.67-2.07 1.6-2.07c.92 0 1.55.65 1.55 1.63v.23h-2.36c.04.75.46 1.18 1.03 1.18.45 0 .75-.2.84-.53l.53.21zm-2.39-1.36h1.58c-.06-.57-.42-.92-.85-.92-.42 0-.69.34-.73.92zM34.86 10.58l-1.35 3.32h-.03l-1.33-3.32h-.87l1.83 4.29-1.01 2.45h.85l2.78-6.74h-.87zm6.6-4.66c.21 0 .43.02.66.07l-.11.77c-.17-.03-.34-.05-.5-.05-.54 0-.89.37-.89.92v.6h1.31v.69h-1.31v4.06h-.79v-4.06h-.69v-.69h.69v-.74c0-1 .61-1.6 1.63-1.6zm2.81 2.21c.45 0 .85.19 1.09.49v-.49h.79v4.06h-.79v-.41c-.24.3-.64.49-1.09.49-.86 0-1.55-.73-1.55-2.07s.69-2.07 1.55-2.07zm1.02 2.07c0-.8-.42-1.37-1.05-1.37s-1.05.57-1.05 1.37.42 1.37 1.05 1.37 1.05-.57 1.05-1.37zm4.78-2.07l-1.35 3.32h-.03l-1.33-3.32h-.87l1.83 4.29-1.01 2.45h.85l2.78-6.74h-.87z"></path></svg>
+</div>
+<span class="font-medium text-on-surface">Apple Pay</span>
+</div>
+<div class="w-5 h-5 rounded-full border-2 border-primary flex items-center justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-primary"></div>
+</div>
+</div>
+<!-- Credit Card (Secondary) -->
+<div class="bg-surface-container-low p-5 rounded flex items-center justify-between cursor-pointer group hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-8 bg-zinc-800 rounded-sm flex items-center justify-center border border-zinc-700">
+<span class="material-symbols-outlined text-zinc-400">credit_card</span>
+</div>
+<div>
+<span class="font-medium text-on-surface block leading-tight">•••• 4412</span>
+<span class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">Expires 09/26</span>
+</div>
+</div>
+<div class="w-5 h-5 rounded-full border-2 border-zinc-700 group-hover:border-zinc-500 transition-colors"></div>
+</div>
+<!-- Add New -->
+<button class="w-full p-4 border border-dashed border-zinc-800 rounded flex items-center justify-center gap-2 text-zinc-500 hover:text-on-surface hover:border-zinc-600 transition-all active:scale-95">
+<span class="material-symbols-outlined scale-75">add</span>
+<span class="text-xs uppercase tracking-widest font-bold">Add Payment Method</span>
+</button>
+</div>
+</section>
+<!-- Section: Price Breakdown -->
+<section class="mb-10 p-6 bg-surface-container-lowest rounded-lg">
+<h4 class="font-headline font-bold text-lg uppercase tracking-tight mb-6 flex items-center gap-2">
+                Order Total
+                <div class="h-[1px] flex-grow bg-surface-container-highest ml-2"></div>
+</h4>
+<div class="space-y-4">
+<div class="flex justify-between items-center text-on-surface-variant font-medium">
+<span class="uppercase tracking-widest text-[11px] opacity-60">Session Subtotal</span>
+<span class="font-headline text-lg">$245.00</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant font-medium">
+<span class="uppercase tracking-widest text-[11px] opacity-60">Platform Service Fee</span>
+<span class="font-headline text-lg">$12.50</span>
+</div>
+<div class="flex justify-between items-center text-secondary font-medium">
+<span class="uppercase tracking-widest text-[11px] opacity-80">Elite Member Discount</span>
+<span class="font-headline text-lg">-$25.00</span>
+</div>
+<div class="h-[1px] bg-surface-container-highest my-6"></div>
+<div class="flex justify-between items-end">
+<div>
+<span class="uppercase tracking-[0.3em] text-[10px] text-zinc-500 font-black block mb-1">Total Amount</span>
+<div class="flex items-baseline gap-1">
+<span class="text-primary font-headline font-black text-4xl tracking-tighter">$232.50</span>
+<span class="text-zinc-600 text-sm font-bold">USD</span>
+</div>
+</div>
+<div class="text-right">
+<div class="flex items-center gap-1 text-[10px] text-zinc-500 uppercase font-bold tracking-widest">
+<span class="material-symbols-outlined text-[14px] text-green-500" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+                            Encrypted
+                        </div>
+</div>
+</div>
+</div>
+</section>
+<!-- Security Badge -->
+<div class="flex items-center justify-center gap-6 opacity-40 grayscale mb-12">
+<span class="material-symbols-outlined text-4xl">shield</span>
+<span class="material-symbols-outlined text-4xl">lock</span>
+<span class="material-symbols-outlined text-4xl">contactless</span>
+</div>
+</main>
+<!-- Bottom Action Bar (Fixed) -->
+<div class="fixed bottom-0 left-0 w-full p-6 bg-gradient-to-t from-background via-background to-transparent pointer-events-none">
+<div class="max-w-2xl mx-auto pointer-events-auto">
+<button class="w-full group relative overflow-hidden bg-gradient-to-r from-primary to-primary-container h-16 rounded flex items-center justify-center gap-3 shadow-[0_10px_40px_rgba(255,85,64,0.3)] active:scale-[0.98] transition-all duration-200">
+<span class="font-headline font-black text-xl uppercase tracking-tighter text-on-primary-container z-10">Confirm &amp; Pay</span>
+<span class="material-symbols-outlined text-on-primary-container z-10 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+<!-- Shine effect -->
+<div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+</button>
+<p class="text-center text-[10px] text-zinc-500 uppercase tracking-widest mt-4 font-medium">By paying you agree to the Elite Athletic Terms of Combat</p>
+</div>
+</div>
+</body></html>

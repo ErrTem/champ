@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "inverse-surface": "#e2e2e2",
+            "surface-container-low": "#1b1b1b",
+            "on-primary-fixed": "#410000",
+            "surface-tint": "#ffb4a8",
+            "surface-variant": "#353535",
+            "on-primary-container": "#5c0000",
+            "secondary-container": "#af8d11",
+            "on-secondary-container": "#342800",
+            "on-primary": "#690100",
+            "surface-container-lowest": "#0e0e0e",
+            "background": "#131313",
+            "on-tertiary-fixed": "#001a40",
+            "primary-fixed-dim": "#ffb4a8",
+            "on-tertiary-container": "#00285b",
+            "tertiary-fixed": "#d7e2ff",
+            "error-container": "#93000a",
+            "inverse-primary": "#c00100",
+            "surface-bright": "#393939",
+            "surface-container-high": "#2a2a2a",
+            "surface-dim": "#131313",
+            "inverse-on-surface": "#303030",
+            "on-secondary": "#3c2f00",
+            "on-surface": "#e2e2e2",
+            "tertiary-fixed-dim": "#acc7ff",
+            "tertiary-container": "#488fff",
+            "surface-container": "#1f1f1f",
+            "tertiary": "#acc7ff",
+            "on-tertiary": "#002f67",
+            "on-background": "#e2e2e2",
+            "outline": "#b18780",
+            "primary": "#ffb4a8",
+            "on-tertiary-fixed-variant": "#004491",
+            "on-primary-fixed-variant": "#930100",
+            "surface-container-highest": "#353535",
+            "on-error-container": "#ffdad6",
+            "on-secondary-fixed-variant": "#574500",
+            "secondary": "#e9c349",
+            "primary-container": "#ff5540",
+            "outline-variant": "#603e39",
+            "on-surface-variant": "#ebbbb4",
+            "surface": "#131313",
+            "on-error": "#690005",
+            "secondary-fixed": "#ffe088",
+            "secondary-fixed-dim": "#e9c349",
+            "error": "#ffb4ab",
+            "primary-fixed": "#ffdad4",
+            "on-secondary-fixed": "#241a00"
+          },
+          fontFamily: {
+            "headline": ["Inter"],
+            "body": ["Manrope"],
+            "label": ["Manrope"]
+          },
+          borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .text-shadow-glow {
+      text-shadow: 0 0 20px rgba(255, 85, 64, 0.4);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 w-full z-50 bg-zinc-950/70 backdrop-blur-xl bg-gradient-to-b from-black/20 to-transparent flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-red-500 dark:text-red-400 active:scale-95 duration-200 transition-opacity hover:opacity-80 cursor-pointer">menu</span>
+<h1 class="font-['Inter'] font-black uppercase tracking-tighter text-2xl text-red-600 dark:text-red-500 italic">ELITE ATHLETIC</h1>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden active:scale-95 duration-200 transition-opacity hover:opacity-80 border-outline-variant/30 border">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="Professional athlete profile headshot portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUrySyv6qOEeHBCC7rpvEULrjnGx-2xjUnOkODqDuVVnRLOIdbXmEfrhc5Lo_uwZuAORgKHPSPQ3TkVKi068RW7GHQzY3l3x5rSyY9Pl85-lDG0uXbY6eG2e8s8PBKr07xT82_L3Z-8CgLqu_MH72Genw_0AdRWttGBNMVdbx6wmCl9dQVLyfiBAzieQGOXR8tx_F2TjGY-DDow9wZkw6SxIY8DV_U_QErKYU6A_lg3mj9qMOj1PJYQz8u2MWzpizuBIA6ZFIQvUQ"/>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-5xl mx-auto">
+<!-- Hero Header / Kinetic Intro -->
+<section class="mb-12 relative">
+<div class="absolute -left-12 -top-12 w-64 h-64 bg-primary/10 blur-[100px] rounded-full pointer-events-none"></div>
+<span class="font-label text-secondary text-xs font-bold tracking-[0.3em] uppercase mb-2 block">PRO TRAINING</span>
+<h2 class="font-headline text-5xl md:text-7xl font-black tracking-tighter uppercase leading-[0.9] italic text-shadow-glow">
+        ELITE<br/><span class="text-primary-container">STRIKERS</span>
+</h2>
+</section>
+<!-- Filter Bar - Glassmorphism Sticky -->
+<section class="sticky top-20 z-40 -mx-6 px-6 py-4 mb-8 bg-background/50 backdrop-blur-md">
+<div class="flex flex-col gap-4">
+<!-- Horizontal Scrollable Tags -->
+<div class="flex overflow-x-auto gap-3 pb-2 no-scrollbar">
+<button class="flex-shrink-0 px-6 py-2 bg-primary-container text-on-primary-container font-black text-xs uppercase tracking-widest rounded-lg">All</button>
+<button class="flex-shrink-0 px-6 py-2 bg-surface-container-high text-on-surface font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-surface-container-highest transition-colors">MMA</button>
+<button class="flex-shrink-0 px-6 py-2 bg-surface-container-high text-on-surface font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-surface-container-highest transition-colors">Boxing</button>
+<button class="flex-shrink-0 px-6 py-2 bg-surface-container-high text-on-surface font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-surface-container-highest transition-colors">Muay Thai</button>
+<button class="flex-shrink-0 px-6 py-2 bg-surface-container-high text-on-surface font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-surface-container-highest transition-colors">Wrestling</button>
+</div>
+<!-- Filter Controls -->
+<div class="flex justify-between items-center">
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 border border-outline-variant/15 rounded-full bg-surface-container-low hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+<span class="text-xs font-semibold uppercase tracking-wider">Refine</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 border border-outline-variant/15 rounded-full bg-surface-container-low hover:bg-surface-container transition-colors">
+<span class="text-xs font-semibold uppercase tracking-wider">Price Range</span>
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+</div>
+<span class="text-[10px] font-label text-on-surface-variant uppercase tracking-widest">148 ELITE FOUND</span>
+</div>
+</div>
+</section>
+<!-- Fighter List Grid (Asymmetric) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Card 1: Large Featured -->
+<div class="group relative overflow-hidden bg-surface-container-low rounded-xl transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+<div class="aspect-[4/5] relative overflow-hidden">
+<img alt="Fighter Action" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Intense close up of MMA fighter in high contrast studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6umfAIwxyHvYODDo1gI6dkcnCl03OiG4tR5nNQBFQaoSAjCN38k-INIc0IvMFbWc3csYIc3c-mi3McmNwSPYS6bI5RqI5IEQ8KzJwSEezqbzXVIpAQRFflI3kVvlvrpch-9Ive3VxjnYbKFw2U6myHobbkb_p4IYcY2TGoSKXLGE87ZQefMP9jt4hHLqjhfwpulF-DK0ZIFLx3e2hhCqdZMlPNS0O5uJ6qwlVjj_O-ZM5aTSeJvCqG_SKlw2VU9toP0vayycpxtQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-90"></div>
+<div class="absolute top-4 left-4">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-lg">ELITE PRO</span>
+</div>
+</div>
+<div class="absolute bottom-0 left-0 p-6 w-full">
+<div class="flex justify-between items-end">
+<div>
+<p class="text-primary font-black tracking-widest text-[10px] uppercase mb-1">UFC MIDDLEWEIGHT</p>
+<h3 class="font-headline text-3xl font-black uppercase italic tracking-tighter text-on-surface">Alex "Titan" Vora</h3>
+</div>
+<div class="text-right">
+<p class="text-on-surface-variant text-[10px] uppercase tracking-widest">Hourly</p>
+<p class="font-headline text-2xl font-black text-secondary">$120</p>
+</div>
+</div>
+<div class="mt-6 flex gap-3">
+<button class="flex-1 bg-gradient-to-r from-primary to-primary-container py-4 text-on-primary-container font-black text-xs uppercase tracking-widest rounded-lg active:scale-95 duration-150 shadow-lg shadow-primary/20">View Profile</button>
+<button class="w-14 aspect-square flex items-center justify-center border border-outline-variant/15 bg-surface-container-highest/30 backdrop-blur-md rounded-lg text-on-surface hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined">bookmark</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group relative overflow-hidden bg-surface-container-low rounded-xl transition-all duration-500">
+<div class="aspect-[4/5] relative overflow-hidden">
+<img alt="Muay Thai Fighter" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Muay Thai fighter practicing a roundhouse kick in a dark gym" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArS6CmywAvBjglepZL6-ULvAM_t2OiF2-i1kyvU1JdZ7xrjcOBTLZQMWkli9IYRy7FGtlqutBXOU8nba5eMSKZEoHliJbrM04A4KXjvjEVZp-1H_mf6NPdV6Q7KJ00vj-6VGxzDhS5egctDRRZDs4F5CwbQJv8ja2bjf6sMTKtd6pgZrsFrIf2pJbH_J7OzZEj9zW5hP_3AMJmHMysCWIN2daxRH0-_M3ehypJo11FkSy7wQchF19dNxILNGa2PLpI5QWKXC7zCYw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-90"></div>
+</div>
+<div class="absolute bottom-0 left-0 p-6 w-full">
+<div class="flex justify-between items-end">
+<div>
+<p class="text-primary font-black tracking-widest text-[10px] uppercase mb-1">ONE CHAMPIONSHIP</p>
+<h3 class="font-headline text-3xl font-black uppercase italic tracking-tighter text-on-surface">S. Kittichai</h3>
+</div>
+<div class="text-right">
+<p class="text-on-surface-variant text-[10px] uppercase tracking-widest">Hourly</p>
+<p class="font-headline text-2xl font-black text-secondary">$95</p>
+</div>
+</div>
+<div class="mt-6">
+<button class="w-full bg-surface-container-highest py-4 text-on-surface font-black text-xs uppercase tracking-widest rounded-lg active:scale-95 duration-150 hover:bg-surface-variant transition-colors border border-outline-variant/10">View Profile</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group relative overflow-hidden bg-surface-container-low rounded-xl transition-all duration-500">
+<div class="aspect-[4/5] relative overflow-hidden">
+<img alt="Boxer" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Close up of a boxer shadow boxing in shadows with sharp highlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZmxEkvSHEizQz4Lr016w6CQtgEqaS6XLOEfOqUfBdl_OUoW-Uu2aaU6hbo6wqbQFCPZEsnOV4FHcHGVWldmZsnYojDu3CL7YG-eIcl7xmPshT3-7-mri0FwMU7HxdsCwDleZFEkc4p6l5P69OeFQ3eX-uPOL-TZA171EU6QNWv4CCYsEFKwUVtRLsTzxb34uzhxOT-6V-ep-DsKtLTemJh3LVt-1_jy_Dtca_T1_aWmXr3apTIX171565zy-TWd8JOZY_G9JHE_g"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-90"></div>
+</div>
+<div class="absolute bottom-0 left-0 p-6 w-full">
+<div class="flex justify-between items-end">
+<div>
+<p class="text-primary font-black tracking-widest text-[10px] uppercase mb-1">PRO BOXING</p>
+<h3 class="font-headline text-3xl font-black uppercase italic tracking-tighter text-on-surface">Marcus Reed</h3>
+</div>
+<div class="text-right">
+<p class="text-on-surface-variant text-[10px] uppercase tracking-widest">Hourly</p>
+<p class="font-headline text-2xl font-black text-secondary">$150</p>
+</div>
+</div>
+<div class="mt-6">
+<button class="w-full bg-surface-container-highest py-4 text-on-surface font-black text-xs uppercase tracking-widest rounded-lg active:scale-95 duration-150 hover:bg-surface-variant transition-colors border border-outline-variant/10">View Profile</button>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group relative overflow-hidden bg-surface-container-low rounded-xl transition-all duration-500">
+<div class="aspect-[4/5] relative overflow-hidden">
+<img alt="Female Fighter" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Strong female mixed martial artist in training stance in dark studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeACKhT5kt6gjpk_50J30CiH66B0ZgFf2PCyVUFoTAmjkUQuTWoQozrPSgK4HTSrdiBOqV0CGbLH9EtKBFY_PKciq6MsDCae3RnqhvxTlMWrgS_vl2hvg4BbyCDluw9Ze31hybkBLjZnyyvcPFhzPt2JmQmWcWhRC27iKF1eR7H8kvdWeS7uEb0h-_3UsRVPZJu1cup38xf3J4bCsiAKcxlM-WzUB0hwUEzgqgWddPPaDoKSME9Txkh-Qh2fb-rhlBfFZJNLzokHo"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-90"></div>
+<div class="absolute top-4 left-4">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-lg">AVAILABLE NOW</span>
+</div>
+</div>
+<div class="absolute bottom-0 left-0 p-6 w-full">
+<div class="flex justify-between items-end">
+<div>
+<p class="text-primary font-black tracking-widest text-[10px] uppercase mb-1">PFL STRAWWEIGHT</p>
+<h3 class="font-headline text-3xl font-black uppercase italic tracking-tighter text-on-surface">Elena Vance</h3>
+</div>
+<div class="text-right">
+<p class="text-on-surface-variant text-[10px] uppercase tracking-widest">Hourly</p>
+<p class="font-headline text-2xl font-black text-secondary">$110</p>
+</div>
+</div>
+<div class="mt-6">
+<button class="w-full bg-surface-container-highest py-4 text-on-surface font-black text-xs uppercase tracking-widest rounded-lg active:scale-95 duration-150 hover:bg-surface-variant transition-colors border border-outline-variant/10">View Profile</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar Shell -->
+<nav class="fixed bottom-0 w-full z-50 bg-zinc-950/80 backdrop-blur-2xl border-t border-zinc-800/30 flex justify-around items-center h-20 pb-safe w-full shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-zinc-500 hover:text-zinc-200 transition-colors active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-['Manrope'] font-medium text-[10px] uppercase tracking-widest">Home</span>
+</a>
+<!-- Explore (Active) -->
+<a class="flex flex-col items-center justify-center text-red-500 font-bold scale-110 active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">search</span>
+<span class="font-['Manrope'] font-medium text-[10px] uppercase tracking-widest">Explore</span>
+</a>
+<!-- Bookings -->
+<a class="flex flex-col items-center justify-center text-zinc-500 hover:text-zinc-200 transition-colors active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-['Manrope'] font-medium text-[10px] uppercase tracking-widest">Bookings</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-zinc-500 hover:text-zinc-200 transition-colors active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Manrope'] font-medium text-[10px] uppercase tracking-widest">Profile</span>
+</a>
+</nav>
+</body></html>

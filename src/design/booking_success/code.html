@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Booking Success | ELITE ATHLETIC</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-surface": "#e2e2e2",
+              "surface-container-low": "#1b1b1b",
+              "on-primary-fixed": "#410000",
+              "surface-tint": "#ffb4a8",
+              "surface-variant": "#353535",
+              "on-primary-container": "#5c0000",
+              "secondary-container": "#af8d11",
+              "on-secondary-container": "#342800",
+              "on-primary": "#690100",
+              "surface-container-lowest": "#0e0e0e",
+              "background": "#131313",
+              "on-tertiary-fixed": "#001a40",
+              "primary-fixed-dim": "#ffb4a8",
+              "on-tertiary-container": "#00285b",
+              "tertiary-fixed": "#d7e2ff",
+              "error-container": "#93000a",
+              "inverse-primary": "#c00100",
+              "surface-bright": "#393939",
+              "surface-container-high": "#2a2a2a",
+              "surface-dim": "#131313",
+              "inverse-on-surface": "#303030",
+              "on-secondary": "#3c2f00",
+              "on-surface": "#e2e2e2",
+              "tertiary-fixed-dim": "#acc7ff",
+              "tertiary-container": "#488fff",
+              "surface-container": "#1f1f1f",
+              "tertiary": "#acc7ff",
+              "on-tertiary": "#002f67",
+              "on-background": "#e2e2e2",
+              "outline": "#b18780",
+              "primary": "#ffb4a8",
+              "on-tertiary-fixed-variant": "#004491",
+              "on-primary-fixed-variant": "#930100",
+              "surface-container-highest": "#353535",
+              "on-error-container": "#ffdad6",
+              "on-secondary-fixed-variant": "#574500",
+              "secondary": "#e9c349",
+              "primary-container": "#ff5540",
+              "outline-variant": "#603e39",
+              "on-surface-variant": "#ebbbb4",
+              "surface": "#131313",
+              "on-error": "#690005",
+              "secondary-fixed": "#ffe088",
+              "secondary-fixed-dim": "#e9c349",
+              "error": "#ffb4ab",
+              "primary-fixed": "#ffdad4",
+              "on-secondary-fixed": "#241a00"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(31, 31, 31, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .kinetic-gradient {
+            background: linear-gradient(135deg, #ffb4a8 0%, #ff5540 100%);
+        }
+        .text-glow {
+            text-shadow: 0 0 20px rgba(255, 85, 64, 0.3);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body selection:bg-primary-container selection:text-white overflow-hidden">
+<!-- Top Navigation Suppression: Not rendered for transactional success screen -->
+<main class="relative h-screen w-full flex items-center justify-center overflow-hidden">
+<!-- Background Imagery (Bleeding Off-Canvas) -->
+<div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+<div class="absolute -top-20 -right-20 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px]"></div>
+<div class="absolute -bottom-40 -left-20 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[100px]"></div>
+<img alt="Powerful athlete throwing a punch in dark gym" class="absolute bottom-0 right-0 w-[80%] md:w-[50%] h-auto opacity-20 grayscale mix-blend-luminosity transform translate-x-1/4" data-alt="Intense high-contrast black and white MMA athlete profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkm0mZC4SY301jfyd2kgL7lbv1gGJIDalYnKTPq8UUByssJXR6LRfPAVMXrBZ48fpxg9jGMB7srHEs8_8K8OOa0WoiTOFcMvzzSOn4NnDKKENKlMCXp3DDybMmzHfTx8E2mrFdqoy5NfUBZdam-v1O8Y5d4nqfK52M5_QwkSBgVXnDCCynGI2QG2bCDCGs09DMb4Jm2AOrb30sqNINCkZ5bIy2UfPQgOR3Ss6bIkHgdIhUbaCZScNE_fDAYBPL-CzEtDhfyCmCNx8"/>
+</div>
+<!-- Success Content Canvas -->
+<div class="relative z-10 w-full max-w-2xl px-6 md:px-12 flex flex-col items-center text-center">
+<!-- Hero Icon Transition -->
+<div class="mb-12 relative">
+<div class="absolute inset-0 kinetic-gradient blur-3xl opacity-30 animate-pulse"></div>
+<div class="relative w-32 h-32 md:w-40 md:h-40 glass-panel rounded-lg flex items-center justify-center transform -rotate-6 border border-white/5">
+<span class="material-symbols-outlined text-6xl md:text-7xl text-primary transform rotate-6 scale-110" style="font-variation-settings: 'FILL' 1;">
+                        trophy
+                    </span>
+</div>
+</div>
+<!-- Headline Section -->
+<div class="space-y-4 mb-12">
+<span class="inline-block px-4 py-1.5 rounded-full bg-secondary-container text-on-secondary-container font-label text-[10px] uppercase tracking-[0.2em] font-bold">
+                    Elite Tier Access
+                </span>
+<h1 class="font-headline font-black text-5xl md:text-7xl uppercase tracking-tighter leading-none text-glow">
+                    Booking <br/>Confirmed!
+                </h1>
+<p class="font-body text-on-surface-variant text-lg md:text-xl max-w-md mx-auto leading-relaxed">
+                    Prepare for greatness. You are training with <span class="text-white font-bold underline decoration-primary decoration-2 underline-offset-4">Israel Adesanya</span>.
+                </p>
+</div>
+<!-- Detail Bento Grid (Asymmetric) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mb-16 text-left">
+<!-- Date/Time Card -->
+<div class="surface-container-low p-6 flex items-start gap-4 transform transition-transform hover:-translate-y-1">
+<div class="w-12 h-12 flex items-center justify-center bg-surface-container-highest rounded">
+<span class="material-symbols-outlined text-primary">calendar_today</span>
+</div>
+<div>
+<p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant mb-1">Session Date</p>
+<p class="text-white font-headline font-bold text-lg">OCTOBER 24, 2024</p>
+<p class="text-on-surface-variant font-medium">08:00 AM — 10:00 AM</p>
+</div>
+</div>
+<!-- Location Card -->
+<div class="surface-container-low p-6 flex items-start gap-4 transform transition-transform hover:-translate-y-1">
+<div class="w-12 h-12 flex items-center justify-center bg-surface-container-highest rounded">
+<span class="material-symbols-outlined text-primary">location_on</span>
+</div>
+<div>
+<p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant mb-1">Elite Arena</p>
+<p class="text-white font-headline font-bold text-lg">CITY KICKBOXING</p>
+<p class="text-on-surface-variant font-medium">Auckland, NZ</p>
+</div>
+</div>
+</div>
+<!-- Action Area -->
+<div class="w-full flex flex-col md:flex-row gap-4">
+<button class="kinetic-gradient w-full py-5 rounded font-headline font-black uppercase tracking-widest text-on-primary-fixed hover:opacity-90 active:scale-95 transition-all shadow-xl shadow-primary/20">
+                    Go to My Bookings
+                </button>
+<button class="w-full py-5 rounded border border-outline-variant font-headline font-black uppercase tracking-widest text-white hover:bg-white/5 active:scale-95 transition-all">
+                    Add to Calendar
+                </button>
+</div>
+<!-- Motivational Footer -->
+<div class="mt-12 opacity-30 font-label text-[10px] uppercase tracking-[0.4em] text-on-surface-variant">
+                Persistence Over Everything
+            </div>
+</div>
+</main>
+<!-- Navigation Shell Suppressed for Focus Screen -->
+</body></html>
