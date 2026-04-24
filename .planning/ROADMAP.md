@@ -9,7 +9,7 @@ Ship the full **fighter → service → slot → booking → payment → confirm
 - [ ] **Phase 1: Platform & auth** — API foundation, database, user auth and profile (client + server) *(plans implemented 2026-04-24; iOS UAT pending)*
 - [ ] **Phase 2: Catalog & fighter profile** — Fighters list, profile pages, services and prices from API *(plans implemented 2026-04-24; verification pending)*
 - [ ] **Phase 3: Slots & booking (pre-payment)** — Availability and booking creation with server-side concurrency rules
-- [ ] **Phase 4: Payments & confirmation** — Checkout, webhooks, confirmed bookings
+- [x] **Phase 4: Payments & confirmation** — Checkout, webhooks, confirmed bookings *(completed 2026-04-24)*
 - [ ] **Phase 5: My bookings & notifications** — History, detail, email (or equivalent) on key events
 - [ ] **Phase 6: Admin** — Staff management of fighters, services/prices, schedules, booking visibility
 
@@ -115,10 +115,10 @@ Plans:
 
 Plans:
 
-- [ ] 04-01: Backend test harness (Jest/Supertest) + Phase 4 integration tests (Nyquist Wave 0)
-- [ ] 04-02: Stripe Checkout Session create/reuse endpoint (one active session per booking; DB-authoritative price)
-- [ ] 04-03: Stripe webhook handler (signature verify + idempotent confirm + atomic slot consumption) + booking polling API
-- [ ] 04-04: Ionic “Pay now” + return UX (confirming poll) + booking success screen (UI-SPEC)
+- [x] 04-01: Backend test harness (Jest/Supertest) + Phase 4 integration tests (Nyquist Wave 0)
+- [x] 04-02: Stripe Checkout Session create/reuse endpoint (one active session per booking; DB-authoritative price)
+- [x] 04-03: Stripe webhook handler (signature verify + idempotent confirm + atomic slot consumption) + booking polling API
+- [x] 04-04: Ionic “Pay now” + return UX (confirming poll) + booking success screen (UI-SPEC)
 
 **UI hint:** yes
 
