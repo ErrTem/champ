@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   IonButton,
   IonContent,
@@ -30,6 +30,7 @@ import { AuthService } from '../../core/services/auth.service';
 })
 export class LoginPage {
   private readonly auth = inject(AuthService);
+  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
   email = '';
@@ -39,7 +40,14 @@ export class LoginPage {
   submit(): void {
     this.error = '';
     this.auth.login({ email: this.email, password: this.password }).subscribe({
-      next: () => void this.router.navigateByUrl('/profile'),
+      next: () => {
+        const returnTo = this.route.snapshot.queryParamMap.get('returnTo');
+        if (returnTo) {
+          void this.router.navigateByUrl(returnTo);
+          return;
+        }
+        void this.router.navigateByUrl('/profile');
+      },
       error: () => {
         this.error = 'Invalid email or password';
       },
