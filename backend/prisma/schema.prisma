@@ -148,6 +148,8 @@ model Booking {
   status       String
   expiresAtUtc DateTime
 
+  stripeCheckoutSessionId String? @unique
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

@@ -1,19 +1,30 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
+import type { TestingModuleBuilder } from '@nestjs/testing';
 import supertest from 'supertest';
 import { AppModule } from '../../src/app.module';
 
 export type TestRequestAgent = ReturnType<typeof supertest.agent>;
 
-export async function createTestApp(): Promise<{
+export async function createTestApp(options?: {
+  configureModule?: (builder: TestingModuleBuilder) => TestingModuleBuilder;
+}): Promise<{
   app: INestApplication;
   request: TestRequestAgent;
 }> {
   process.env.NODE_ENV = 'test';
+  process.env.STRIPE_SECRET_KEY ??= 'sk_test_dummy';
+  process.env.PUBLIC_APP_URL ??= 'http://localhost:8100';
 
-  const moduleRef = await Test.createTestingModule({
+  let builder = Test.createTestingModule({
     imports: [AppModule],
-  }).compile();
+  });
+
+  if (options?.configureModule) {
+    builder = options.configureModule(builder);
+  }
+
+  const moduleRef = await builder.compile();
 
   const app = moduleRef.createNestApplication();
   await app.init();

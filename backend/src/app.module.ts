@@ -5,6 +5,7 @@ import { AvailabilityModule } from './availability/availability.module';
 import { BookingsModule } from './bookings/bookings.module';
 import { FightersModule } from './fighters/fighters.module';
 import { HealthModule } from './health/health.module';
+import { PaymentsModule } from './payments/payments.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 
@@ -18,6 +19,7 @@ import { UsersModule } from './users/users.module';
     FightersModule,
     AvailabilityModule,
     BookingsModule,
+    PaymentsModule,
   ],
 })
 export class AppModule {}

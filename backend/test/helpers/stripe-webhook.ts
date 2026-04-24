@@ -2,7 +2,7 @@ import Stripe from 'stripe';
 
 const stripe = new Stripe('sk_test_dummy', {
   // This is used only for local signing helpers in tests (no outbound network).
-  apiVersion: '2024-06-20',
+  apiVersion: '2025-08-27.basil',
 });
 
 export function createStripeSignatureHeader(params: {
