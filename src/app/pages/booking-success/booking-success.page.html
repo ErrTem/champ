@@ -14,7 +14,7 @@
     <section class="card glass">
       <p class="headline">Booking confirmed</p>
       <p class="body">{{ error }}</p>
-      <ion-button class="kinetic-gradient" expand="block" routerLink="/profile">Go to My bookings</ion-button>
+      <ion-button class="kinetic-gradient" expand="block" routerLink="/my-bookings">Go to My bookings</ion-button>
     </section>
   } @else if (data) {
     <section class="card glass">
@@ -27,7 +27,7 @@
         <div><span class="label">Booking ID</span> <span class="value mono">{{ data.id }}</span></div>
       </div>
 
-      <ion-button class="kinetic-gradient" expand="block" routerLink="/profile">Go to My bookings</ion-button>
+      <ion-button class="kinetic-gradient" expand="block" routerLink="/my-bookings">Go to My bookings</ion-button>
     </section>
   }
 </ion-content>
