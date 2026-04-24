@@ -1,7 +1,8 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, ConflictException, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { JwtAccessAuthGuard } from '../auth/guards/jwt-access.guard';
 import { BookingsService } from './bookings.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
+import { SLOT_UNAVAILABLE_CODE } from './bookings.constants';
 
 type JwtUser = { sub: string; email: string };
 
@@ -12,7 +13,22 @@ export class BookingsController {
   @Post()
   @UseGuards(JwtAccessAuthGuard)
   async create(@Req() req: { user: JwtUser }, @Body() dto: CreateBookingDto) {
-    return this.bookings.createBooking({ userId: req.user.sub, slotId: dto.slotId });
+    try {
+      return await this.bookings.createBooking({ userId: req.user.sub, slotId: dto.slotId });
+    } catch (e) {
+      // Standardize concurrency conflicts to a stable, UI-actionable contract.
+      if (e instanceof ConflictException) {
+        const res = e.getResponse();
+        const code = typeof res === 'object' && res !== null ? (res as { code?: unknown }).code : undefined;
+        if (code === SLOT_UNAVAILABLE_CODE) {
+          throw new ConflictException({
+            code: SLOT_UNAVAILABLE_CODE,
+            message: 'That time is no longer available. Please pick another slot.',
+          });
+        }
+      }
+      throw e;
+    }
   }
 }
 

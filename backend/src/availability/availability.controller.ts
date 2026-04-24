@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Query } from '@nestjs/common';
 import { AvailabilityQueryDto } from './dto/availability-query.dto';
 import { AvailabilityResponseDto } from './dto/availability-response.dto';
 import { AvailabilityService } from './availability.service';
@@ -9,7 +9,15 @@ export class AvailabilityController {
 
   @Get()
   async getAvailability(@Query() query: AvailabilityQueryDto): Promise<AvailabilityResponseDto> {
-    return this.availabilityService.getAvailability(query);
+    try {
+      return await this.availabilityService.getAvailability(query);
+    } catch (e) {
+      // Map invalid fighter/service selection to a stable, UI-actionable shape.
+      if (e instanceof NotFoundException) {
+        throw new NotFoundException({ code: 'INVALID_SELECTION', message: 'Invalid selection.' });
+      }
+      throw e;
+    }
   }
 }
 
