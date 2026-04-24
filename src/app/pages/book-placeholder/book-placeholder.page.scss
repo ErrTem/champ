@@ -20,6 +20,7 @@
 
 .book-shell {
   --background: var(--bg);
+  padding-bottom: 110px;
 }
 
 .card {
@@ -27,6 +28,10 @@
   padding: 18px;
   border-radius: 16px;
   background: var(--surface);
+}
+
+.hero {
+  margin: 22px 16px 10px;
 }
 
 .kicker {
@@ -47,52 +52,172 @@
   text-transform: uppercase;
   font-style: italic;
   line-height: 0.95;
-  font-size: 30px;
+  font-size: 34px;
   color: var(--text);
 }
 
-.service {
-  display: flex;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 16px;
-  border-radius: 16px;
+.well {
   background: var(--surface-low);
 }
 
-.service-title {
+.calendar {
+  padding: 18px;
+}
+
+.dow {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 10px;
+  color: rgba(226, 226, 226, 0.45);
+  font-family: Manrope, system-ui, -apple-system, Segoe UI, sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.dow > div {
+  text-align: center;
+  padding: 6px 0;
+}
+
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.day {
+  appearance: none;
+  border: 0;
+  background: rgba(14, 14, 14, 0.7);
+  border-radius: 12px;
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  color: var(--text);
+  transition: transform 150ms ease, background 150ms ease, box-shadow 150ms ease;
+}
+
+.day:active {
+  transform: scale(0.98);
+}
+
+.day.selected {
+  background: radial-gradient(circle at 20% 10%, rgba(255, 180, 168, 0.22), transparent 55%),
+    var(--primary);
+  color: #2a0000;
+  box-shadow: 0 14px 44px rgba(255, 85, 64, 0.18);
+}
+
+.day-num {
+  font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.slots {
+  margin: 14px 16px 0;
+}
+
+.bucket {
+  margin-top: 18px;
+}
+
+.bucket-title {
+  margin: 0 0 12px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
   font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
   font-weight: 800;
   letter-spacing: -0.02em;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: rgba(226, 226, 226, 0.78);
 }
 
-.service-sub {
-  margin-top: 4px;
-  font-family: Manrope, system-ui, -apple-system, Segoe UI, sans-serif;
-  font-size: 12px;
-  color: var(--muted2);
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
 }
 
-.service-price {
+@media (min-width: 520px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.slot {
+  appearance: none;
+  border: 0;
+  text-align: center;
+  border-radius: 14px;
+  padding: 14px 8px 12px;
+  background: var(--surface-low);
+  min-height: 54px;
+  transition: transform 150ms ease, filter 150ms ease, box-shadow 150ms ease, background 150ms ease;
+}
+
+.slot:active {
+  transform: scale(0.98);
+}
+
+.slot.selected {
+  background: radial-gradient(circle at 20% 10%, rgba(255, 180, 168, 0.22), transparent 55%),
+    var(--primary);
+  box-shadow: 0 14px 44px rgba(255, 85, 64, 0.14);
+}
+
+.slot-time {
+  display: block;
   font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
   font-weight: 900;
-  font-size: 18px;
   letter-spacing: -0.02em;
-  color: var(--gold);
-  white-space: nowrap;
+  font-size: 18px;
+  color: var(--text);
 }
 
-.info {
-  background: radial-gradient(circle at 20% 10%, rgba(255, 85, 64, 0.12), transparent 55%),
-    var(--surface);
+.slot.selected .slot-time {
+  color: #2a0000;
 }
 
-.info-text {
-  margin: 0 0 14px;
+.slot-meta {
+  display: block;
+  margin-top: 4px;
   font-family: Manrope, system-ui, -apple-system, Segoe UI, sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(226, 226, 226, 0.5);
+}
+
+.slot.selected .slot-meta {
+  color: rgba(42, 0, 0, 0.65);
+}
+
+.book-footer {
+  --background: rgba(19, 19, 19, 0.6);
+  backdrop-filter: blur(24px);
+}
+
+.footer-inner {
+  padding: 16px 16px 18px;
+  background: linear-gradient(to top, rgba(19, 19, 19, 0.92), rgba(19, 19, 19, 0.35), transparent);
+}
+
+.footer-hint {
+  margin: 10px 0 0;
+  text-align: center;
+  font-family: Manrope, system-ui, -apple-system, Segoe UI, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(226, 226, 226, 0.4);
 }
 
 .state {
@@ -100,6 +225,28 @@
   padding: 18px;
   border-radius: 16px;
   background: var(--surface);
+}
+
+.alert {
+  margin: 16px;
+  padding: 18px;
+  border-radius: 16px;
+  background: radial-gradient(circle at 20% 10%, rgba(255, 85, 64, 0.12), transparent 55%),
+    var(--surface);
+}
+
+.alert-title {
+  margin: 0 0 6px;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.alert-body {
+  margin: 0 0 10px;
+  font-family: Manrope, system-ui, -apple-system, Segoe UI, sans-serif;
+  color: var(--muted);
 }
 
 .state-title {
@@ -139,5 +286,96 @@
 .line.sm {
   width: 38%;
   height: 12px;
+}
+
+.slot-tile-skel {
+  height: 54px;
+  border-radius: 14px;
+}
+
+.summary {
+  margin: 16px;
+  padding: 18px;
+  border-radius: 16px;
+}
+
+.glass {
+  background: rgba(31, 31, 31, 0.6);
+  backdrop-filter: blur(12px);
+}
+
+.summary-top {
+  margin-bottom: 14px;
+}
+
+.summary-title {
+  font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  font-size: 18px;
+}
+
+.summary-sub {
+  margin-top: 4px;
+  font-family: Manrope, system-ui, -apple-system, Segoe UI, sans-serif;
+  color: var(--muted2);
+  font-size: 12px;
+}
+
+.summary-rows {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: rgba(226, 226, 226, 0.75);
+  font-family: Manrope, system-ui, -apple-system, Segoe UI, sans-serif;
+}
+
+.status-preview {
+  margin-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(14, 14, 14, 0.55);
+}
+
+.status-preview .label {
+  font-family: Manrope, system-ui, -apple-system, Segoe UI, sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(226, 226, 226, 0.45);
+}
+
+.status-preview .value {
+  font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--gold);
+}
+
+.status-chip {
+  --background: rgba(255, 85, 64, 0.18);
+  --color: var(--primary-soft);
+  font-family: Manrope, system-ui, -apple-system, Segoe UI, sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.created-copy {
+  margin: 14px 0 0;
+  font-family: Manrope, system-ui, -apple-system, Segoe UI, sans-serif;
+  color: var(--muted);
+  line-height: 1.5;
 }
 

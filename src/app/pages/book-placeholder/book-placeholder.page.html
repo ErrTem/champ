@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content class="book-shell" fullscreen="true">
-  @if (loading) {
+  @if (loadingSelection) {
     <section class="card">
       <ion-skeleton-text class="line xl" animated="true"></ion-skeleton-text>
       <ion-skeleton-text class="line lg" animated="true"></ion-skeleton-text>
@@ -15,7 +15,7 @@
       <ion-skeleton-text class="line md" animated="true"></ion-skeleton-text>
       <ion-skeleton-text class="line sm" animated="true"></ion-skeleton-text>
     </section>
-  } @else if (error || !fighterId || !serviceId) {
+  } @else if (errorSelection || !fighterId || !serviceId) {
     <section class="state state-error">
       <p class="state-title">Couldn’t open booking.</p>
       <p class="state-body">Back to Explore and pick a fighter and service again.</p>
@@ -24,28 +24,240 @@
       </ion-button>
     </section>
   } @else if (fighter && service) {
-    <section class="card">
-      <p class="kicker">Selection</p>
-      <h2 class="headline">{{ fighter.name }}</h2>
+    @if (step === 'select') {
+      <section class="hero">
+        <p class="kicker">Schedule session</p>
+        <h2 class="headline">{{ displayedMonthLabel }}</h2>
+      </section>
 
-      <div class="service">
-        <div class="service-main">
-          <div class="service-title">{{ service.title }}</div>
-          <div class="service-sub">
-            {{ service.durationMinutes }} min · {{ modalityLabel(service.modality) }}
+      <section class="calendar card well">
+        <div class="dow">
+          <div>Mon</div>
+          <div>Tue</div>
+          <div>Wed</div>
+          <div>Thu</div>
+          <div>Fri</div>
+          <div>Sat</div>
+          <div>Sun</div>
+        </div>
+
+        <div class="day-grid">
+          @for (d of horizonDates; track d) {
+            <button
+              class="day"
+              [class.selected]="d === selectedDate"
+              (click)="selectDate(d)"
+              type="button"
+            >
+              <span class="day-num">{{ d.split('-')[2] }}</span>
+            </button>
+          }
+        </div>
+      </section>
+
+      @if (loadingAvailability) {
+        <section class="slots card">
+          <div class="slot-skel">
+            <ion-skeleton-text class="line lg" animated="true"></ion-skeleton-text>
+            <div class="grid">
+              @for (i of [0,1,2,3,4,5,6,7]; track i) {
+                <ion-skeleton-text class="slot-tile-skel" animated="true"></ion-skeleton-text>
+              }
+            </div>
+          </div>
+        </section>
+      } @else if (errorAvailability) {
+        <section class="alert tonal">
+          <p class="alert-title">Couldn’t load availability.</p>
+          <p class="alert-body">Check your connection and try again.</p>
+          <ion-button fill="clear" (click)="loadFromUrl()">Retry</ion-button>
+        </section>
+      } @else if (!availabilityDays.length) {
+        <section class="state">
+          <p class="state-title">No availability in the next 30 days</p>
+          <p class="state-body">Check back soon or choose another fighter.</p>
+          <ion-button class="kinetic-gradient" expand="block" (click)="backToProfile()">
+            Back to profile
+          </ion-button>
+          <ion-button fill="clear" expand="block" (click)="backToExplore()">Explore</ion-button>
+        </section>
+      } @else if (selectedDay && selectedDay.slots.length === 0) {
+        <section class="state">
+          <p class="state-title">No times available</p>
+          <p class="state-body">Try another day — new sessions open up regularly.</p>
+          <ion-button fill="clear" expand="block">Pick a different date</ion-button>
+        </section>
+      } @else if (selectedDay) {
+        @let buckets = bucketSlots(selectedDay.slots);
+        <section class="slots">
+          @if (buckets.morning.length) {
+            <section class="bucket">
+              <h3 class="bucket-title">
+                <ion-icon name="sunny-outline"></ion-icon>
+                Morning sessions
+              </h3>
+              <div class="grid">
+                @for (s of buckets.morning; track s.slotId) {
+                  <button
+                    class="slot"
+                    [class.selected]="s.slotId === selectedSlotId"
+                    (click)="selectSlot(s)"
+                    type="button"
+                  >
+                    <span class="slot-time">{{ formatSlotTime(s.startsAtUtc) }}</span>
+                    <span class="slot-meta">{{ s.slotId === selectedSlotId ? 'Selected' : 'Available' }}</span>
+                  </button>
+                }
+              </div>
+            </section>
+          }
+
+          @if (buckets.afternoon.length) {
+            <section class="bucket">
+              <h3 class="bucket-title">
+                <ion-icon name="partly-sunny-outline"></ion-icon>
+                Afternoon sessions
+              </h3>
+              <div class="grid">
+                @for (s of buckets.afternoon; track s.slotId) {
+                  <button
+                    class="slot"
+                    [class.selected]="s.slotId === selectedSlotId"
+                    (click)="selectSlot(s)"
+                    type="button"
+                  >
+                    <span class="slot-time">{{ formatSlotTime(s.startsAtUtc) }}</span>
+                    <span class="slot-meta">{{ s.slotId === selectedSlotId ? 'Selected' : 'Available' }}</span>
+                  </button>
+                }
+              </div>
+            </section>
+          }
+
+          @if (buckets.evening.length) {
+            <section class="bucket">
+              <h3 class="bucket-title">
+                <ion-icon name="moon-outline"></ion-icon>
+                Evening sessions
+              </h3>
+              <div class="grid">
+                @for (s of buckets.evening; track s.slotId) {
+                  <button
+                    class="slot"
+                    [class.selected]="s.slotId === selectedSlotId"
+                    (click)="selectSlot(s)"
+                    type="button"
+                  >
+                    <span class="slot-time">{{ formatSlotTime(s.startsAtUtc) }}</span>
+                    <span class="slot-meta">{{ s.slotId === selectedSlotId ? 'Selected' : 'Available' }}</span>
+                  </button>
+                }
+              </div>
+            </section>
+          }
+        </section>
+      }
+    } @else if (step === 'review') {
+      <section class="hero">
+        <p class="kicker">Review</p>
+        <h2 class="headline">Booking</h2>
+      </section>
+
+      <section class="summary card glass">
+        <div class="summary-top">
+          <div class="summary-title">{{ fighter.name }}</div>
+          <div class="summary-sub">{{ service.title }}</div>
+        </div>
+
+        <div class="summary-rows">
+          <div class="row">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>{{ selectedDate ? formatSelectedDate(selectedDate) : '' }}</span>
+          </div>
+          <div class="row">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>{{ selectedSlot ? formatSlotTime(selectedSlot.startsAtUtc) : '' }}</span>
           </div>
         </div>
-        <div class="service-price">{{ formatUsd(service.priceCents) }}</div>
-      </div>
-    </section>
 
-    <section class="card info">
-      <p class="info-text">
-        Scheduling will be available in the next phase. You’ve selected this service successfully.
-      </p>
-      <ion-button expand="block" [disabled]="true">Choose a time</ion-button>
-      <ion-button fill="clear" expand="block" (click)="backToProfile()">Back to profile</ion-button>
-    </section>
+        <div class="status-preview">
+          <span class="label">Status after reserving:</span>
+          <span class="value">Awaiting payment</span>
+        </div>
+      </section>
+
+      @if (reserveError) {
+        <section class="alert tonal">
+          <p class="alert-title">{{ reserveError.title }}</p>
+          <p class="alert-body">{{ reserveError.body }}</p>
+          @if (reserveError.actionLabel) {
+            <ion-button fill="clear" (click)="changeTime()">{{ reserveError.actionLabel }}</ion-button>
+          }
+        </section>
+      }
+
+      <ion-button
+        class="kinetic-gradient"
+        expand="block"
+        [disabled]="!selectedSlotId || reserving"
+        (click)="reserveSlot()"
+      >
+        @if (reserving) {
+          <ion-spinner name="crescent"></ion-spinner>
+          Reserving…
+        } @else {
+          Reserve slot
+        }
+      </ion-button>
+
+      <ion-button fill="clear" expand="block" (click)="changeTime()">Change time</ion-button>
+    } @else if (step === 'created') {
+      <section class="hero">
+        <h2 class="headline">Booking reserved</h2>
+        <ion-chip class="status-chip">Awaiting payment</ion-chip>
+      </section>
+
+      <section class="summary card glass">
+        <div class="summary-top">
+          <div class="summary-title">{{ fighter.name }}</div>
+          <div class="summary-sub">{{ service.title }}</div>
+        </div>
+
+        <div class="summary-rows">
+          <div class="row">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>{{ selectedDate ? formatSelectedDate(selectedDate) : '' }}</span>
+          </div>
+          <div class="row">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>{{ selectedSlot ? formatSlotTime(selectedSlot.startsAtUtc) : '' }}</span>
+          </div>
+        </div>
+
+        <p class="created-copy">
+          We’re holding this time for a short window. Payment will be available next.
+        </p>
+      </section>
+
+      <ion-button class="kinetic-gradient" expand="block" (click)="backToProfile()">Back to profile</ion-button>
+      <ion-button fill="clear" expand="block" (click)="changeTime()">Change time</ion-button>
+    }
+
+    @if (step === 'select') {
+      <ion-footer class="book-footer" translucent="true">
+        <div class="footer-inner">
+          <ion-button
+            class="kinetic-gradient"
+            expand="block"
+            [disabled]="!selectedSlotId"
+            (click)="confirmDateTime()"
+          >
+            Confirm date & time
+          </ion-button>
+          <p class="footer-hint">48-hour cancellation policy applies</p>
+        </div>
+      </ion-footer>
+    }
   } @else {
     <section class="state state-error">
       <p class="state-title">Couldn’t open booking.</p>
