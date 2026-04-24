@@ -203,6 +203,13 @@ export class BookPlaceholderPage implements OnDestroy {
     this.reserveError = null;
   }
 
+  pickDifferentDate(): void {
+    this.selectedSlotId = null;
+    this.reserveError = null;
+    // Keep horizon + month view intact; user can tap another day.
+    this.selectedDate = null;
+  }
+
   selectSlot(slot: Slot): void {
     this.selectedSlotId = slot.slotId;
     this.reserveError = null;

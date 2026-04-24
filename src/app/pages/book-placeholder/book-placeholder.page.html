@@ -85,7 +85,7 @@
         <section class="state">
           <p class="state-title">No times available</p>
           <p class="state-body">Try another day — new sessions open up regularly.</p>
-          <ion-button fill="clear" expand="block">Pick a different date</ion-button>
+          <ion-button fill="clear" expand="block" (click)="pickDifferentDate()">Pick a different date</ion-button>
         </section>
       } @else if (selectedDay) {
         @let buckets = bucketSlots(selectedDay.slots);
