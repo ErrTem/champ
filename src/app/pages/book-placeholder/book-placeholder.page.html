@@ -1,0 +1,59 @@
+<ion-header translucent="true" class="book-topbar">
+  <ion-toolbar>
+    <ion-title>Book</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="book-shell" fullscreen="true">
+  @if (loading) {
+    <section class="card">
+      <ion-skeleton-text class="line xl" animated="true"></ion-skeleton-text>
+      <ion-skeleton-text class="line lg" animated="true"></ion-skeleton-text>
+      <ion-skeleton-text class="line md" animated="true"></ion-skeleton-text>
+    </section>
+    <section class="card">
+      <ion-skeleton-text class="line md" animated="true"></ion-skeleton-text>
+      <ion-skeleton-text class="line sm" animated="true"></ion-skeleton-text>
+    </section>
+  } @else if (error || !fighterId || !serviceId) {
+    <section class="state state-error">
+      <p class="state-title">Couldn’t open booking.</p>
+      <p class="state-body">Back to Explore and pick a fighter and service again.</p>
+      <ion-button class="kinetic-gradient" expand="block" (click)="backToExplore()">
+        Back to Explore
+      </ion-button>
+    </section>
+  } @else if (fighter && service) {
+    <section class="card">
+      <p class="kicker">Selection</p>
+      <h2 class="headline">{{ fighter.name }}</h2>
+
+      <div class="service">
+        <div class="service-main">
+          <div class="service-title">{{ service.title }}</div>
+          <div class="service-sub">
+            {{ service.durationMinutes }} min · {{ modalityLabel(service.modality) }}
+          </div>
+        </div>
+        <div class="service-price">{{ formatUsd(service.priceCents) }}</div>
+      </div>
+    </section>
+
+    <section class="card info">
+      <p class="info-text">
+        Scheduling will be available in the next phase. You’ve selected this service successfully.
+      </p>
+      <ion-button expand="block" [disabled]="true">Choose a time</ion-button>
+      <ion-button fill="clear" expand="block" (click)="backToProfile()">Back to profile</ion-button>
+    </section>
+  } @else {
+    <section class="state state-error">
+      <p class="state-title">Couldn’t open booking.</p>
+      <p class="state-body">The selected service may no longer be available.</p>
+      <ion-button class="kinetic-gradient" expand="block" (click)="backToExplore()">
+        Back to Explore
+      </ion-button>
+    </section>
+  }
+</ion-content>
+

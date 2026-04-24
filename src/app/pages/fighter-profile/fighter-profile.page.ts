@@ -83,11 +83,21 @@ export class FighterProfilePage {
 
   selectService(service: Service): void {
     this.selectedServiceId = service.id;
-    // Phase 2 contract: selection immediately advances (placeholder wiring in 02-03).
+    const fighterId = this.route.snapshot.paramMap.get('fighterId');
+    if (!fighterId) return;
+
+    void this.router.navigate(['/book'], {
+      queryParams: { fighterId, serviceId: service.id },
+    });
   }
 
   bookSelected(): void {
-    // Placeholder; Plan 02-03 wires /book navigation.
+    const fighterId = this.route.snapshot.paramMap.get('fighterId');
+    if (!fighterId || !this.selectedServiceId) return;
+
+    void this.router.navigate(['/book'], {
+      queryParams: { fighterId, serviceId: this.selectedServiceId },
+    });
   }
 }
 

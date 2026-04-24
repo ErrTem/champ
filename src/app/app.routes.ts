@@ -12,6 +12,11 @@ export const routes: Routes = [
       import('./pages/fighter-profile/fighter-profile.page').then((m) => m.FighterProfilePage),
   },
   {
+    path: 'book',
+    loadComponent: () =>
+      import('./pages/book-placeholder/book-placeholder.page').then((m) => m.BookPlaceholderPage),
+  },
+  {
     path: 'home',
     loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
   },
