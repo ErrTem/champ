@@ -52,8 +52,8 @@
 
 ### Notifications
 
-- [ ] **NOT-01**: User receives confirmation when a booking becomes confirmed (email minimum)
-- [ ] **NOT-02**: User receives notification on material status change (e.g. cancellation) when applicable
+- [x] **NOT-01**: User receives confirmation when a booking becomes confirmed (email minimum)
+- [x] **NOT-02**: User receives notification on material status change (e.g. cancellation) when applicable
 
 ### Admin
 
@@ -121,8 +121,8 @@
 | BKG-04 | Phase 4 | Pending |
 | MBB-01 | Phase 5 | Completed (05-02) |
 | MBB-02 | Phase 5 | Completed (05-02) |
-| NOT-01 | Phase 5 | Pending |
-| NOT-02 | Phase 5 | Pending |
+| NOT-01 | Phase 5 | Completed (05-03) |
+| NOT-02 | Phase 5 | Completed (05-03) |
 | ADM-01 | Phase 6 | Pending |
 | ADM-02 | Phase 6 | Pending |
 | ADM-03 | Phase 6 | Pending |
