@@ -217,17 +217,17 @@ Backend already constructs `success_url` + `cancel_url` using `PUBLIC_APP_URL` w
 | A1 | No existing background scheduler/cron infrastructure for booking expiry | Summary / Alternatives | If scheduler exists, better to trigger expiry there for timeliness. |
 | A2 | On-demand expiry (called by list/get) acceptable for v1 notifications | Summary | NOT-02 timing depends on user visiting app; could miss “prompt” notification expectation. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Should “Past” include expired holds?**
    - What we know: need Upcoming/Past tabs; need terminal statuses have no actions; expiry is cancellation-like. `[VERIFIED: Phase 05 context]`
    - What's unclear: sorting/category boundary for `expired` with startsAt in future vs past.
-   - Recommendation: classify `expired` as Past (terminal), regardless of start time, to avoid “Upcoming but dead” confusion. `[ASSUMED]`
+   - Resolution: classify `expired` as Past (terminal), regardless of start time, to avoid “Upcoming but dead” confusion. `[RESOLVED]`
 
 2. **What exact “payment state” field should UI display?**
    - What we know: backend booking has `status` and optional `stripeCheckoutSessionId`. `[VERIFIED: prisma + payments.service.ts]`
    - What's unclear: whether payment state is distinct from booking status in v1.
-   - Recommendation: derive payment state from booking status (awaiting_payment vs confirmed) for Phase 05; avoid new schema field. `[ASSUMED]`
+   - Resolution: derive payment state from booking status (awaiting_payment vs confirmed vs expired) for Phase 05; avoid new schema field. `[RESOLVED]`
 
 ## Environment Availability
 
