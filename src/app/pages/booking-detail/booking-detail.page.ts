@@ -86,10 +86,8 @@ export class BookingDetailPage {
 
   formatPrice(priceCents: number | undefined, currency: string | undefined): string {
     if (typeof priceCents !== 'number') return '—';
-    const dollars = Math.round(priceCents / 100);
     const cur = currency || 'USD';
-    if (cur === 'USD') return `$${dollars}`;
-    return `${dollars} ${cur}`;
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: cur }).format(priceCents / 100);
   }
 
   statusLabel(status: string): string {

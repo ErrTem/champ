@@ -2,6 +2,7 @@ import { Test } from '@nestjs/testing';
 import type Stripe from 'stripe';
 import { PrismaService } from '../src/prisma/prisma.service';
 import { PrismaModule } from '../src/prisma/prisma.module';
+import { NotificationsService } from '../src/notifications/notifications.service';
 import { PaymentsService } from '../src/payments/payments.service';
 import { StripeClient } from '../src/payments/stripe.client';
 import { resetTestDb } from './helpers/test-db';
@@ -27,6 +28,13 @@ describe('Payments (Checkout Session) — e2e', () => {
       imports: [PrismaModule],
       providers: [
         PaymentsService,
+        {
+          provide: NotificationsService,
+          useValue: {
+            notifyBookingConfirmed: jest.fn(),
+            notifyBookingExpiredHold: jest.fn(),
+          },
+        },
         {
           provide: StripeClient,
           useValue: { stripe: stripeMock },

@@ -14,6 +14,15 @@ function toIsoMaybe(input: Date | string | undefined): string | undefined {
   return input.toISOString();
 }
 
+function maskEmail(email: string): string {
+  const at = email.indexOf('@');
+  if (at <= 0) return '***';
+  const local = email.slice(0, at);
+  const domain = email.slice(at + 1);
+  const keep = local.length <= 2 ? 1 : 2;
+  return `${local.slice(0, keep)}***@${domain}`;
+}
+
 @Injectable()
 export class NotificationsService {
   private readonly logger = new Logger(NotificationsService.name);
@@ -31,10 +40,11 @@ export class NotificationsService {
 
   notifyBookingConfirmed(input: NotifyBookingBaseInput): void {
     const deepLink = this.buildBookingDeepLink(input.bookingId);
+    const includeRecipient = process.env.NODE_ENV !== 'production';
     this.emitDevEmail({
       eventType: 'booking.confirmed',
       from: 'noreply@champ.local',
-      to: input.toEmail,
+      ...(includeRecipient ? { to: input.toEmail } : { to: maskEmail(input.toEmail) }),
       bookingId: input.bookingId,
       deepLink,
       fighterName: input.fighterName,
@@ -45,10 +55,11 @@ export class NotificationsService {
 
   notifyBookingExpiredHold(input: NotifyBookingBaseInput): void {
     const deepLink = this.buildBookingDeepLink(input.bookingId);
+    const includeRecipient = process.env.NODE_ENV !== 'production';
     this.emitDevEmail({
       eventType: 'booking.expired_hold',
       from: 'noreply@champ.local',
-      to: input.toEmail,
+      ...(includeRecipient ? { to: input.toEmail } : { to: maskEmail(input.toEmail) }),
       bookingId: input.bookingId,
       deepLink,
       fighterName: input.fighterName,

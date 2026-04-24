@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import type Stripe from 'stripe';
 import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
@@ -96,9 +97,10 @@ export class PaymentsService {
         data: { stripeEventId: event.id, type: event.type },
         select: { id: true },
       });
-    } catch {
+    } catch (e) {
       // Duplicate event id (or race) — treat as idempotent success.
-      return;
+      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2002') return;
+      throw e;
     }
 
     if (event.type !== 'checkout.session.completed') return;
@@ -138,6 +140,7 @@ export class PaymentsService {
       await tx.slot.updateMany({
         where: {
           id: booking.slotId,
+          reservedBookingId: booking.id,
           OR: [{ confirmedBookingId: null }, { confirmedBookingId: booking.id }],
         },
         data: {
