@@ -7,7 +7,7 @@ Ship the full **fighter → service → slot → booking → payment → confirm
 ## Phases
 
 - [ ] **Phase 1: Platform & auth** — API foundation, database, user auth and profile (client + server) *(plans implemented 2026-04-24; iOS UAT pending)*
-- [ ] **Phase 2: Catalog & fighter profile** — Fighters list, profile pages, services and prices from API
+- [ ] **Phase 2: Catalog & fighter profile** — Fighters list, profile pages, services and prices from API *(plans implemented 2026-04-24; verification pending)*
 - [ ] **Phase 3: Slots & booking (pre-payment)** — Availability and booking creation with server-side concurrency rules
 - [ ] **Phase 4: Payments & confirmation** — Checkout, webhooks, confirmed bookings
 - [ ] **Phase 5: My bookings & notifications** — History, detail, email (or equivalent) on key events
@@ -61,9 +61,10 @@ Plans:
 
 Plans:
 
-- [ ] 02-01: Fighter and service domain models, public read APIs, seed data script
-- [ ] 02-02: Ionic catalog and profile pages consuming APIs (loading/error states)
-- [ ] 02-03: Navigation flow catalog → profile → “Book” entry for chosen service
+- [x] 02-01: Fighter and service domain models, public read APIs, seed data script
+- [x] 02-02: Ionic catalog and profile pages consuming APIs (loading/error states)
+- [x] 02-03: Navigation flow catalog → profile → “Book” entry for chosen service
+ 
 
 **UI hint:** yes
 
