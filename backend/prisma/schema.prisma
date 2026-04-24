@@ -58,6 +58,8 @@ model Fighter {
   yearsPro Int @default(0)
 
   services  Service[]
+  scheduleRules FighterScheduleRule[]
+  slots     Slot[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -73,9 +75,52 @@ model Service {
   modality        String
   priceCents      Int
   currency        String  @default("USD")
+  slots           Slot[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([fighterId])
+}
+
+model FighterScheduleRule {
+  id        String  @id @default(cuid())
+  fighterId String
+  fighter   Fighter @relation(fields: [fighterId], references: [id], onDelete: Cascade)
+
+  /// 0=Sunday .. 6=Saturday
+  dayOfWeek  Int
+  /// Minutes since 00:00 in America/Los_Angeles
+  startMinute Int
+  /// Minutes since 00:00 in America/Los_Angeles; must be > startMinute
+  endMinute   Int
+
+  active    Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([fighterId])
+}
+
+model Slot {
+  id        String  @id @default(cuid())
+  fighterId String
+  fighter   Fighter @relation(fields: [fighterId], references: [id], onDelete: Cascade)
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  startsAtUtc DateTime
+  endsAtUtc   DateTime
+
+  reservedUntilUtc   DateTime?
+  reservedBookingId  String?
+  confirmedBookingId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([fighterId, serviceId, startsAtUtc])
+  @@index([fighterId])
+  @@index([serviceId])
 }
