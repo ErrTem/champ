@@ -77,7 +77,10 @@ export class BookPlaceholderPage implements OnDestroy {
   selectedSlotId: string | null = null;
 
   reserving = false;
-  reserveError: { title: string; body: string; actionLabel?: string } | null = null;
+  reserveError:
+    | { kind: 'slot-unavailable' }
+    | { kind: 'generic'; title: string; body: string }
+    | null = null;
 
   createdBooking: Booking | null = null;
 
@@ -158,7 +161,6 @@ export class BookPlaceholderPage implements OnDestroy {
 
     this.loadingAvailability = true;
     this.errorAvailability = '';
-    this.reserveError = null;
     this.availabilityDays = [];
     this.availabilityByDate = new Map<string, AvailabilityDay>();
 
@@ -246,21 +248,24 @@ export class BookPlaceholderPage implements OnDestroy {
             return;
           }
           if (e?.status === 409 && e?.code === 'SLOT_UNAVAILABLE') {
-            this.reserveError = {
-              title: 'That time just got taken.',
-              body: 'Pick another time — we refreshed today’s availability.',
-              actionLabel: 'View updated times',
-            };
-            this.step = 'select';
-            this.loadAvailability();
+            this.reserveError = { kind: 'slot-unavailable' };
             return;
           }
           this.reserveError = {
+            kind: 'generic',
             title: 'Couldn’t reserve that slot.',
             body: 'Check your connection and try again.',
           };
         },
       });
+  }
+
+  viewUpdatedTimes(): void {
+    // Keep the currently selected day, but clear the stale slot and refresh buckets for that day.
+    this.step = 'select';
+    this.selectedSlotId = null;
+    this.reserveError = null;
+    this.loadAvailability();
   }
 
   private buildReturnToUrl(): string {

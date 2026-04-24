@@ -188,10 +188,13 @@
 
       @if (reserveError) {
         <section class="alert tonal">
-          <p class="alert-title">{{ reserveError.title }}</p>
-          <p class="alert-body">{{ reserveError.body }}</p>
-          @if (reserveError.actionLabel) {
-            <ion-button fill="clear" (click)="changeTime()">{{ reserveError.actionLabel }}</ion-button>
+          @if (reserveError.kind === 'slot-unavailable') {
+            <p class="alert-title">That time just got taken.</p>
+            <p class="alert-body">Pick another time — we refreshed today’s availability.</p>
+            <ion-button fill="clear" (click)="viewUpdatedTimes()">View updated times</ion-button>
+          } @else {
+            <p class="alert-title">{{ reserveError.title }}</p>
+            <p class="alert-body">{{ reserveError.body }}</p>
           }
         </section>
       }
