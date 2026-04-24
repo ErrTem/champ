@@ -19,6 +19,21 @@ export interface CreateBookingRequest {
   slotId: string;
 }
 
+export interface BookingListItem {
+  id: string;
+  status: string;
+  expiresAtUtc: string;
+  startsAtUtc: string;
+  endsAtUtc: string;
+  fighterId: string;
+  fighterName: string;
+  serviceId: string;
+  serviceTitle: string;
+  priceCents: number;
+  currency: string;
+  paymentState: string;
+}
+
 export interface Booking {
   id: string;
   status: string;
@@ -30,5 +45,14 @@ export interface Booking {
     fighterId: string;
     serviceId: string;
   };
+  startsAtUtc?: string;
+  endsAtUtc?: string;
+  fighterId?: string;
+  fighterName?: string;
+  serviceId?: string;
+  serviceTitle?: string;
+  priceCents?: number;
+  currency?: string;
+  paymentState?: string;
 }
 

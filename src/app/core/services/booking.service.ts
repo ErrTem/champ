@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { AvailabilityResponse, Booking, CreateBookingRequest } from '../models/booking.models';
+import { AvailabilityResponse, Booking, BookingListItem, CreateBookingRequest } from '../models/booking.models';
 
 export type CreateBookingError = {
   status: number;
@@ -33,6 +33,10 @@ function coerceCreateBookingError(err: unknown): CreateBookingError {
 export class BookingService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = environment.apiUrl;
+
+  listMyBookings(): Observable<BookingListItem[]> {
+    return this.http.get<BookingListItem[]>(`${this.baseUrl}/bookings`, { withCredentials: true });
+  }
 
   getAvailability(params: {
     fighterId: string;

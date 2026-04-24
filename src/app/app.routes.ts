@@ -27,6 +27,17 @@ export const routes: Routes = [
       import('./pages/booking-success/booking-success.page').then((m) => m.BookingSuccessPage),
   },
   {
+    path: 'my-bookings',
+    loadComponent: () => import('./pages/my-bookings/my-bookings.page').then((m) => m.MyBookingsPage),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'bookings/:bookingId',
+    loadComponent: () =>
+      import('./pages/booking-detail/booking-detail.page').then((m) => m.BookingDetailPage),
+    canActivate: [authGuard],
+  },
+  {
     path: 'home',
     loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
   },
