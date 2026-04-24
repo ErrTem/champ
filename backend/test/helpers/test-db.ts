@@ -4,6 +4,7 @@ export async function resetTestDb(prisma: PrismaClient): Promise<void> {
   // Keep this fast and deterministic. We intentionally truncate the domain tables
   // used in booking/payment flows; auth tables are left alone unless needed.
   await prisma.$transaction([
+    prisma.stripeWebhookEvent.deleteMany(),
     prisma.booking.deleteMany(),
     prisma.slot.deleteMany(),
     prisma.fighterScheduleRule.deleteMany(),
