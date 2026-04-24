@@ -1,0 +1,120 @@
+<ion-header translucent="true" class="profile-topbar">
+  <ion-toolbar>
+    <ion-back-button defaultHref="/explore"></ion-back-button>
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="profile-shell" fullscreen="true">
+  @if (loading) {
+    <section class="hero hero-skeleton">
+      <ion-skeleton-text class="hero-img" animated="true"></ion-skeleton-text>
+      <div class="hero-text">
+        <ion-skeleton-text class="line xl" animated="true"></ion-skeleton-text>
+        <ion-skeleton-text class="line lg" animated="true"></ion-skeleton-text>
+      </div>
+    </section>
+
+    <section class="stats">
+      @for (i of [0, 1, 2, 3]; track i) {
+        <div class="tile">
+          <ion-skeleton-text class="line md" animated="true"></ion-skeleton-text>
+          <ion-skeleton-text class="line sm" animated="true"></ion-skeleton-text>
+        </div>
+      }
+    </section>
+  } @else if (error) {
+    <section class="state state-error">
+      <p class="state-title">Couldn’t load fighter.</p>
+      <p class="state-body">Check your connection and try again.</p>
+      <ion-button class="kinetic-gradient" expand="block" (click)="fetch()">Retry</ion-button>
+    </section>
+  } @else if (fighter) {
+    <section class="hero">
+      <div class="hero-img-wrap">
+        @if (fighter.photoUrl) {
+          <img class="hero-img" [src]="fighter.photoUrl" [alt]="fighter.name" />
+        } @else {
+          <div class="hero-img hero-placeholder" aria-hidden="true"></div>
+        }
+        <div class="hero-gradient"></div>
+      </div>
+
+      <div class="hero-copy">
+        <p class="badge">Elite Tier Trainer</p>
+        <h1 class="name">{{ fighter.name }}</h1>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="tile tile-low">
+        <p class="label">Wins</p>
+        <p class="value">{{ fighter.wins }}</p>
+      </div>
+      <div class="tile tile-high">
+        <p class="label">Losses</p>
+        <p class="value">{{ fighter.losses }}</p>
+      </div>
+      <div class="tile tile-high">
+        <p class="label">Draws</p>
+        <p class="value">{{ fighter.draws }}</p>
+      </div>
+      <div class="tile tile-low">
+        <p class="label">Years pro</p>
+        <p class="value">{{ fighter.yearsPro }}</p>
+      </div>
+    </section>
+
+    <section class="bio">
+      <p class="kicker">The Pedigree</p>
+      <p class="bio-text">{{ fighter.bio }}</p>
+    </section>
+
+    <section class="services">
+      <div class="services-head">
+        <h2 class="services-title">Services</h2>
+        <p class="services-meta">Pricing in USD</p>
+      </div>
+
+      @if (fighter.services.length === 0) {
+        <div class="state state-empty">
+          <p class="state-title">No services available</p>
+          <p class="state-body">This fighter isn’t bookable yet.</p>
+        </div>
+      } @else {
+        <div class="service-list">
+          @for (s of fighter.services; track s.id) {
+            <button
+              type="button"
+              class="service-row"
+              [class.selected]="selectedServiceId === s.id"
+              (click)="selectService(s)"
+            >
+              <div class="service-main">
+                <div class="service-title">{{ s.title }}</div>
+                <div class="service-sub">
+                  {{ s.durationMinutes }} min · {{ modalityLabel(s.modality) }}
+                </div>
+              </div>
+              <div class="service-price">{{ formatUsd(s.priceCents) }}</div>
+            </button>
+          }
+        </div>
+      }
+    </section>
+  }
+</ion-content>
+
+<ion-footer class="profile-footer">
+  <ion-toolbar>
+    <ion-button
+      expand="block"
+      class="kinetic-gradient"
+      [disabled]="!selectedServiceId"
+      (click)="bookSelected()"
+    >
+      Book session
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
+

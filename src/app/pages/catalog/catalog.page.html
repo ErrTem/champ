@@ -1,0 +1,93 @@
+<ion-header translucent="true" class="catalog-topbar">
+  <ion-toolbar>
+    <ion-title>Explore</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="catalog-shell" fullscreen="true">
+  <section class="hero">
+    <ion-text>
+      <p class="kicker">PRO TRAINING</p>
+      <h1 class="display">
+        ELITE<br />
+        <span class="accent">STRIKERS</span>
+      </h1>
+      <p class="sub">Browse fighters and choose a service to start booking.</p>
+    </ion-text>
+  </section>
+
+  <section class="sticky-filters">
+    <div class="chip-row">
+      @for (chip of chips; track chip) {
+        <ion-chip class="chip" [class.chip-active]="chip === 'All'">
+          <ion-label>{{ chip }}</ion-label>
+        </ion-chip>
+      }
+    </div>
+
+    <div class="filter-row">
+      <div class="pill">
+        <ion-icon name="filter-outline" aria-hidden="true"></ion-icon>
+        <span class="pill-label">Refine</span>
+      </div>
+      <div class="pill">
+        <span class="pill-label">Price range</span>
+        <ion-icon name="chevron-down-outline" aria-hidden="true"></ion-icon>
+      </div>
+    </div>
+  </section>
+
+  @if (loading) {
+    <section class="grid">
+      @for (i of [0, 1, 2, 3, 4, 5]; track i) {
+        <div class="card card-skeleton">
+          <div class="img">
+            <ion-skeleton-text animated="true" class="skeleton-img"></ion-skeleton-text>
+          </div>
+          <div class="card-body">
+            <ion-skeleton-text animated="true" class="skeleton-line"></ion-skeleton-text>
+            <ion-skeleton-text animated="true" class="skeleton-line short"></ion-skeleton-text>
+            <ion-skeleton-text animated="true" class="skeleton-meta"></ion-skeleton-text>
+          </div>
+        </div>
+      }
+    </section>
+  } @else if (error) {
+    <section class="state state-error">
+      <p class="state-title">Couldn’t load fighters.</p>
+      <p class="state-body">Check your connection and try again.</p>
+      <ion-button class="kinetic-gradient" expand="block" (click)="fetch()">Retry</ion-button>
+    </section>
+  } @else if (fighters.length === 0) {
+    <section class="state state-empty">
+      <p class="state-title">No fighters yet</p>
+      <p class="state-body">Check back soon — we’re curating the next roster.</p>
+      <ion-button fill="clear" (click)="fetch()">Refresh</ion-button>
+    </section>
+  } @else {
+    <section class="grid">
+      @for (f of fighters; track f.id) {
+        <button class="card" type="button" (click)="openFighter(f.id)">
+          <div class="img">
+            @if (f.photoUrl) {
+              <img [src]="f.photoUrl" [alt]="f.name" />
+            } @else {
+              <div class="img-placeholder" aria-hidden="true">
+                <span class="mono">{{ initials(f.name) }}</span>
+              </div>
+            }
+            <div class="img-gradient"></div>
+          </div>
+          <div class="card-body">
+            <div class="card-top">
+              <div class="name">{{ f.name }}</div>
+              <div class="from">{{ formatFrom(f.fromPriceCents) }}</div>
+            </div>
+            <div class="summary">{{ f.summary }}</div>
+          </div>
+        </button>
+      }
+    </section>
+  }
+</ion-content>
+
