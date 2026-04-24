@@ -2,6 +2,12 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+type SeedScheduleRule = {
+  dayOfWeek: number;
+  startMinute: number;
+  endMinute: number;
+};
+
 type SeedService = {
   id: string;
   title: string;
@@ -26,7 +32,18 @@ type SeedFighter = {
   yearsPro?: number;
   published?: boolean;
   services: SeedService[];
+  scheduleRules?: SeedScheduleRule[];
 };
+
+const baselineScheduleRules: SeedScheduleRule[] = [
+  // Mon–Fri: 09:00–12:00 and 17:00–20:00 (PT)
+  ...[1, 2, 3, 4, 5].flatMap((dayOfWeek) => [
+    { dayOfWeek, startMinute: 9 * 60, endMinute: 12 * 60 },
+    { dayOfWeek, startMinute: 17 * 60, endMinute: 20 * 60 },
+  ]),
+  // Sat: 10:00–14:00 (PT)
+  { dayOfWeek: 6, startMinute: 10 * 60, endMinute: 14 * 60 },
+];
 
 const fighters: SeedFighter[] = [
   {
@@ -47,6 +64,7 @@ const fighters: SeedFighter[] = [
       { id: 'svc_ali_60_ip', title: '1:1 Striking (60 min)', durationMinutes: 60, modality: 'in_person', priceCents: 9500 },
       { id: 'svc_ali_spar_ip', title: 'Light Sparring Fundamentals', durationMinutes: 60, modality: 'in_person', priceCents: 11000 },
     ],
+    scheduleRules: baselineScheduleRules,
   },
   {
     id: 'ftr_noah_01',
@@ -65,6 +83,7 @@ const fighters: SeedFighter[] = [
       { id: 'svc_noah_45_ol', title: 'BJJ Drills (45 min)', durationMinutes: 45, modality: 'online', priceCents: 6500 },
       { id: 'svc_noah_60_ip', title: 'Takedowns & Control (60 min)', durationMinutes: 60, modality: 'in_person', priceCents: 10500 },
     ],
+    scheduleRules: baselineScheduleRules,
   },
   {
     id: 'ftr_maya_01',
@@ -84,6 +103,7 @@ const fighters: SeedFighter[] = [
       { id: 'svc_maya_60_ip', title: 'Movement + Conditioning (60 min)', durationMinutes: 60, modality: 'in_person', priceCents: 9000 },
       { id: 'svc_maya_plan_ol', title: 'Training Plan Review', durationMinutes: 45, modality: 'online', priceCents: 7000, published: false },
     ],
+    scheduleRules: baselineScheduleRules,
   },
   {
     id: 'ftr_sam_01',
@@ -103,6 +123,7 @@ const fighters: SeedFighter[] = [
       { id: 'svc_sam_60_ip', title: 'Counters & Angles (60 min)', durationMinutes: 60, modality: 'in_person', priceCents: 9800 },
       { id: 'svc_sam_combo_ip', title: 'Combination Building', durationMinutes: 45, modality: 'in_person', priceCents: 8200 },
     ],
+    scheduleRules: baselineScheduleRules,
   },
 ];
 
@@ -137,6 +158,18 @@ async function main() {
         draws: f.draws ?? 0,
         yearsPro: f.yearsPro ?? 0,
       },
+    });
+
+    const rules = f.scheduleRules ?? baselineScheduleRules;
+    await prisma.fighterScheduleRule.deleteMany({ where: { fighterId: fighter.id } });
+    await prisma.fighterScheduleRule.createMany({
+      data: rules.map((r) => ({
+        fighterId: fighter.id,
+        dayOfWeek: r.dayOfWeek,
+        startMinute: r.startMinute,
+        endMinute: r.endMinute,
+        active: true,
+      })),
     });
 
     for (const s of f.services) {
