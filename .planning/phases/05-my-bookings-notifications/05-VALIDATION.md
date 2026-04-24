@@ -38,10 +38,10 @@ created: "2026-04-24"
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
-| 05-01-01 | 01 | 1 | MBB-01 | T-05-01 | User scoping: list returns only caller bookings | e2e | `cd backend; npm test -- --runInBand --testPathPattern bookings.list` | ❌ W0 | ⬜ pending |
-| 05-01-02 | 01 | 1 | MBB-02 | T-05-02 | IDOR protection: detail returns 404/403 for other user | e2e | `cd backend; npm test -- --runInBand --testPathPattern bookings.detail` | ❌ W0 | ⬜ pending |
-| 05-03-01 | 03 | 2 | NOT-01 | T-05-03 | Confirm emits exactly once (idempotent) | unit/e2e | `cd backend; npm test -- --runInBand --testPathPattern notifications` | ❌ W0 | ⬜ pending |
-| 05-03-02 | 03 | 2 | NOT-02 | T-05-04 | Expiry emits once; status transition idempotent | unit/e2e | `cd backend; npm test -- --runInBand --testPathPattern notifications\\|expiry` | ❌ W0 | ⬜ pending |
+| 05-01-01 | 01 | 1 | MBB-01 | T-05-01 | User scoping: list returns only caller bookings | e2e | `cd backend; npm test -- --runInBand --testPathPattern bookings\\.my-bookings\\.e2e-spec` | ❌ W0 | ⬜ pending |
+| 05-01-02 | 01 | 1 | MBB-02 | T-05-02 | IDOR protection: detail returns 404/403 for other user | e2e | `cd backend; npm test -- --runInBand --testPathPattern bookings\\.my-bookings\\.e2e-spec` | ❌ W0 | ⬜ pending |
+| 05-03-01 | 03 | 2 | NOT-01 | T-05-03 | Confirm emits exactly once (idempotent) | e2e | `cd backend; npm test -- --runInBand --testPathPattern notifications\\.booking-status\\.e2e-spec` | ❌ W0 | ⬜ pending |
+| 05-03-02 | 03 | 2 | NOT-02 | T-05-04 | Expiry emits once; status transition idempotent | e2e | `cd backend; npm test -- --runInBand --testPathPattern notifications\\.booking-status\\.e2e-spec` | ❌ W0 | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -49,9 +49,8 @@ created: "2026-04-24"
 
 ## Wave 0 Requirements
 
-- [ ] `backend/test/bookings.list.e2e-spec.ts` — MBB-01 list scoping + ordering
-- [ ] `backend/test/bookings.detail.e2e-spec.ts` — MBB-02 detail scoping + enriched fields
-- [ ] `backend/test/notifications.e2e-spec.ts` — NOT-01/NOT-02 dev-email log assertions (spy on Nest `Logger`)
+- [ ] `backend/test/bookings.my-bookings.e2e-spec.ts` — MBB-01 list scoping + deterministic ordering + expiry classification
+- [ ] `backend/test/notifications.booking-status.e2e-spec.ts` — NOT-01/NOT-02 dev-email log assertions + idempotency (spy on service/logger)
 
 ---
 
