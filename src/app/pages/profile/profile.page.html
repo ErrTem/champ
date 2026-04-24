@@ -1,0 +1,47 @@
+<ion-header translucent="true" class="auth-topbar">
+  <ion-toolbar>
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="auth-shell" fullscreen="true">
+  <div class="auth-hero">
+    <p class="kicker">Account</p>
+    <h1 class="display">Your details</h1>
+    <p class="sub">Used for bookings — name, email, and phone.</p>
+  </div>
+
+  <form class="auth-form" (ngSubmit)="save()">
+    @if (saved) {
+      <ion-text color="success"><p class="field-error">Saved</p></ion-text>
+    }
+    @if (error) {
+      <ion-text color="danger"><p class="field-error">{{ error }}</p></ion-text>
+    }
+    <ion-input
+      label="Name"
+      labelPlacement="stacked"
+      type="text"
+      [(ngModel)]="name"
+      name="name"
+    />
+    <ion-input
+      label="Email"
+      labelPlacement="stacked"
+      type="email"
+      [(ngModel)]="email"
+      name="email"
+      required
+    />
+    <ion-input
+      label="Phone"
+      labelPlacement="stacked"
+      type="tel"
+      [(ngModel)]="phone"
+      name="phone"
+    />
+    <ion-button expand="block" type="submit" class="kinetic-gradient">Save</ion-button>
+    <ion-button expand="block" fill="outline" type="button" (click)="logout()">Log out</ion-button>
+    <p class="footer-links"><a routerLink="/home">Home</a></p>
+  </form>
+</ion-content>

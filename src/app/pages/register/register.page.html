@@ -1,0 +1,67 @@
+<ion-header translucent="true" class="auth-topbar">
+  <ion-toolbar>
+    <ion-title>Create account</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="auth-shell" fullscreen="true">
+  <div class="auth-hero">
+    <p class="kicker">Champ</p>
+    <h1 class="display">Join the gallery</h1>
+    <p class="sub">Train with legends — secure account, no token storage in the browser.</p>
+  </div>
+
+  <form class="auth-form" (ngSubmit)="submit()">
+    @if (error) {
+      <ion-text color="danger"><p class="field-error">{{ error }}</p></ion-text>
+    }
+    <ion-input
+      label="Name"
+      labelPlacement="stacked"
+      type="text"
+      autocomplete="name"
+      [(ngModel)]="name"
+      name="name"
+    />
+    <ion-input
+      label="Email"
+      labelPlacement="stacked"
+      type="email"
+      autocomplete="email"
+      [(ngModel)]="email"
+      name="email"
+      required
+    />
+    <ion-input
+      label="Phone"
+      labelPlacement="stacked"
+      type="tel"
+      autocomplete="tel"
+      [(ngModel)]="phone"
+      name="phone"
+    />
+    <ion-input
+      label="Password"
+      labelPlacement="stacked"
+      type="password"
+      autocomplete="new-password"
+      [(ngModel)]="password"
+      name="password"
+      required
+    />
+    <ion-input
+      label="Confirm password"
+      labelPlacement="stacked"
+      type="password"
+      autocomplete="new-password"
+      [(ngModel)]="confirm"
+      name="confirm"
+      required
+    />
+    <ion-button expand="block" type="submit" class="kinetic-gradient">Create account</ion-button>
+    <p class="footer-links">
+      Already have an account?
+      <a routerLink="/login" class="accent-link">Sign in</a>
+    </p>
+  </form>
+</ion-content>

@@ -6,7 +6,7 @@ Ship the full **fighter → service → slot → booking → payment → confirm
 
 ## Phases
 
-- [ ] **Phase 1: Platform & auth** — API foundation, database, user auth and profile (client + server)
+- [ ] **Phase 1: Platform & auth** — API foundation, database, user auth and profile (client + server) *(plans implemented 2026-04-24; iOS UAT pending)*
 - [ ] **Phase 2: Catalog & fighter profile** — Fighters list, profile pages, services and prices from API
 - [ ] **Phase 3: Slots & booking (pre-payment)** — Availability and booking creation with server-side concurrency rules
 - [ ] **Phase 4: Payments & confirmation** — Checkout, webhooks, confirmed bookings
@@ -34,10 +34,10 @@ Ship the full **fighter → service → slot → booking → payment → confirm
 
 Plans:
 
-- [ ] 01-01: Backend project scaffold, PostgreSQL schema baseline, health check, env configuration
-- [ ] 01-02: User model, auth endpoints (signup/login/refresh/logout), password hashing
-- [ ] 01-03: Password reset tokens + email sender integration (or dev logging with clear swap path)
-- [ ] 01-04: Ionic screens for auth and profile wired to API with route guards
+- [x] 01-01: Backend project scaffold, PostgreSQL schema baseline, health check, env configuration
+- [x] 01-02: User model, auth endpoints (signup/login/refresh/logout), password hashing
+- [x] 01-03: Password reset tokens + email sender integration (or dev logging with clear swap path)
+- [x] 01-04: Ionic screens for auth and profile wired to API with route guards
 
 **UI hint:** yes
 

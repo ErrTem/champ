@@ -1,0 +1,45 @@
+<ion-header translucent="true" class="auth-topbar">
+  <ion-toolbar>
+    <ion-title>Sign in</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="auth-shell" fullscreen="true">
+  <div class="auth-hero">
+    <p class="kicker">Champ</p>
+    <h1 class="display">Welcome back</h1>
+    <p class="sub">Book elite fighter sessions in one flow.</p>
+  </div>
+
+  <form class="auth-form" (ngSubmit)="submit()">
+    @if (error) {
+      <ion-text color="danger"><p class="field-error">{{ error }}</p></ion-text>
+    }
+    <ion-input
+      label="Email"
+      labelPlacement="stacked"
+      type="email"
+      autocomplete="email"
+      [(ngModel)]="email"
+      name="email"
+      required
+    />
+    <ion-input
+      label="Password"
+      labelPlacement="stacked"
+      type="password"
+      autocomplete="current-password"
+      [(ngModel)]="password"
+      name="password"
+      required
+    />
+    <ion-button expand="block" type="submit" class="kinetic-gradient">Sign in</ion-button>
+    <p class="footer-links">
+      <a routerLink="/forgot-password">Forgot password?</a>
+    </p>
+    <p class="footer-links">
+      New here?
+      <a routerLink="/register" class="accent-link">Create account</a>
+    </p>
+  </form>
+</ion-content>

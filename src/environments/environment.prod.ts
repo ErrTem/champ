@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  /** Set at deploy time to your public API origin */
+  apiUrl: 'https://api.example.com',
 };
