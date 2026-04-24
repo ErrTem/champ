@@ -70,7 +70,7 @@ Each task committed atomically:
 2. **Task 1: Add Notifications module/service implementing dev-email equivalent logging + deep link** - `6e8919f` (feat)
 3. **Task 2: Wire notifications into confirmed + expiry transitions (idempotent)** - `3eaf722` (feat)
 
-**Plan metadata:** _pending_ (docs commit after STATE/ROADMAP/REQUIREMENTS update)
+**Plan metadata:** `d966bdb` (docs: complete plan)
 
 ## Files Created/Modified
 - `backend/src/notifications/notifications.service.ts` - emits `[DEV EMAIL]` JSON payload with deep link.
