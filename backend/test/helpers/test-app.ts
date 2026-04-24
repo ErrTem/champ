@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import type { TestingModuleBuilder } from '@nestjs/testing';
+import cookieParser from 'cookie-parser';
 import supertest from 'supertest';
 import { AppModule } from '../../src/app.module';
 
@@ -28,6 +29,7 @@ export async function createTestApp(options?: {
   const moduleRef = await builder.compile();
 
   const app = moduleRef.createNestApplication({ rawBody: true });
+  app.use(cookieParser());
   await app.init();
 
   const request = supertest.agent(app.getHttpServer());
