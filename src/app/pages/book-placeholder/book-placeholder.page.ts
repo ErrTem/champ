@@ -295,7 +295,7 @@ export class BookPlaceholderPage implements OnDestroy {
     const parts = new Intl.DateTimeFormat('en-US', {
       timeZone: DISPLAY_TIMEZONE,
       hour: '2-digit',
-      hourCycle: 'h23',
+      hour12: false,
     }).formatToParts(d);
     const hour = parts.find((p) => p.type === 'hour')?.value ?? '0';
     return Number(hour);
