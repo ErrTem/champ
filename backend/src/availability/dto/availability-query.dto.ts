@@ -1,6 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IsIn, IsInt, IsOptional, IsString, Matches, Max, Min } from 'class-validator';
-import { MAX_DAYS } from '../availability.constants';
+import { IsInt, IsOptional, IsString, Matches, Min } from 'class-validator';
 
 export class AvailabilityQueryDto {
   @IsString()
@@ -17,7 +16,6 @@ export class AvailabilityQueryDto {
   @Transform(({ value }) => (value === undefined ? undefined : Number(value)))
   @IsInt()
   @Min(1)
-  @Max(MAX_DAYS)
   days?: number;
 }
 
