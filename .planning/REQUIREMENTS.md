@@ -119,8 +119,8 @@
 | PAY-03 | Phase 4 | Pending |
 | PAY-04 | Phase 4 | Pending |
 | BKG-04 | Phase 4 | Pending |
-| MBB-01 | Phase 5 | Completed (05-01) |
-| MBB-02 | Phase 5 | Completed (05-01) |
+| MBB-01 | Phase 5 | Completed (05-02) |
+| MBB-02 | Phase 5 | Completed (05-02) |
 | NOT-01 | Phase 5 | Pending |
 | NOT-02 | Phase 5 | Pending |
 | ADM-01 | Phase 6 | Pending |
