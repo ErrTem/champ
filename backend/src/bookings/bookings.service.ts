@@ -1,4 +1,5 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { DateTime } from 'luxon';
 import { PrismaService } from '../prisma/prisma.service';
 import { BOOKING_HOLD_TTL_MINUTES, SLOT_UNAVAILABLE_CODE } from './bookings.constants';
 import { BookingDto, BookingListItemDto } from './dto/booking.dto';
@@ -13,7 +14,21 @@ export class BookingsService {
     return 'unpaid';
   }
 
+  private async expireStaleAwaitingPaymentBookingsForUser(userId: string): Promise<void> {
+    const nowUtc = DateTime.utc().toJSDate();
+    await this.prisma.booking.updateMany({
+      where: {
+        userId,
+        status: 'awaiting_payment',
+        expiresAtUtc: { lt: nowUtc },
+      },
+      data: { status: 'expired' },
+    });
+  }
+
   async getMyBookings(input: { userId: string }): Promise<BookingListItemDto[]> {
+    await this.expireStaleAwaitingPaymentBookingsForUser(input.userId);
+
     const bookings = await this.prisma.booking.findMany({
       where: { userId: input.userId },
       select: {
@@ -44,6 +59,8 @@ export class BookingsService {
   }
 
   async getBookingForUser(input: { bookingId: string; userId: string }): Promise<BookingDto> {
+    await this.expireStaleAwaitingPaymentBookingsForUser(input.userId);
+
     const booking = await this.prisma.booking.findFirst({
       where: { id: input.bookingId, userId: input.userId },
       select: {
