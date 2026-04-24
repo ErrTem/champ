@@ -54,6 +54,9 @@ export class PaymentsService {
     const successUrl = new URL('/pay/return', appUrl);
     successUrl.searchParams.set('bookingId', booking.id);
     successUrl.searchParams.set('result', 'success');
+    // Webhooks may not be configured in local/dev. Stripe supports this placeholder.
+    // It enables return-page confirmation fallback via Stripe API.
+    successUrl.searchParams.set('session_id', '{CHECKOUT_SESSION_ID}');
 
     const cancelUrl = new URL('/pay/return', appUrl);
     cancelUrl.searchParams.set('bookingId', booking.id);
@@ -88,6 +91,33 @@ export class PaymentsService {
     });
 
     return { checkoutUrl: session.url, sessionId: session.id };
+  }
+
+  async confirmBookingFromReturn(input: {
+    bookingId: string;
+    userId: string;
+    stripeSessionId: string;
+  }): Promise<{ ok: true }> {
+    const booking = await this.prisma.booking.findFirst({
+      where: { id: input.bookingId, userId: input.userId },
+      select: { id: true, status: true },
+    });
+    if (!booking) throw new NotFoundException('Booking not found');
+    if (booking.status === 'confirmed') return { ok: true };
+    if (booking.status !== 'awaiting_payment') return { ok: true };
+
+    const session = await this.stripeClient.stripe.checkout.sessions.retrieve(input.stripeSessionId);
+    const paymentOk =
+      session.payment_status === 'paid' ||
+      // stripe types: session.status can be "complete" for successful Checkout
+      (typeof session.status === 'string' && session.status === 'complete');
+    if (!paymentOk) throw new BadRequestException('Payment not confirmed');
+
+    await this.confirmBookingAndConsumeSlot({
+      bookingId: input.bookingId,
+      stripeCheckoutSessionId: session.id,
+    });
+    return { ok: true };
   }
 
   async processStripeEvent(event: Stripe.Event): Promise<void> {

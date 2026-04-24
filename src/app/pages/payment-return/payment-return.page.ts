@@ -36,6 +36,7 @@ export class PaymentReturnPage implements OnDestroy {
   private readonly booking = inject(BookingService);
 
   bookingId = '';
+  sessionId = '';
   result: 'success' | 'cancel' | 'unknown' = 'unknown';
 
   loading = true;
@@ -45,6 +46,7 @@ export class PaymentReturnPage implements OnDestroy {
 
   ionViewWillEnter(): void {
     this.bookingId = this.route.snapshot.queryParamMap.get('bookingId') ?? '';
+    this.sessionId = this.route.snapshot.queryParamMap.get('session_id') ?? '';
     const result = this.route.snapshot.queryParamMap.get('result');
     this.result = result === 'success' ? 'success' : result === 'cancel' ? 'cancel' : 'unknown';
 
@@ -64,7 +66,7 @@ export class PaymentReturnPage implements OnDestroy {
 
     this.message = 'Payment received. Confirming your booking…';
     this.loading = true;
-    this.startPolling();
+    this.confirmThenPoll();
   }
 
   ngOnDestroy(): void {
@@ -108,6 +110,19 @@ export class PaymentReturnPage implements OnDestroy {
     };
 
     pollOnce(0);
+  }
+
+  private confirmThenPoll(): void {
+    if (!this.sessionId) {
+      this.startPolling();
+      return;
+    }
+
+    // Best-effort fallback when webhooks not configured: confirm via Stripe API using session_id.
+    this.booking.confirmPaymentFromReturn(this.bookingId, this.sessionId).subscribe({
+      next: () => this.startPolling(),
+      error: () => this.startPolling(),
+    });
   }
 }
 

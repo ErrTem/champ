@@ -74,5 +74,13 @@ export class BookingService {
       { withCredentials: true },
     );
   }
+
+  confirmPaymentFromReturn(bookingId: string, sessionId: string): Observable<{ ok: true }> {
+    return this.http.post<{ ok: true }>(
+      `${this.baseUrl}/bookings/${encodeURIComponent(bookingId)}/confirm-payment`,
+      { sessionId },
+      { withCredentials: true },
+    );
+  }
 }
 
