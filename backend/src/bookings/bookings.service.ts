@@ -1,12 +1,16 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { DateTime } from 'luxon';
+import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { BOOKING_HOLD_TTL_MINUTES, SLOT_UNAVAILABLE_CODE } from './bookings.constants';
 import { BookingDto, BookingListItemDto } from './dto/booking.dto';
 
 @Injectable()
 export class BookingsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly notifications: NotificationsService,
+  ) {}
 
   private paymentStateFromBooking(input: { status: string }): string {
     if (input.status === 'confirmed') return 'paid';
@@ -16,14 +20,56 @@ export class BookingsService {
 
   private async expireStaleAwaitingPaymentBookingsForUser(userId: string): Promise<void> {
     const nowUtc = DateTime.utc().toJSDate();
-    await this.prisma.booking.updateMany({
-      where: {
-        userId,
-        status: 'awaiting_payment',
-        expiresAtUtc: { lt: nowUtc },
-      },
-      data: { status: 'expired' },
+    const candidates = await this.prisma.booking.findMany({
+      where: { userId, status: 'awaiting_payment', expiresAtUtc: { lt: nowUtc } },
+      select: { id: true },
+      orderBy: [{ id: 'asc' }],
     });
+
+    const transitioned: string[] = [];
+    for (const c of candidates) {
+      const didExpire = await this.prisma.$transaction(async (tx) => {
+        const updated = await tx.booking.updateMany({
+          where: { id: c.id, userId, status: 'awaiting_payment', expiresAtUtc: { lt: nowUtc } },
+          data: { status: 'expired' },
+        });
+        if (updated.count === 0) return false;
+
+        await tx.slot.updateMany({
+          where: {
+            reservedBookingId: c.id,
+            OR: [{ confirmedBookingId: null }, { confirmedBookingId: c.id }],
+          },
+          data: { reservedBookingId: null, reservedUntilUtc: null },
+        });
+        return true;
+      });
+      if (didExpire) transitioned.push(c.id);
+    }
+
+    if (transitioned.length === 0) return;
+
+    const rows = await this.prisma.booking.findMany({
+      where: { id: { in: transitioned } },
+      select: {
+        id: true,
+        user: { select: { email: true } },
+        fighter: { select: { name: true } },
+        service: { select: { title: true } },
+        slot: { select: { startsAtUtc: true } },
+      },
+      orderBy: [{ id: 'asc' }],
+    });
+
+    for (const b of rows) {
+      this.notifications.notifyBookingExpiredHold({
+        bookingId: b.id,
+        toEmail: b.user.email,
+        fighterName: b.fighter.name,
+        serviceTitle: b.service.title,
+        startsAtUtc: b.slot.startsAtUtc,
+      });
+    }
   }
 
   async getMyBookings(input: { userId: string }): Promise<BookingListItemDto[]> {

@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import type Stripe from 'stripe';
+import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { StripeClient } from './stripe.client';
 
@@ -8,6 +9,7 @@ export class PaymentsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly stripeClient: StripeClient,
+    private readonly notifications: NotificationsService,
   ) {}
 
   async createOrReuseCheckoutSession(input: {
@@ -115,7 +117,7 @@ export class PaymentsService {
     bookingId: string;
     stripeCheckoutSessionId?: string;
   }): Promise<void> {
-    await this.prisma.$transaction(async (tx) => {
+    const didConfirm = await this.prisma.$transaction(async (tx) => {
       const booking = await tx.booking.findUnique({
         where: { id: input.bookingId },
         select: { id: true, status: true, slotId: true, stripeCheckoutSessionId: true },
@@ -124,14 +126,14 @@ export class PaymentsService {
       if (booking.status === 'confirmed') return;
       if (booking.status !== 'awaiting_payment') return;
 
-      await tx.booking.update({
-        where: { id: booking.id },
+      const updated = await tx.booking.updateMany({
+        where: { id: booking.id, status: 'awaiting_payment' },
         data: {
           status: 'confirmed',
           stripeCheckoutSessionId: booking.stripeCheckoutSessionId ?? input.stripeCheckoutSessionId,
         },
-        select: { id: true },
       });
+      if (updated.count === 0) return false;
 
       await tx.slot.updateMany({
         where: {
@@ -144,6 +146,29 @@ export class PaymentsService {
           reservedUntilUtc: null,
         },
       });
+      return true;
+    });
+
+    if (!didConfirm) return;
+
+    const booking = await this.prisma.booking.findUnique({
+      where: { id: input.bookingId },
+      select: {
+        id: true,
+        user: { select: { email: true } },
+        fighter: { select: { name: true } },
+        service: { select: { title: true } },
+        slot: { select: { startsAtUtc: true } },
+      },
+    });
+    if (!booking) return;
+
+    this.notifications.notifyBookingConfirmed({
+      bookingId: booking.id,
+      toEmail: booking.user.email,
+      fighterName: booking.fighter.name,
+      serviceTitle: booking.service.title,
+      startsAtUtc: booking.slot.startsAtUtc,
     });
   }
 }
