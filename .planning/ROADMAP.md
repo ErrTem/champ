@@ -12,7 +12,7 @@ Ship the full **fighter → service → slot → booking → payment → confirm
 - [x] **Phase 4: Payments & confirmation** — Checkout, webhooks, confirmed bookings *(completed 2026-04-24)*
 - [x] **Phase 5: My bookings & notifications** — History, detail, email (or equivalent) on key events
  (completed 2026-04-25)
-- [ ] **Phase 6: Admin** — Staff management of fighters, services/prices, schedules, booking visibility
+- [x] **Phase 6: Admin** — Staff management of fighters, services/prices, schedules, booking visibility *(completed 2026-04-25)*
 
 ## Phase Details
 
@@ -169,11 +169,11 @@ Plans:
 
 Plans:
 
-- [ ] 06-01: Admin role bit + seed provisioning + `/users/me` includes `isAdmin`
-- [ ] 06-02: Backend `AdminGuard` + `/admin/ping` + frontend `/admin` routes + tabs shell + placeholders
-- [ ] 06-03: Admin CRUD APIs for fighters + services/prices + e2e tests
-- [ ] 06-04: Admin schedule rules + safe slot regen + admin bookings read endpoints + e2e tests
-- [ ] 06-05: Admin UI wiring for Schedule + Bookings (filters + read-only detail)
-- [ ] 06-06: Admin UI wiring for Fighters + Services/Prices (CRUD)
+- [x] 06-01: Admin role bit + seed provisioning + `/users/me` includes `isAdmin`
+- [x] 06-02: Backend `AdminGuard` + `/admin/ping` + frontend `/admin` routes + tabs shell + placeholders
+- [x] 06-03: Admin CRUD APIs for fighters + services/prices + e2e tests
+- [x] 06-04: Admin schedule rules + safe slot regen + admin bookings read endpoints + e2e tests
+- [x] 06-05: Admin UI wiring for Schedule + Bookings (filters + read-only detail)
+- [x] 06-06: Admin UI wiring for Fighters + Services/Prices (CRUD)
 
 **UI hint:** yes

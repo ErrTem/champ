@@ -57,11 +57,11 @@
 
 ### Admin
 
-- [ ] **ADM-01**: Authorized staff can access an admin area separated from customer routes
-- [ ] **ADM-02**: Staff can create, update, and deactivate fighters shown in the catalog
-- [ ] **ADM-03**: Staff can manage services attached to a fighter (types, duration, online/offline, price)
-- [ ] **ADM-04**: Staff can manage schedule or availability that drives public slots
-- [ ] **ADM-05**: Staff can view bookings for operational support (read-only acceptable for v1)
+- [x] **ADM-01**: Authorized staff can access an admin area separated from customer routes
+- [x] **ADM-02**: Staff can create, update, and deactivate fighters shown in the catalog
+- [x] **ADM-03**: Staff can manage services attached to a fighter (types, duration, online/offline, price)
+- [x] **ADM-04**: Staff can manage schedule or availability that drives public slots
+- [x] **ADM-05**: Staff can view bookings for operational support (read-only acceptable for v1)
 
 ## v2 Requirements
 
@@ -123,11 +123,11 @@
 | MBB-02 | Phase 5 | Completed (05-02) |
 | NOT-01 | Phase 5 | Completed (05-03) |
 | NOT-02 | Phase 5 | Completed (05-03) |
-| ADM-01 | Phase 6 | Pending |
-| ADM-02 | Phase 6 | Pending |
-| ADM-03 | Phase 6 | Pending |
-| ADM-04 | Phase 6 | Pending |
-| ADM-05 | Phase 6 | Pending |
+| ADM-01 | Phase 6 | Completed (06) |
+| ADM-02 | Phase 6 | Completed (06) |
+| ADM-03 | Phase 6 | Completed (06) |
+| ADM-04 | Phase 6 | Completed (06) |
+| ADM-05 | Phase 6 | Completed (06) |
 
 **Coverage:**
 
