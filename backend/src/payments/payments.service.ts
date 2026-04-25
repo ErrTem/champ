@@ -55,8 +55,8 @@ export class PaymentsService {
     successUrl.searchParams.set('bookingId', booking.id);
     successUrl.searchParams.set('result', 'success');
     // Webhooks may not be configured in local/dev. Stripe supports this placeholder.
-    // It enables return-page confirmation fallback via Stripe API.
-    successUrl.searchParams.set('session_id', '{CHECKOUT_SESSION_ID}');
+    // IMPORTANT: don't use URLSearchParams for this value — it encodes `{}` and Stripe won't replace it.
+    const successUrlString = `${successUrl.toString()}&session_id={CHECKOUT_SESSION_ID}`;
 
     const cancelUrl = new URL('/pay/return', appUrl);
     cancelUrl.searchParams.set('bookingId', booking.id);
@@ -78,7 +78,7 @@ export class PaymentsService {
         },
       ],
       metadata: { bookingId: booking.id },
-      success_url: successUrl.toString(),
+      success_url: successUrlString,
       cancel_url: cancelUrl.toString(),
     });
 
