@@ -10,7 +10,8 @@ Ship the full **fighter → service → slot → booking → payment → confirm
 - [ ] **Phase 2: Catalog & fighter profile** — Fighters list, profile pages, services and prices from API *(plans implemented 2026-04-24; verification pending)*
 - [ ] **Phase 3: Slots & booking (pre-payment)** — Availability and booking creation with server-side concurrency rules
 - [x] **Phase 4: Payments & confirmation** — Checkout, webhooks, confirmed bookings *(completed 2026-04-24)*
-- [x] **Phase 5: My bookings & notifications** — History, detail, email (or equivalent) on key events (completed 2026-04-25)
+- [x] **Phase 5: My bookings & notifications** — History, detail, email (or equivalent) on key events
+ (completed 2026-04-25)
 - [ ] **Phase 6: Admin** — Staff management of fighters, services/prices, schedules, booking visibility
 
 ## Phase Details
@@ -57,7 +58,7 @@ Plans:
 2. Tapping a fighter opens a profile with bio and structured service list (duration, modality, price).
 3. Selecting a service advances the user toward scheduling (placeholder route acceptable until Phase 3).
 
-**Plans:** 3 plans
+**Plans:** 6 plans
 
 Plans:
 
@@ -164,12 +165,15 @@ Plans:
 2. CRUD on fighters and services reflects immediately in customer catalog/profile APIs.
 3. Schedule changes alter generated slots for future dates without breaking existing confirmed bookings.
 
-**Plans:** 3 plans
+**Plans:** 6 plans
 
 Plans:
 
-- [ ] 06-01: Admin role model, authz middleware, admin route shell in Ionic
-- [ ] 06-02: Admin CRUD APIs for fighters, services, prices
-- [ ] 06-03: Admin schedule management UI + booking read-only list
+- [ ] 06-01: Admin role bit + seed provisioning + `/users/me` includes `isAdmin`
+- [ ] 06-02: Backend `AdminGuard` + `/admin/ping` + frontend `/admin` routes + tabs shell + placeholders
+- [ ] 06-03: Admin CRUD APIs for fighters + services/prices + e2e tests
+- [ ] 06-04: Admin schedule rules + safe slot regen + admin bookings read endpoints + e2e tests
+- [ ] 06-05: Admin UI wiring for Schedule + Bookings (filters + read-only detail)
+- [ ] 06-06: Admin UI wiring for Fighters + Services/Prices (CRUD)
 
 **UI hint:** yes

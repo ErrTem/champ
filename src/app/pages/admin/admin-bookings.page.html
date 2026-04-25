@@ -1,0 +1,89 @@
+<ion-header translucent="true" class="auth-topbar">
+  <ion-toolbar>
+    <ion-title>Bookings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true" class="auth-shell">
+  <div class="auth-hero">
+    <p class="kicker">Admin</p>
+    <h1 class="display">Bookings</h1>
+    <p class="sub">Read-only visibility across all fighters.</p>
+  </div>
+
+  <div class="auth-form">
+    @if (error) {
+      <ion-text color="danger"><p class="field-error">{{ error }}</p></ion-text>
+    }
+
+    <ion-card>
+      <ion-card-content>
+        <p class="kicker">Filters</p>
+        <ion-list lines="none">
+          <ion-item lines="none">
+            <ion-label>Status</ion-label>
+            <ion-select [(ngModel)]="status" (ionChange)="fetch()">
+              <ion-select-option value="">All</ion-select-option>
+              <ion-select-option value="awaiting_payment">Awaiting payment</ion-select-option>
+              <ion-select-option value="confirmed">Confirmed</ion-select-option>
+              <ion-select-option value="expired">Expired</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>Fighter</ion-label>
+            <ion-select [(ngModel)]="fighterId" (ionChange)="fetch()">
+              <ion-select-option value="">All</ion-select-option>
+              @for (f of fighters; track f.id) {
+                <ion-select-option [value]="f.id">{{ f.name }}</ion-select-option>
+              }
+            </ion-select>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>From</ion-label>
+            <ion-input type="date" [(ngModel)]="from" (ionBlur)="fetch()" />
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>To</ion-label>
+            <ion-input type="date" [(ngModel)]="to" (ionBlur)="fetch()" />
+          </ion-item>
+        </ion-list>
+
+        <ion-button fill="outline" type="button" (click)="fetch()">Refresh</ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    @if (loading) {
+      <ion-card>
+        <ion-card-content>
+          <ion-skeleton-text animated="true" style="width: 90%"></ion-skeleton-text>
+          <ion-skeleton-text animated="true" style="width: 70%"></ion-skeleton-text>
+          <ion-skeleton-text animated="true" style="width: 80%"></ion-skeleton-text>
+        </ion-card-content>
+      </ion-card>
+    } @else if (bookings.length === 0) {
+      <p class="sub">Nothing here yet</p>
+    } @else {
+      <ion-card>
+        <ion-card-content>
+          <p class="kicker">Results</p>
+          <ion-list lines="none">
+            @for (b of bookings; track b.id) {
+              <ion-item button="true" lines="none" (click)="open(b)">
+                <ion-label>
+                  <div class="kicker">{{ b.fighter.name }} • {{ statusLabel(b.status) }}</div>
+                  <div class="sub">
+                    {{ formatPacificDateTime(b.startsAtUtc) }} • {{ b.user.name || b.user.email }}
+                  </div>
+                </ion-label>
+              </ion-item>
+            }
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    }
+  </div>
+</ion-content>
+

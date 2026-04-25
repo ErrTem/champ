@@ -1,7 +1,41 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
+import { adminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
+  {
+    path: 'admin',
+    loadComponent: () => import('./pages/admin/admin-tabs.page').then((m) => m.AdminTabsPage),
+    canActivate: [adminGuard],
+    children: [
+      {
+        path: 'fighters',
+        loadComponent: () =>
+          import('./pages/admin/admin-fighters.page').then((m) => m.AdminFightersPage),
+      },
+      {
+        path: 'services',
+        loadComponent: () =>
+          import('./pages/admin/admin-services.page').then((m) => m.AdminServicesPage),
+      },
+      {
+        path: 'schedule',
+        loadComponent: () =>
+          import('./pages/admin/admin-schedule.page').then((m) => m.AdminSchedulePage),
+      },
+      {
+        path: 'bookings',
+        loadComponent: () =>
+          import('./pages/admin/admin-bookings.page').then((m) => m.AdminBookingsPage),
+      },
+      {
+        path: 'bookings/:bookingId',
+        loadComponent: () =>
+          import('./pages/admin/admin-booking-detail.page').then((m) => m.AdminBookingDetailPage),
+      },
+      { path: '', redirectTo: 'fighters', pathMatch: 'full' },
+    ],
+  },
   {
     path: 'explore',
     loadComponent: () => import('./pages/catalog/catalog.page').then((m) => m.CatalogPage),

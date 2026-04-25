@@ -1,0 +1,100 @@
+<ion-header translucent="true" class="auth-topbar">
+  <ion-toolbar>
+    <ion-title>Fighters</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true" class="auth-shell">
+  <div class="auth-hero">
+    <p class="kicker">Admin</p>
+    <h1 class="display">Fighters</h1>
+    <p class="sub">Manage fighter profiles and publish state.</p>
+  </div>
+
+  <div class="auth-form">
+    @if (error) {
+      <ion-text color="danger"><p class="field-error">{{ error }}</p></ion-text>
+    }
+
+    <ion-button expand="block" type="button" fill="outline" (click)="openCreate()">
+      Create fighter
+    </ion-button>
+
+    @if (editing) {
+      <ion-card>
+        <ion-card-content>
+          <p class="kicker">{{ editing.mode === 'create' ? 'Create' : 'Edit' }}</p>
+
+          <ion-item lines="none">
+            <ion-label>Name</ion-label>
+            <ion-input [(ngModel)]="editing.name" placeholder="Name" />
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>Summary</ion-label>
+            <ion-input [(ngModel)]="editing.summary" placeholder="Short summary" />
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>Bio</ion-label>
+            <ion-textarea [(ngModel)]="editing.bio" autoGrow="true"></ion-textarea>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>Image URL</ion-label>
+            <ion-input [(ngModel)]="editing.photoUrl" placeholder="https://..." />
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>Published</ion-label>
+            <ion-toggle [(ngModel)]="editing.published"></ion-toggle>
+          </ion-item>
+
+          <ion-button
+            expand="block"
+            type="button"
+            class="kinetic-gradient"
+            [disabled]="saving"
+            (click)="save()"
+          >
+            Save
+          </ion-button>
+          <ion-button expand="block" type="button" fill="outline" [disabled]="saving" (click)="cancelEdit()">
+            Cancel
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    }
+
+    @if (loading) {
+      <ion-card>
+        <ion-card-content>
+          <ion-skeleton-text animated="true" style="width: 90%"></ion-skeleton-text>
+          <ion-skeleton-text animated="true" style="width: 70%"></ion-skeleton-text>
+          <ion-skeleton-text animated="true" style="width: 80%"></ion-skeleton-text>
+        </ion-card-content>
+      </ion-card>
+    } @else if (fighters.length === 0) {
+      <p class="sub">Nothing here yet</p>
+    } @else {
+      <ion-card>
+        <ion-card-content>
+          <p class="kicker">All fighters</p>
+          <ion-list lines="none">
+            @for (f of fighters; track f.id) {
+              <ion-item lines="none">
+                <ion-label>
+                  <div class="kicker">{{ f.name }}</div>
+                  <div class="sub">{{ f.summary || '—' }}</div>
+                </ion-label>
+                <ion-chip>{{ f.published ? 'Published' : 'Hidden' }}</ion-chip>
+                <ion-button fill="clear" type="button" (click)="openEdit(f)">Edit</ion-button>
+              </ion-item>
+            }
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    }
+  </div>
+</ion-content>
+

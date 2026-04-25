@@ -1,0 +1,134 @@
+<ion-header translucent="true" class="auth-topbar">
+  <ion-toolbar>
+    <ion-title>Services</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true" class="auth-shell">
+  <div class="auth-hero">
+    <p class="kicker">Admin</p>
+    <h1 class="display">Services & Prices</h1>
+    <p class="sub">Manage offerings per fighter.</p>
+  </div>
+
+  <div class="auth-form">
+    @if (error) {
+      <ion-text color="danger"><p class="field-error">{{ error }}</p></ion-text>
+    }
+
+    @if (loading) {
+      <ion-card>
+        <ion-card-content>
+          <ion-skeleton-text animated="true" style="width: 80%"></ion-skeleton-text>
+          <ion-skeleton-text animated="true" style="width: 60%"></ion-skeleton-text>
+        </ion-card-content>
+      </ion-card>
+    } @else {
+      <ion-card>
+        <ion-card-content>
+          <p class="kicker">Fighter</p>
+          <ion-item lines="none">
+            <ion-label>Fighter</ion-label>
+            <ion-select [(ngModel)]="fighterId" (ionChange)="onFighterChange()">
+              @for (f of fighters; track f.id) {
+                <ion-select-option [value]="f.id">{{ f.name }}</ion-select-option>
+              }
+            </ion-select>
+          </ion-item>
+
+          <ion-button fill="outline" type="button" [disabled]="!fighterId" (click)="openCreate()">
+            Create service
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+
+      @if (editing) {
+        <ion-card>
+          <ion-card-content>
+            <p class="kicker">{{ editing.mode === 'create' ? 'Create' : 'Edit' }}</p>
+
+            <ion-item lines="none">
+              <ion-label>Title</ion-label>
+              <ion-input [(ngModel)]="editing.title" placeholder="Title" />
+            </ion-item>
+
+            <ion-item lines="none">
+              <ion-label>Duration (min)</ion-label>
+              <ion-input type="number" [(ngModel)]="editing.durationMinutes" />
+            </ion-item>
+
+            <ion-item lines="none">
+              <ion-label>Modality</ion-label>
+              <ion-select [(ngModel)]="editing.modality">
+                <ion-select-option value="online">Online</ion-select-option>
+                <ion-select-option value="in_person">In person</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item lines="none">
+              <ion-label>Price (cents)</ion-label>
+              <ion-input type="number" [(ngModel)]="editing.priceCents" />
+            </ion-item>
+
+            <ion-item lines="none">
+              <ion-label>Currency</ion-label>
+              <ion-input [(ngModel)]="editing.currency" />
+            </ion-item>
+
+            <ion-item lines="none">
+              <ion-label>Published</ion-label>
+              <ion-toggle [(ngModel)]="editing.published"></ion-toggle>
+            </ion-item>
+
+            <ion-button
+              expand="block"
+              type="button"
+              class="kinetic-gradient"
+              [disabled]="saving"
+              (click)="save()"
+            >
+              Save
+            </ion-button>
+            <ion-button expand="block" type="button" fill="outline" [disabled]="saving" (click)="cancelEdit()">
+              Cancel
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      }
+
+      @if (loadingServices) {
+        <ion-card>
+          <ion-card-content>
+            <ion-skeleton-text animated="true" style="width: 90%"></ion-skeleton-text>
+            <ion-skeleton-text animated="true" style="width: 70%"></ion-skeleton-text>
+          </ion-card-content>
+        </ion-card>
+      } @else if (!fighterId) {
+        <p class="sub">Select a fighter to view services.</p>
+      } @else if (services.length === 0) {
+        <p class="sub">Nothing here yet</p>
+      } @else {
+        <ion-card>
+          <ion-card-content>
+            <p class="kicker">Services</p>
+            <ion-list lines="none">
+              @for (s of services; track s.id) {
+                <ion-item lines="none">
+                  <ion-label>
+                    <div class="kicker">{{ s.title }}</div>
+                    <div class="sub">
+                      {{ s.durationMinutes }} min • {{ s.modality }} • {{ formatMoney(s.priceCents, s.currency) }}
+                    </div>
+                  </ion-label>
+                  <ion-chip>{{ s.published ? 'Published' : 'Hidden' }}</ion-chip>
+                  <ion-button fill="clear" type="button" (click)="openEdit(s)">Edit</ion-button>
+                </ion-item>
+              }
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      }
+    }
+  </div>
+</ion-content>
+

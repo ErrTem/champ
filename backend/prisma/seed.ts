@@ -135,6 +135,13 @@ const TEST_USER = {
   name: 'Test User',
 };
 
+function getEnv(key: string): string | undefined {
+  const v = process.env[key];
+  if (!v) return undefined;
+  const trimmed = v.trim();
+  return trimmed.length ? trimmed : undefined;
+}
+
 function generateSlotsForRules(args: {
   fighterId: string;
   serviceId: string;
@@ -190,6 +197,27 @@ async function main() {
       name: TEST_USER.name,
     },
   });
+
+  const adminEmail = getEnv('ADMIN_EMAIL');
+  const adminPassword = getEnv('ADMIN_PASSWORD');
+  const adminName = getEnv('ADMIN_NAME');
+  if (adminEmail && adminPassword) {
+    const adminPasswordHash = await bcrypt.hash(adminPassword, 12);
+    await prisma.user.upsert({
+      where: { email: adminEmail.toLowerCase() },
+      create: {
+        email: adminEmail.toLowerCase(),
+        passwordHash: adminPasswordHash,
+        name: adminName,
+        isAdmin: true,
+      },
+      update: {
+        passwordHash: adminPasswordHash,
+        name: adminName,
+        isAdmin: true,
+      },
+    });
+  }
 
   for (const f of fighters) {
     const fighter = await prisma.fighter.upsert({

@@ -9,6 +9,11 @@ services:
       - "5432:5432"
     volumes:
       - champ_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d champ_dev"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
 
   backend:
     build:
@@ -22,10 +27,14 @@ services:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/champ_dev
       JWT_ACCESS_SECRET: change-me-min-32-chars-xxxxxxxxxxxx
       JWT_REFRESH_SECRET: change-me-min-32-chars-xxxxxxxxxxxx
+      ADMIN_EMAIL: admin@example.com
+      ADMIN_PASSWORD: adminadmin
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "3000:3000"
+    restart: unless-stopped
 
 volumes:
   champ_db:

@@ -9,6 +9,7 @@ export type AuthUser = {
   email: string;
   name: string | null;
   phone: string | null;
+  isAdmin: boolean;
 };
 
 @Injectable({ providedIn: 'root' })

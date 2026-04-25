@@ -1,0 +1,59 @@
+<ion-header translucent="true" class="auth-topbar">
+  <ion-toolbar>
+    <ion-title>Booking</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true" class="auth-shell">
+  <div class="auth-hero">
+    <p class="kicker">Admin</p>
+    <h1 class="display">Booking detail</h1>
+    <p class="sub">Read-only</p>
+  </div>
+
+  <div class="auth-form">
+    <ion-button fill="outline" routerLink="/admin/bookings">Back</ion-button>
+
+    @if (error) {
+      <ion-text color="danger"><p class="field-error">{{ error }}</p></ion-text>
+    }
+
+    @if (loading) {
+      <ion-card>
+        <ion-card-content>
+          <ion-skeleton-text animated="true" style="width: 90%"></ion-skeleton-text>
+          <ion-skeleton-text animated="true" style="width: 70%"></ion-skeleton-text>
+          <ion-skeleton-text animated="true" style="width: 80%"></ion-skeleton-text>
+        </ion-card-content>
+      </ion-card>
+    } @else if (booking) {
+      <ion-card>
+        <ion-card-content>
+          <p class="kicker">Summary</p>
+          <p class="sub">{{ booking.fighter.name }} • {{ booking.service.title }}</p>
+          <p class="sub">{{ formatPacificDateTime(booking.startsAtUtc) }}</p>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-content>
+          <p class="kicker">User</p>
+          <p class="sub">{{ booking.user.name || '—' }}</p>
+          <p class="sub">{{ booking.user.email }}</p>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-content>
+          <p class="kicker">Status</p>
+          <p class="sub">Booking: {{ booking.status }}</p>
+          <p class="sub">Payment: {{ paymentLabel(booking.status) }}</p>
+          <p class="sub">
+            Price: {{ booking.service.priceCents / 100 | number : '1.2-2' }} {{ booking.service.currency }}
+          </p>
+        </ion-card-content>
+      </ion-card>
+    }
+  </div>
+</ion-content>
+

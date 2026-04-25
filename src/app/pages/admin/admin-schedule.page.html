@@ -1,0 +1,96 @@
+<ion-header translucent="true" class="auth-topbar">
+  <ion-toolbar>
+    <ion-title>Schedule</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true" class="auth-shell">
+  <div class="auth-hero">
+    <p class="kicker">Admin</p>
+    <h1 class="display">Schedule</h1>
+    <p class="sub">Edit weekly rules (PT) and regenerate availability.</p>
+  </div>
+
+  <div class="auth-form">
+    <p class="sub">Times shown in PT. Confirmed bookings never modified.</p>
+
+    @if (error) {
+      <ion-text color="danger"><p class="field-error">{{ error }}</p></ion-text>
+    }
+    @if (saved) {
+      <ion-text color="success"><p class="field-error">Saved</p></ion-text>
+    }
+
+    <ion-list class="auth-form" lines="none">
+      <ion-item lines="none">
+        <ion-label>Fighter</ion-label>
+        @if (loadingFighters) {
+          <ion-skeleton-text animated="true" style="width: 160px"></ion-skeleton-text>
+        } @else {
+          <ion-select [(ngModel)]="fighterId" (ionChange)="onFighterChange()">
+            @for (f of fighters; track f.id) {
+              <ion-select-option [value]="f.id">{{ f.name }}</ion-select-option>
+            }
+          </ion-select>
+        }
+      </ion-item>
+    </ion-list>
+
+    @if (loadingRules) {
+      <ion-card>
+        <ion-card-content>
+          <ion-skeleton-text animated="true" style="width: 60%"></ion-skeleton-text>
+          <ion-skeleton-text animated="true" style="width: 90%"></ion-skeleton-text>
+          <ion-skeleton-text animated="true" style="width: 80%"></ion-skeleton-text>
+        </ion-card-content>
+      </ion-card>
+    } @else {
+      @for (day of dayLabels; track $index; let dayIdx = $index) {
+        <ion-card>
+          <ion-card-content>
+            <p class="kicker">{{ day }}</p>
+
+            @if (rulesByDay[dayIdx].length === 0) {
+              <p class="sub">Nothing here yet</p>
+            } @else {
+              @for (r of rulesByDay[dayIdx]; track $index; let ruleIdx = $index) {
+                <ion-item lines="none">
+                  <ion-label>Start</ion-label>
+                  <ion-input
+                    type="time"
+                    [value]="minuteToTime(r.startMinute)"
+                    (ionInput)="setStart(dayIdx, ruleIdx, $event.detail.value)"
+                  />
+                </ion-item>
+                <ion-item lines="none">
+                  <ion-label>End</ion-label>
+                  <ion-input
+                    type="time"
+                    [value]="minuteToTime(r.endMinute)"
+                    (ionInput)="setEnd(dayIdx, ruleIdx, $event.detail.value)"
+                  />
+                  <ion-button fill="clear" type="button" (click)="removeWindow(dayIdx, ruleIdx)">
+                    Remove
+                  </ion-button>
+                </ion-item>
+              }
+            }
+
+            <ion-button fill="outline" type="button" (click)="addWindow(dayIdx)">Add window</ion-button>
+          </ion-card-content>
+        </ion-card>
+      }
+
+      <ion-button
+        expand="block"
+        type="button"
+        class="kinetic-gradient"
+        [disabled]="saving || !fighterId"
+        (click)="save()"
+      >
+        Save
+      </ion-button>
+    }
+  </div>
+</ion-content>
+
