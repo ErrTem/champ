@@ -73,7 +73,11 @@ None yet.
 
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
-| *(none)* | | | |
+| uat_gap | Phase 01 `01-HUMAN-UAT.md` | partial (1 pending scenario) | 2026-04-25 |
+| uat_gap | Phase 03 `03-HUMAN-UAT.md` | partial (4 pending scenarios) | 2026-04-25 |
+| uat_gap | Phase 05 `05-HUMAN-UAT.md` | passed (0 pending scenarios) | 2026-04-25 |
+| verification_gap | Phase 01 `01-VERIFICATION.md` | human_needed | 2026-04-25 |
+| verification_gap | Phase 03 `03-VERIFICATION.md` | human_needed | 2026-04-25 |
 
 ## Session Continuity
 

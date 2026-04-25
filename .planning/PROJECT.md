@@ -16,12 +16,8 @@ A customer can **complete one real booking** (fighter → service → slot → p
 
 ### Active
 
-- [ ] User can sign up, sign in, and manage a basic profile tied to bookings
-- [ ] User can browse fighters and open a profile showing info, services, and prices
-- [ ] User can select a service, see a calendar of bookable slots, and create a booking
-- [ ] User can pay for a booking and receive confirmation (email or in-app equivalent)
-- [ ] User can view “My bookings” and receive notifications for key booking events
-- [ ] Staff can use a minimal admin to manage fighters, prices, and schedules
+- [ ] Close deferred v1 verification gaps (Phase 01 auth UAT; Phase 03 booking/concurrency/timezone UAT)
+- [ ] Fix v1 requirements bookkeeping (`REQUIREMENTS.md` traceability statuses)
 
 ### Out of Scope
 
@@ -36,6 +32,12 @@ A customer can **complete one real booking** (fighter → service → slot → p
 - **Core domain chain:** fighter → service → time slot → booking → payment.
 - **Services mentioned:** 1h / 2h / 3h training; online or offline consultation (pricing and rules per fighter).
 - **Admin:** desirable in v1 for operational reality (price/schedule changes without deploys).
+
+## Current State
+
+Shipped **v1.0 MVP** (phases 1–6) on 2026-04-25. Archive: `.planning/milestones/v1.0-ROADMAP.md`.
+
+Known gaps at close (accepted as tech debt): `.planning/v1.0-MILESTONE-AUDIT.md` + `STATE.md` Deferred Items.
 
 ## Constraints
 
@@ -71,4 +73,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-24 after initialization (`/gsd-new-project`; `gsd-sdk` not on PATH — artifacts written locally; commit when ready)*
+*Last updated: 2026-04-25 after v1.0 milestone close*
