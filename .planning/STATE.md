@@ -62,7 +62,14 @@ Decisions are logged in `PROJECT.md` Key Decisions table.
 
 ### Pending Todos
 
-None yet.
+- `.planning/todos/pending/2026-04-26-routing-nav-cleanup.md`
+- `.planning/todos/pending/2026-04-26-bottom-footer-nav.md`
+- `.planning/todos/pending/2026-04-26-registration-upgrades.md`
+- `.planning/todos/pending/2026-04-26-gyms-and-timezones.md`
+- `.planning/todos/pending/2026-04-26-fighter-self-serve.md`
+- `.planning/todos/pending/2026-04-26-notifications-calendar-sync.md`
+- `.planning/todos/pending/2026-04-26-social-integrations-sharing.md`
+- `.planning/todos/pending/2026-04-26-booking-ux-rules-fixes.md`
 
 ### Blockers/Concerns
 
