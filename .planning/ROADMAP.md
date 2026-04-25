@@ -10,7 +10,7 @@ Ship the full **fighter → service → slot → booking → payment → confirm
 - [ ] **Phase 2: Catalog & fighter profile** — Fighters list, profile pages, services and prices from API *(plans implemented 2026-04-24; verification pending)*
 - [ ] **Phase 3: Slots & booking (pre-payment)** — Availability and booking creation with server-side concurrency rules
 - [x] **Phase 4: Payments & confirmation** — Checkout, webhooks, confirmed bookings *(completed 2026-04-24)*
-- [ ] **Phase 5: My bookings & notifications** — History, detail, email (or equivalent) on key events
+- [x] **Phase 5: My bookings & notifications** — History, detail, email (or equivalent) on key events (completed 2026-04-25)
 - [ ] **Phase 6: Admin** — Staff management of fighters, services/prices, schedules, booking visibility
 
 ## Phase Details
@@ -138,7 +138,7 @@ Plans:
 2. Detail view shows fighter, service, local time, payment/booking status.
 3. On confirmation and cancellation events, user receives email (or documented equivalent).
 
-**Plans:** 3 plans
+**Plans:** 3/3 plans complete
 
 Plans:
 
