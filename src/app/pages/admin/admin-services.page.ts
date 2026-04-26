@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
@@ -45,7 +45,7 @@ import { HeaderComponent } from '../../shell/header.component';
     IonSkeletonText,
   ],
 })
-export class AdminServicesPage {
+export class AdminServicesPage implements OnInit {
   private readonly api = inject(AdminApiService);
   private readonly toast = inject(ToastController);
 
@@ -68,6 +68,10 @@ export class AdminServicesPage {
     currency: string;
     published: boolean;
   } = null;
+
+  ngOnInit(): void {
+    this.fetchFighters();
+  }
 
   ionViewWillEnter(): void {
     this.fetchFighters();

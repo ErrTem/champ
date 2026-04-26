@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
@@ -45,7 +45,7 @@ import { AdminApiService, AdminFighter, AdminScheduleRule } from '../../core/ser
     IonSkeletonText,
   ],
 })
-export class AdminSchedulePage {
+export class AdminSchedulePage implements OnInit {
   private readonly api = inject(AdminApiService);
   private readonly toast = inject(ToastController);
 
@@ -60,6 +60,10 @@ export class AdminSchedulePage {
 
   readonly dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const;
   rulesByDay: Array<Array<AdminScheduleRule>> = Array.from({ length: 7 }, () => []);
+
+  ngOnInit(): void {
+    this.fetchFighters();
+  }
 
   ionViewWillEnter(): void {
     this.fetchFighters();

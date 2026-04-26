@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import {
   IonButton,
@@ -32,13 +32,23 @@ import { AdminApiService, AdminBookingDetail } from '../../core/services/admin-a
     IonSkeletonText,
   ],
 })
-export class AdminBookingDetailPage {
+export class AdminBookingDetailPage implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly api = inject(AdminApiService);
 
   loading = true;
   error = '';
   booking: AdminBookingDetail | null = null;
+
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('bookingId') ?? '';
+    if (!id) {
+      this.loading = false;
+      this.error = 'Booking not found';
+      return;
+    }
+    this.fetch(id);
+  }
 
   ionViewWillEnter(): void {
     const id = this.route.snapshot.paramMap.get('bookingId') ?? '';

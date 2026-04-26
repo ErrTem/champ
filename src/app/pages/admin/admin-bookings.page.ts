@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
@@ -50,7 +50,7 @@ import {
     IonSkeletonText,
   ],
 })
-export class AdminBookingsPage {
+export class AdminBookingsPage implements OnInit {
   private readonly api = inject(AdminApiService);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastController);
@@ -65,6 +65,11 @@ export class AdminBookingsPage {
   fighterId = '';
   from = '';
   to = '';
+
+  ngOnInit(): void {
+    this.fetchFighters();
+    this.fetch();
+  }
 
   ionViewWillEnter(): void {
     this.fetchFighters();
