@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: milestone 2
-status: active
-stopped_at: Milestone started
-last_updated: "2026-04-26T00:00:00.000Z"
-last_activity: 2026-04-26
+milestone: v1.0
+milestone_name: milestone
+status: executing
+stopped_at: Milestone v1.1 start
+last_updated: "2026-04-26T17:16:17.340Z"
+last_activity: 2026-04-26 -- Phase 8 execution started
 progress:
-  total_phases: 8
-  completed_phases: 0
-  total_plans: 4
-  completed_plans: 0
-  percent: 0
+  total_phases: 9
+  completed_phases: 7
+  total_plans: 35
+  completed_plans: 28
+  percent: 80
 ---
 
 # Project State
@@ -22,13 +22,14 @@ See: `.planning/PROJECT.md` (updated 2026-04-24)
 
 **Core value:** A customer can complete one real booking (fighter → service → slot → pay → confirmed) without manual back-office intervention.
 
-**Current focus:** Phase 8 (routing + app shell nav). Phase 7 partial (Phase 01 iOS auth persistence pending).
+**Current focus:** Phase 8 — footer-admin-nav-restructure
 
 ## Current Position
 
-Phase: 8 of 8 (planned — ready to execute)
-Status: Active
-Last activity: 2026-04-26
+Phase: 8 (footer-admin-nav-restructure) — EXECUTING
+Plan: 1 of 4
+Status: Executing Phase 8
+Last activity: 2026-04-26 -- Phase 8 execution started
 
 Progress: [----------] 0%
 

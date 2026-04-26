@@ -5,23 +5,21 @@ import {
   IonContent,
   IonFooter,
   IonSkeletonText,
-  IonText,
+  IonToolbar,
 } from '@ionic/angular/standalone';
 import { finalize } from 'rxjs';
 import { FighterProfile, Service } from '../../core/models/catalog.models';
 import { CatalogService } from '../../core/services/catalog.service';
-import { HeaderComponent } from '../../shell/header.component';
 
 @Component({
   selector: 'app-fighter-profile',
   templateUrl: './fighter-profile.page.html',
   styleUrls: ['./fighter-profile.page.scss'],
   imports: [
-    HeaderComponent,
     IonContent,
-    IonText,
     IonSkeletonText,
     IonFooter,
+    IonToolbar,
     IonButton,
   ],
 })
