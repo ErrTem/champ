@@ -42,15 +42,19 @@ export class LoginPage {
     this.auth.login({ email: this.email, password: this.password }).subscribe({
       next: () => {
         const returnTo = this.route.snapshot.queryParamMap.get('returnTo');
-        if (returnTo) {
+        if (returnTo && this.isSafeReturnTo(returnTo)) {
           void this.router.navigateByUrl(returnTo);
           return;
         }
-        void this.router.navigateByUrl('/profile');
+        void this.router.navigateByUrl('/explore');
       },
       error: () => {
         this.error = 'Invalid email or password';
       },
     });
+  }
+
+  private isSafeReturnTo(value: string): boolean {
+    return value.startsWith('/') && !value.startsWith('//');
   }
 }
