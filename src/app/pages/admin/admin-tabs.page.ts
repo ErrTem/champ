@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import {
   IonContent,
 } from '@ionic/angular/standalone';
@@ -11,6 +11,8 @@ import {
   styleUrls: ['./admin-tabs.page.scss'],
   imports: [
     CommonModule,
+    RouterLink,
+    RouterLinkActive,
     RouterOutlet,
     IonContent,
   ],
