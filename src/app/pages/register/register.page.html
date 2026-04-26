@@ -32,8 +32,29 @@
       type="tel"
       autocomplete="tel"
       [(ngModel)]="phone"
+      (ngModelChange)="onPhoneInput($event)"
       name="phone"
+      required
     />
+    <ion-segment [value]="profileType" (ionChange)="profileType = ($event.detail.value as any)">
+      <ion-segment-button value="user">
+        <ion-label>Regular</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="fighter">
+        <ion-label>Fighter</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <ion-item lines="none">
+      <ion-checkbox slot="start" [(ngModel)]="confirmedAdult" name="confirmedAdult" />
+      <ion-label>I confirm I am 18+</ion-label>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-checkbox slot="start" [(ngModel)]="acceptedTerms" name="acceptedTerms" />
+      <ion-label>
+        I accept
+        <a routerLink="/terms" class="accent-link">Terms</a>
+      </ion-label>
+    </ion-item>
     <ion-input
       label="Password"
       labelPlacement="stacked"
@@ -52,7 +73,15 @@
       name="confirm"
       required
     />
-    <ion-button expand="block" type="submit" class="kinetic-gradient">Create account</ion-button>
+    <ion-button expand="block" type="submit" class="kinetic-gradient" [disabled]="!canSubmit">
+      Create account
+    </ion-button>
+    <ion-button expand="block" fill="outline" type="button" (click)="oauth('google')">
+      Continue with Google
+    </ion-button>
+    <ion-button expand="block" fill="outline" type="button" (click)="oauth('apple')">
+      Continue with Apple
+    </ion-button>
     <p class="footer-links">
       Already have an account?
       <a routerLink="/login" class="accent-link">Sign in</a>

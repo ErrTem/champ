@@ -43,6 +43,13 @@ export const routes: Routes = [
               import('./pages/admin/admin-fighters.page').then((m) => m.AdminFightersPage),
           },
           {
+            path: 'fighter-approvals',
+            loadComponent: () =>
+              import('./pages/admin/admin-fighter-approvals.page').then(
+                (m) => m.AdminFighterApprovalsPage,
+              ),
+          },
+          {
             path: 'services',
             loadComponent: () =>
               import('./pages/admin/admin-services.page').then((m) => m.AdminServicesPage),
@@ -97,6 +104,10 @@ export const routes: Routes = [
   {
     path: 'register',
     loadComponent: () => import('./pages/register/register.page').then((m) => m.RegisterPage),
+  },
+  {
+    path: 'terms',
+    loadComponent: () => import('./pages/terms/terms.page').then((m) => m.TermsPage),
   },
   {
     path: 'forgot-password',

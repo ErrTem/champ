@@ -10,6 +10,9 @@ export type AuthUser = {
   name: string | null;
   phone: string | null;
   isAdmin: boolean;
+  userType?: 'user' | 'fighter';
+  fighterStatus?: 'none' | 'pending' | 'approved' | 'rejected';
+  fighterApprovedAt?: string | null;
 };
 
 @Injectable({ providedIn: 'root' })
@@ -50,7 +53,15 @@ export class AuthService {
     return req$;
   }
 
-  register(body: { email: string; password: string; name?: string; phone?: string }) {
+  register(body: {
+    email: string;
+    password: string;
+    name?: string;
+    phone: string;
+    acceptedTerms: true;
+    confirmedAdult: true;
+    profileType: 'user' | 'fighter';
+  }) {
     return this.http
       .post<{ user: AuthUser }>(`${this.baseUrl}/auth/register`, body, { withCredentials: true })
       .pipe(tap((r) => this._user.set(r.user)));
