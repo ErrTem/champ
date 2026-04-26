@@ -1,27 +1,4 @@
-<ion-header translucent="true" class="auth-topbar">
-  <ion-toolbar>
-    <ion-title>Admin</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content fullscreen="true" class="auth-shell">
-  <ion-tabs>
-    <ion-tab-bar slot="bottom" class="admin-tabbar">
-      <ion-tab-button tab="fighters" routerLink="/admin/fighters" routerLinkActive="active">
-        <ion-label>Fighters</ion-label>
-      </ion-tab-button>
-      <ion-tab-button tab="services" routerLink="/admin/services" routerLinkActive="active">
-        <ion-label>Services</ion-label>
-      </ion-tab-button>
-      <ion-tab-button tab="schedule" routerLink="/admin/schedule" routerLinkActive="active">
-        <ion-label>Schedule</ion-label>
-      </ion-tab-button>
-      <ion-tab-button tab="bookings" routerLink="/admin/bookings" routerLinkActive="active">
-        <ion-label>Bookings</ion-label>
-      </ion-tab-button>
-    </ion-tab-bar>
-
-    <router-outlet></router-outlet>
-  </ion-tabs>
+<ion-content fullscreen="true">
+  <router-outlet></router-outlet>
 </ion-content>
 
