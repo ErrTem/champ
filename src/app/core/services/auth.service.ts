@@ -23,17 +23,31 @@ export class AuthService {
   readonly authenticated = computed(() => this._user() !== null);
 
   private refreshInFlight: Observable<void> | null = null;
+  private profileInFlight: Observable<AuthUser | null> | null = null;
 
-  loadProfile(): Observable<AuthUser | null> {
-    return this.http
-      .get<AuthUser>(`${this.baseUrl}/users/me`, { withCredentials: true })
-      .pipe(
-        tap((u) => this._user.set(u)),
-        catchError(() => {
-          this._user.set(null);
-          return of(null);
-        }),
-      );
+  loadProfile(options?: { force?: boolean }): Observable<AuthUser | null> {
+    const force = options?.force === true;
+    if (!force) {
+      const existing = this._user();
+      if (existing) return of(existing);
+      if (this.profileInFlight) return this.profileInFlight;
+    }
+
+    const req$ = this.http.get<AuthUser>(`${this.baseUrl}/users/me`, { withCredentials: true }).pipe(
+      tap((u) => this._user.set(u)),
+      map((u) => u as AuthUser),
+      catchError(() => {
+        this._user.set(null);
+        return of(null);
+      }),
+      finalize(() => {
+        if (this.profileInFlight === req$) this.profileInFlight = null;
+      }),
+      shareReplay(1),
+    );
+
+    if (!force) this.profileInFlight = req$;
+    return req$;
   }
 
   register(body: { email: string; password: string; name?: string; phone?: string }) {
