@@ -135,6 +135,12 @@ const TEST_USER = {
   name: 'Test User',
 };
 
+const DEFAULT_DEV_ADMIN = {
+  email: 'admin@example.com',
+  password: 'adminadmin',
+  name: 'Admin User',
+};
+
 function getEnv(key: string): string | undefined {
   const v = process.env[key];
   if (!v) return undefined;
@@ -201,19 +207,23 @@ async function main() {
   const adminEmail = getEnv('ADMIN_EMAIL');
   const adminPassword = getEnv('ADMIN_PASSWORD');
   const adminName = getEnv('ADMIN_NAME');
-  if (adminEmail && adminPassword) {
-    const adminPasswordHash = await bcrypt.hash(adminPassword, 12);
+  const devDefaultAdminEnabled = process.env.NODE_ENV !== 'production' && !adminEmail && !adminPassword;
+  if ((adminEmail && adminPassword) || devDefaultAdminEnabled) {
+    const email = (adminEmail ?? DEFAULT_DEV_ADMIN.email).toLowerCase();
+    const password = adminPassword ?? DEFAULT_DEV_ADMIN.password;
+    const name = adminName ?? DEFAULT_DEV_ADMIN.name;
+    const adminPasswordHash = await bcrypt.hash(password, 12);
     await prisma.user.upsert({
-      where: { email: adminEmail.toLowerCase() },
+      where: { email },
       create: {
-        email: adminEmail.toLowerCase(),
+        email,
         passwordHash: adminPasswordHash,
-        name: adminName,
+        name,
         isAdmin: true,
       },
       update: {
         passwordHash: adminPasswordHash,
-        name: adminName,
+        name,
         isAdmin: true,
       },
     });
