@@ -27,7 +27,7 @@
 
 - [ ] Phase 7: Close deferred verification + requirements bookkeeping
 -     (partial: Phase 03 closed; Phase 01 iOS auth persistence still pending)
-- [ ] Phase 8: Routing + app shell navigation (remove Home, defaults, back button, footer nav)
+- [x] Phase 8: Routing + app shell navigation (remove Home, defaults, back button, footer nav) (completed 2026-04-26)
 - [ ] Phase 9: Registration upgrades (OAuth, phone/terms, roles, fighter approval)
 - [ ] Phase 10: Booking UX + rules fixes (filters, calendar UI, 24h rule)
 - [ ] Phase 11: Gyms + multi-timezone
