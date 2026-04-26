@@ -78,6 +78,7 @@ model PasswordResetToken {
 
 model Fighter {
   id         String    @id @default(cuid())
+  userId     String?   @unique
   published  Boolean   @default(false)
   name       String
   summary    String

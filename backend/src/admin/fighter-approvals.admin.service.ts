@@ -32,19 +32,46 @@ export class FighterApprovalsAdminService {
   }
 
   async approve(userId: string): Promise<{ ok: true }> {
-    const user = await this.prisma.user.findUnique({
-      where: { id: userId },
-      select: { id: true, userType: true, fighterStatus: true },
-    });
-    if (!user) throw new NotFoundException();
-    if (user.userType !== 'fighter' || user.fighterStatus !== 'pending') {
-      throw new BadRequestException('User not pending fighter');
-    }
+    await this.prisma.$transaction(async (tx) => {
+      const user = await tx.user.findUnique({
+        where: { id: userId },
+        select: { id: true, userType: true, fighterStatus: true, name: true, email: true },
+      });
+      if (!user) throw new NotFoundException();
+      if (user.userType !== 'fighter' || user.fighterStatus !== 'pending') {
+        throw new BadRequestException('User not pending fighter');
+      }
 
-    await this.prisma.user.update({
-      where: { id: userId },
-      data: { fighterStatus: 'approved', fighterApprovedAt: new Date() },
-      select: { id: true },
+      await tx.user.update({
+        where: { id: userId },
+        data: { fighterStatus: 'approved', fighterApprovedAt: new Date() },
+        select: { id: true },
+      });
+
+      const existingFighter = await tx.fighter.findFirst({
+        where: { userId: userId },
+        select: { id: true },
+      });
+      if (!existingFighter) {
+        const fallbackName = user.name?.trim() || user.email.split('@')[0] || 'New Fighter';
+        await tx.fighter.create({
+          data: {
+            userId: userId,
+            published: false,
+            name: fallbackName,
+            summary: '',
+            bio: '',
+            photoUrl: null,
+            disciplines: [],
+            mediaUrls: [],
+            wins: 0,
+            losses: 0,
+            draws: 0,
+            yearsPro: 0,
+          },
+          select: { id: true },
+        });
+      }
     });
     return { ok: true as const };
   }
