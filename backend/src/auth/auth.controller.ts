@@ -1,18 +1,22 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
   Req,
   Res,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { Request, Response } from 'express';
 import { AuthService, ACCESS_COOKIE, REFRESH_COOKIE } from './auth.service';
 import { ConfirmResetDto } from './dto/confirm-reset.dto';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { RequestResetDto } from './dto/request-reset.dto';
+import type { OAuthProfile } from './strategies/google.strategy';
 
 const ACCESS_MAX_AGE_MS = 900 * 1000;
 const REFRESH_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
@@ -37,6 +41,14 @@ function clearAuthCookies(res: Response) {
   const base = cookieBase();
   res.clearCookie(ACCESS_COOKIE, base);
   res.clearCookie(REFRESH_COOKIE, base);
+}
+
+function safeReturnTo(value: unknown, fallback: string): string {
+  const v = typeof value === 'string' ? value : '';
+  if (!v) return fallback;
+  if (!v.startsWith('/')) return fallback;
+  if (v.startsWith('//')) return fallback;
+  return v;
 }
 
 @Controller('auth')
@@ -91,5 +103,43 @@ export class AuthController {
   @Post('reset-password')
   async resetPassword(@Body() dto: ConfirmResetDto) {
     return this.auth.resetPassword(dto);
+  }
+
+  @Get('google')
+  @UseGuards(AuthGuard('google'))
+  async googleStart() {
+    return;
+  }
+
+  @Get('google/callback')
+  @UseGuards(AuthGuard('google'))
+  async googleCallback(
+    @Req() req: Request & { user?: OAuthProfile },
+    @Res() res: Response,
+  ) {
+    const { user, accessToken, refreshToken } = await this.auth.oauthLogin(req.user as OAuthProfile);
+    setAuthCookies(res, accessToken, refreshToken);
+    const fallback = process.env.OAUTH_REDIRECT_SUCCESS || '/profile';
+    const returnTo = safeReturnTo((req.query as any)?.returnTo, fallback);
+    return res.redirect(returnTo);
+  }
+
+  @Get('apple')
+  @UseGuards(AuthGuard('apple'))
+  async appleStart() {
+    return;
+  }
+
+  @Post('apple/callback')
+  @UseGuards(AuthGuard('apple'))
+  async appleCallback(
+    @Req() req: Request & { user?: OAuthProfile },
+    @Res() res: Response,
+  ) {
+    const { accessToken, refreshToken } = await this.auth.oauthLogin(req.user as OAuthProfile);
+    setAuthCookies(res, accessToken, refreshToken);
+    const fallback = process.env.OAUTH_REDIRECT_SUCCESS || '/profile';
+    const returnTo = safeReturnTo((req.query as any)?.returnTo, fallback);
+    return res.redirect(returnTo);
   }
 }

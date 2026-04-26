@@ -1,4 +1,4 @@
-import { IsEmail, IsOptional, IsString, MinLength } from 'class-validator';
+import { Equals, IsEmail, IsIn, IsOptional, IsString, MinLength } from 'class-validator';
 
 export class RegisterDto {
   @IsEmail()
@@ -11,7 +11,15 @@ export class RegisterDto {
   @IsString()
   name?: string;
 
-  @IsOptional()
   @IsString()
-  phone?: string;
+  phone!: string;
+
+  @Equals(true)
+  acceptedTerms!: boolean;
+
+  @Equals(true)
+  confirmedAdult!: boolean;
+
+  @IsIn(['user', 'fighter'])
+  profileType!: 'user' | 'fighter';
 }

@@ -7,6 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserType {
+  user
+  fighter
+}
+
+enum FighterStatus {
+  none
+  pending
+  approved
+  rejected
+}
+
 model User {
   id                  String               @id @default(cuid())
   email               String               @unique
@@ -14,11 +26,31 @@ model User {
   isAdmin             Boolean              @default(false)
   name                String?
   phone               String?
+  userType            UserType             @default(user)
+  fighterStatus       FighterStatus        @default(none)
+  fighterApprovedAt   DateTime?
+  acceptedTermsAt     DateTime?
+  confirmedAdultAt    DateTime?
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
   refreshSessions     RefreshSession[]
   passwordResetTokens PasswordResetToken[]
   bookings            Booking[]
+  oauthIdentities     UserOAuthIdentity[]
+}
+
+model UserOAuthIdentity {
+  id             String   @id @default(cuid())
+  userId         String
+  provider       String
+  providerUserId String
+  providerEmail  String?
+  createdAt      DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerUserId])
+  @@index([userId])
 }
 
 model RefreshSession {

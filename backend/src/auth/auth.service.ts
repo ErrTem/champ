@@ -13,6 +13,7 @@ import { ConfirmResetDto } from './dto/confirm-reset.dto';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { RequestResetDto } from './dto/request-reset.dto';
+import type { OAuthProfile } from './strategies/google.strategy';
 
 const BCRYPT_ROUNDS = 12;
 const ACCESS_TTL_SEC = 900;
@@ -54,17 +55,84 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
+  private normalizeUsPhone(phone: string): string {
+    const digits = (phone ?? '').replace(/\D/g, '');
+    const ten = digits.length === 11 && digits.startsWith('1') ? digits.slice(1) : digits;
+    if (ten.length !== 10) return phone;
+    return `+1${ten}`;
+  }
+
+  async oauthLogin(profile: OAuthProfile) {
+    const provider = profile.provider;
+    const providerUserId = profile.providerUserId;
+    const email = profile.email?.toLowerCase();
+    const name = profile.name;
+
+    const identity = await this.prisma.userOAuthIdentity.findUnique({
+      where: { provider_providerUserId: { provider, providerUserId } },
+      include: { user: true },
+    });
+
+    let userId: string;
+    let userEmail: string;
+
+    if (identity) {
+      userId = identity.userId;
+      userEmail = identity.user.email;
+    } else {
+      const created = await this.prisma.$transaction(async (tx) => {
+        const existingUser =
+          email ? await tx.user.findUnique({ where: { email } }) : null;
+
+        const user =
+          existingUser ??
+          (await tx.user.create({
+            data: {
+              email: email ?? `oauth_${provider}_${providerUserId}@champ.local`,
+              passwordHash: await bcrypt.hash(randomBytes(24).toString('hex'), BCRYPT_ROUNDS),
+              name,
+            },
+          }));
+
+        await tx.userOAuthIdentity.create({
+          data: {
+            userId: user.id,
+            provider,
+            providerUserId,
+            providerEmail: email,
+          },
+        });
+
+        return user;
+      });
+
+      userId = created.id;
+      userEmail = created.email;
+    }
+
+    const tokens = await this.issueSession(userId, userEmail);
+    const safe = await this.users.findSafeById(userId);
+    return { user: safe, ...tokens };
+  }
+
   async register(dto: RegisterDto) {
     const email = dto.email.toLowerCase();
     const existing = await this.users.findByEmail(email);
     if (existing) throw new ConflictException('Email already registered');
     const passwordHash = await bcrypt.hash(dto.password, BCRYPT_ROUNDS);
+    const now = new Date();
+    const userType = dto.profileType === 'fighter' ? 'fighter' : 'user';
+    const fighterStatus = userType === 'fighter' ? 'pending' : 'none';
     const user = await this.prisma.user.create({
       data: {
         email,
         passwordHash,
         name: dto.name,
-        phone: dto.phone,
+        phone: this.normalizeUsPhone(dto.phone),
+        userType,
+        fighterStatus,
+        acceptedTermsAt: dto.acceptedTerms ? now : undefined,
+        confirmedAdultAt: dto.confirmedAdult ? now : undefined,
       },
     });
     const tokens = await this.issueSession(user.id, user.email);
