@@ -36,7 +36,7 @@
       name="phone"
       required
     />
-    <ion-segment [value]="profileType" (ionChange)="profileType = ($event.detail.value as any)">
+    <ion-segment [value]="profileType" (ionChange)="onProfileTypeChange($event.detail.value)">
       <ion-segment-button value="user">
         <ion-label>Regular</ion-label>
       </ion-segment-button>

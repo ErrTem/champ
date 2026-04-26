@@ -70,6 +70,11 @@ export class RegisterPage {
     this.phone = this.formatUsPhone(digits);
   }
 
+  onProfileTypeChange(value: string | number | null | undefined): void {
+    const v = String(value ?? '');
+    this.profileType = v === 'fighter' ? 'fighter' : v === 'user' ? 'user' : '';
+  }
+
   private phoneE164(): string | null {
     const digits = this.digitsOnly(this.phone);
     const ten = digits.length === 11 && digits.startsWith('1') ? digits.slice(1) : digits;
