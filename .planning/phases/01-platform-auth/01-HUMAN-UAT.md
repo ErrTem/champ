@@ -9,6 +9,7 @@ updated: 2026-04-24T00:00:00.000Z
 ## Current Test
 
 awaiting human testing — iOS auth persistence (D-06)
+note: deferred until iPhone/mac available to install/run iOS app build
 
 ## Tests
 

@@ -16,8 +16,15 @@ A customer can **complete one real booking** (fighter → service → slot → p
 
 ### Active
 
-- [ ] Close deferred v1 verification gaps (Phase 01 auth UAT; Phase 03 booking/concurrency/timezone UAT)
-- [ ] Fix v1 requirements bookkeeping (`REQUIREMENTS.md` traceability statuses)
+- [ ] **Milestone v1.1 (Milestone 2)**: close deferred v1 verification gaps (Phase 01 auth UAT; Phase 03 booking/concurrency/timezone UAT)
+- [ ] Milestone v1.1: fix requirements bookkeeping (create/restore `REQUIREMENTS.md` with traceability statuses)
+- [ ] Milestone v1.1: UX/navigation cleanup (remove Home, `/explore` default, wildcard redirect, back button, footer nav)
+- [ ] Milestone v1.1: registration upgrades (Google/Apple OAuth, phone mask, terms + 18+ checkboxes, fighter-vs-user role, fighter pending approval)
+- [ ] Milestone v1.1: booking UX + rules (explore filters; booking calendar layout; enforce 24h rule server-side + UI errors)
+- [ ] Milestone v1.1: gyms domain + multi-timezone policy (gym address + maps; fighters tied to gym timezone)
+- [ ] Milestone v1.1: fighter self-serve (manage schedule/services; cancel bookings; ownership checks)
+- [ ] Milestone v1.1: notifications + calendar sync (reminders, fighter booking notifications, calendar export/integration)
+- [ ] Milestone v1.1: social sharing + social links on fighter profile
 
 ### Out of Scope
 
@@ -73,4 +80,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-25 after v1.0 milestone close*
+*Last updated: 2026-04-26 starting v1.1 (Milestone 2)*

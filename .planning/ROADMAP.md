@@ -20,4 +20,19 @@
 
 ## Next
 
-- Plan v1.1: finish deferred human verification + fix requirements bookkeeping.
+- **v1.1 (Milestone 2)**: finish deferred human verification + ship pending todo set.
+
+<details>
+<summary>🟦 v1.1 (Milestone 2) — planned</summary>
+
+- [ ] Phase 7: Close deferred verification + requirements bookkeeping
+-     (partial: Phase 03 closed; Phase 01 iOS auth persistence still pending)
+- [ ] Phase 8: Routing + app shell navigation (remove Home, defaults, back button, footer nav)
+- [ ] Phase 9: Registration upgrades (OAuth, phone/terms, roles, fighter approval)
+- [ ] Phase 10: Booking UX + rules fixes (filters, calendar UI, 24h rule)
+- [ ] Phase 11: Gyms + multi-timezone
+- [ ] Phase 12: Fighter self-serve
+- [ ] Phase 13: Notifications + calendar sync
+- [ ] Phase 14: Social sharing
+
+</details>
