@@ -7,6 +7,8 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtAccessAuthGuard } from './guards/jwt-access.guard';
 import { JwtAccessStrategy } from './strategies/jwt-access.strategy';
+import { AppleStrategy } from './strategies/apple.strategy';
+import { GoogleStrategy } from './strategies/google.strategy';
 
 @Module({
   imports: [
@@ -22,7 +24,7 @@ import { JwtAccessStrategy } from './strategies/jwt-access.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtAccessStrategy, JwtAccessAuthGuard],
+  providers: [AuthService, JwtAccessStrategy, JwtAccessAuthGuard, GoogleStrategy, AppleStrategy],
   exports: [AuthService, JwtAccessAuthGuard, PassportModule],
 })
 export class AuthModule {}
