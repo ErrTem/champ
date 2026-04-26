@@ -5,6 +5,14 @@
     <p class="sub">Used for bookings — name, email, and phone.</p>
   </div>
 
+  @if (auth.user()?.userType === 'fighter' && auth.user()?.fighterStatus === 'pending') {
+    <ion-text color="warning">
+      <p class="field-error">
+        Fighter account pending admin approval. You can still explore and book sessions in the meantime.
+      </p>
+    </ion-text>
+  }
+
   <form class="auth-form" (ngSubmit)="save()">
     @if (saved) {
       <ion-text color="success"><p class="field-error">Saved</p></ion-text>

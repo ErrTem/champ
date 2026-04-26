@@ -11,6 +11,7 @@ import {
   IonToolbar,
 } from '@ionic/angular/standalone';
 import { AuthService } from '../../core/services/auth.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +33,7 @@ export class LoginPage {
   private readonly auth = inject(AuthService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  readonly apiUrl = environment.apiUrl;
 
   email = '';
   password = '';
@@ -56,5 +58,9 @@ export class LoginPage {
 
   private isSafeReturnTo(value: string): boolean {
     return value.startsWith('/') && !value.startsWith('//');
+  }
+
+  oauth(provider: 'google' | 'apple'): void {
+    window.location.href = `${this.apiUrl}/auth/${provider}`;
   }
 }

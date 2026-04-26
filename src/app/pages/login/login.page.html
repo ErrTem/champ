@@ -28,6 +28,12 @@
       required
     />
     <ion-button expand="block" type="submit" class="kinetic-gradient">Sign in</ion-button>
+    <ion-button expand="block" fill="outline" type="button" (click)="oauth('google')">
+      Continue with Google
+    </ion-button>
+    <ion-button expand="block" fill="outline" type="button" (click)="oauth('apple')">
+      Continue with Apple
+    </ion-button>
     <p class="footer-links">
       <a routerLink="/forgot-password">Forgot password?</a>
     </p>
