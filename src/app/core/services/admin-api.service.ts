@@ -42,6 +42,15 @@ export type AdminBookingListItem = {
 
 export type AdminBookingDetail = AdminBookingListItem;
 
+export type AdminFighterApprovalUser = {
+  id: string;
+  email: string;
+  name: string | null;
+  phone: string | null;
+  fighterStatus: string;
+  createdAt: string;
+};
+
 @Injectable({ providedIn: 'root' })
 export class AdminApiService {
   private readonly http = inject(HttpClient);
@@ -161,6 +170,21 @@ export class AdminApiService {
   getBooking(bookingId: string): Observable<AdminBookingDetail> {
     return this.http.get<AdminBookingDetail>(
       `${this.baseUrl}/admin/bookings/${encodeURIComponent(bookingId)}`,
+      { withCredentials: true },
+    );
+  }
+
+  listPendingFighterApprovals(): Observable<AdminFighterApprovalUser[]> {
+    return this.http.get<AdminFighterApprovalUser[]>(`${this.baseUrl}/admin/fighter-approvals`, {
+      withCredentials: true,
+      params: new HttpParams().set('status', 'pending'),
+    });
+  }
+
+  approveFighterUser(userId: string): Observable<{ ok: true }> {
+    return this.http.post<{ ok: true }>(
+      `${this.baseUrl}/admin/fighter-approvals/${encodeURIComponent(userId)}/approve`,
+      {},
       { withCredentials: true },
     );
   }
