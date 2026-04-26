@@ -10,7 +10,7 @@ import { authInterceptor } from './app/core/interceptors/auth.interceptor';
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideIonicAngular(),
+    provideIonicAngular({ swipeBackEnabled: true }),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideRouter(routes, withPreloading(PreloadAllModules)),
   ],

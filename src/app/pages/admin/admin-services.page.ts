@@ -178,7 +178,13 @@ export class AdminServicesPage implements OnInit {
       next: async () => {
         this.editing = null;
         this.fetchServices();
-        const t = await this.toast.create({ message: 'Saved', duration: 1400, position: 'bottom' });
+        const t = await this.toast.create({
+          message: 'Saved',
+          duration: 1400,
+          position: 'top',
+          color: 'success',
+          cssClass: 'toast-success',
+        });
         await t.present();
       },
       error: async (e) => {
@@ -186,7 +192,7 @@ export class AdminServicesPage implements OnInit {
           const t = await this.toast.create({
             message: 'Admin access required',
             duration: 1800,
-            position: 'bottom',
+            position: 'top',
           });
           await t.present();
           return;

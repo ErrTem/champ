@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   IonButton,
   IonCard,
@@ -34,7 +34,7 @@ import {
     IonSkeletonText,
   ],
 })
-export class AdminFighterApprovalsPage {
+export class AdminFighterApprovalsPage implements OnInit {
   private readonly api = inject(AdminApiService);
   private readonly toast = inject(ToastController);
 
@@ -42,6 +42,10 @@ export class AdminFighterApprovalsPage {
   saving = false;
   error = '';
   users: AdminFighterApprovalUser[] = [];
+
+  ngOnInit(): void {
+    this.fetch();
+  }
 
   ionViewWillEnter(): void {
     this.fetch();
@@ -76,7 +80,9 @@ export class AdminFighterApprovalsPage {
           const t = await this.toast.create({
             message: 'Approved',
             duration: 1400,
-            position: 'bottom',
+            position: 'top',
+            color: 'success',
+            cssClass: 'toast-success',
           });
           await t.present();
         },
@@ -85,7 +91,7 @@ export class AdminFighterApprovalsPage {
             const t = await this.toast.create({
               message: 'Admin access required',
               duration: 1800,
-              position: 'bottom',
+              position: 'top',
             });
             await t.present();
             return;
