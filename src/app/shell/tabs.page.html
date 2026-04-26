@@ -1,0 +1,33 @@
+<ion-content fullscreen="true" class="app-shell">
+  <ion-tabs>
+    <ion-tab-bar slot="bottom" class="app-tabbar">
+      <ion-tab-button tab="explore" routerLink="/explore" routerLinkActive="active">
+        <ion-icon aria-hidden="true" name="compass-outline"></ion-icon>
+        <ion-label>Explore</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="bookings" routerLink="/bookings" routerLinkActive="active">
+        <ion-icon aria-hidden="true" name="calendar-outline"></ion-icon>
+        <ion-label>Bookings</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="profile" routerLink="/profile" routerLinkActive="active">
+        <ion-icon aria-hidden="true" name="person-outline"></ion-icon>
+        <ion-label>Profile</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button
+        *ngIf="user()?.isAdmin === true"
+        tab="admin"
+        routerLink="/admin/fighters"
+        routerLinkActive="active"
+      >
+        <ion-icon aria-hidden="true" name="shield-checkmark-outline"></ion-icon>
+        <ion-label>Admin</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+
+    <router-outlet></router-outlet>
+  </ion-tabs>
+</ion-content>
+
