@@ -1,4 +1,4 @@
-<ion-content fullscreen="true" class="admin-shell">
+<div class="admin-shell">
   <div class="admin-topnav" role="navigation" aria-label="Admin navigation">
     <a class="admin-topnav-link" routerLink="/admin/fighters" routerLinkActive="is-active">Fighters</a>
     <a class="admin-topnav-link" routerLink="/admin/services" routerLinkActive="is-active">Services</a>
@@ -6,14 +6,6 @@
     <a class="admin-topnav-link" routerLink="/admin/bookings" routerLinkActive="is-active">Bookings</a>
   </div>
 
-  <div class="admin-page">
-    <router-outlet></router-outlet>
-  </div>
-
-  <footer class="admin-footer" aria-label="Admin footer">
-    <div class="admin-footer-inner">
-      <span class="kicker">Admin</span>
-    </div>
-  </footer>
-</ion-content>
+  <router-outlet></router-outlet>
+</div>
 

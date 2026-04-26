@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import {
-  IonContent,
-} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-admin-tabs',
@@ -14,7 +11,6 @@ import {
     RouterLink,
     RouterLinkActive,
     RouterOutlet,
-    IonContent,
   ],
 })
 export class AdminTabsPage {}
