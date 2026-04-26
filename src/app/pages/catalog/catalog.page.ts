@@ -4,17 +4,15 @@ import {
   IonButton,
   IonChip,
   IonContent,
-  IonHeader,
   IonIcon,
   IonLabel,
   IonSkeletonText,
   IonText,
-  IonTitle,
-  IonToolbar,
 } from '@ionic/angular/standalone';
 import { finalize } from 'rxjs';
 import { FighterListItem } from '../../core/models/catalog.models';
 import { CatalogService } from '../../core/services/catalog.service';
+import { HeaderComponent } from '../../shell/header.component';
 
 @Component({
   selector: 'app-catalog',
@@ -22,9 +20,7 @@ import { CatalogService } from '../../core/services/catalog.service';
   styleUrls: ['./catalog.page.scss'],
   imports: [
     RouterLink,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
+    HeaderComponent,
     IonContent,
     IonText,
     IonButton,

@@ -1,8 +1,4 @@
-<ion-header translucent="true">
-  <ion-toolbar>
-    <ion-title>My bookings</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header [title]="'Bookings'"></app-header>
 
 <ion-content fullscreen="true" class="my-bookings-shell">
   <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">

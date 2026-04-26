@@ -1,11 +1,4 @@
-<ion-header translucent="true" class="profile-topbar">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/explore" text=""></ion-back-button>
-    </ion-buttons>
-    <ion-title>Profile</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header [title]="'Fighter'"></app-header>
 
 <ion-content class="profile-shell" fullscreen="true">
   @if (loading) {

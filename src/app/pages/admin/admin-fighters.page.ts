@@ -7,7 +7,6 @@ import {
   IonCardContent,
   IonChip,
   IonContent,
-  IonHeader,
   IonInput,
   IonItem,
   IonLabel,
@@ -15,13 +14,12 @@ import {
   IonSkeletonText,
   IonText,
   IonTextarea,
-  IonTitle,
   IonToggle,
-  IonToolbar,
   ToastController,
 } from '@ionic/angular/standalone';
 import { finalize } from 'rxjs';
 import { AdminApiService, AdminFighter } from '../../core/services/admin-api.service';
+import { HeaderComponent } from '../../shell/header.component';
 
 @Component({
   selector: 'app-admin-fighters',
@@ -29,9 +27,7 @@ import { AdminApiService, AdminFighter } from '../../core/services/admin-api.ser
   imports: [
     CommonModule,
     FormsModule,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
+    HeaderComponent,
     IonContent,
     IonText,
     IonCard,

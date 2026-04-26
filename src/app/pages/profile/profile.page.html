@@ -1,8 +1,4 @@
-<ion-header translucent="true" class="auth-topbar">
-  <ion-toolbar>
-    <ion-title>Profile</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header [title]="'Profile'"></app-header>
 
 <ion-content class="auth-shell" fullscreen="true">
   <div class="auth-hero">
@@ -45,6 +41,6 @@
       <ion-button expand="block" fill="outline" routerLink="/admin">Admin</ion-button>
     }
     <ion-button expand="block" fill="outline" type="button" (click)="logout()">Log out</ion-button>
-    <p class="footer-links"><a routerLink="/home">Home</a></p>
+    <p class="footer-links"><a routerLink="/explore">Explore</a></p>
   </form>
 </ion-content>

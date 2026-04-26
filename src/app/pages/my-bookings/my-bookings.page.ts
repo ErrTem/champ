@@ -5,19 +5,17 @@ import {
   IonButton,
   IonChip,
   IonContent,
-  IonHeader,
   IonLabel,
   IonRefresher,
   IonRefresherContent,
   IonSegment,
   IonSegmentButton,
   IonSkeletonText,
-  IonTitle,
-  IonToolbar,
 } from '@ionic/angular/standalone';
 import { finalize } from 'rxjs';
 import { BookingListItem } from '../../core/models/booking.models';
 import { BookingService } from '../../core/services/booking.service';
+import { HeaderComponent } from '../../shell/header.component';
 
 const DISPLAY_TIMEZONE = 'America/Los_Angeles';
 type Tab = 'upcoming' | 'past';
@@ -28,9 +26,7 @@ type Tab = 'upcoming' | 'past';
   styleUrls: ['./my-bookings.page.scss'],
   imports: [
     CommonModule,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
+    HeaderComponent,
     IonContent,
     IonSegment,
     IonSegmentButton,

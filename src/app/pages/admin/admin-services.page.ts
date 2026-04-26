@@ -7,7 +7,6 @@ import {
   IonCardContent,
   IonChip,
   IonContent,
-  IonHeader,
   IonInput,
   IonItem,
   IonLabel,
@@ -16,13 +15,12 @@ import {
   IonSelectOption,
   IonSkeletonText,
   IonText,
-  IonTitle,
   IonToggle,
-  IonToolbar,
   ToastController,
 } from '@ionic/angular/standalone';
 import { finalize } from 'rxjs';
 import { AdminApiService, AdminFighter, AdminService } from '../../core/services/admin-api.service';
+import { HeaderComponent } from '../../shell/header.component';
 
 @Component({
   selector: 'app-admin-services',
@@ -30,9 +28,7 @@ import { AdminApiService, AdminFighter, AdminService } from '../../core/services
   imports: [
     CommonModule,
     FormsModule,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
+    HeaderComponent,
     IonContent,
     IonText,
     IonCard,

@@ -1,31 +1,23 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  IonButtons,
-  IonBackButton,
   IonButton,
   IonContent,
   IonFooter,
-  IonHeader,
   IonSkeletonText,
   IonText,
-  IonTitle,
-  IonToolbar,
 } from '@ionic/angular/standalone';
 import { finalize } from 'rxjs';
 import { FighterProfile, Service } from '../../core/models/catalog.models';
 import { CatalogService } from '../../core/services/catalog.service';
+import { HeaderComponent } from '../../shell/header.component';
 
 @Component({
   selector: 'app-fighter-profile',
   templateUrl: './fighter-profile.page.html',
   styleUrls: ['./fighter-profile.page.scss'],
   imports: [
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonButtons,
-    IonBackButton,
+    HeaderComponent,
     IonContent,
     IonText,
     IonSkeletonText,
