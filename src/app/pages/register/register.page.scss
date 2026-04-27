@@ -64,8 +64,27 @@ ion-segment-button {
   border-radius: calc(var(--mac-radius) - 4px);
 }
 
-.terms-mac-label {
+ion-item.auth-check-item {
+  --background: var(--auth-elevated);
+  --border-width: 0;
+  --inner-border-width: 0;
+  --inner-padding-end: 12px;
+  --inner-padding-start: 8px;
+  --min-height: 44px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --ripple-color: transparent;
+  border: 1px solid var(--mac-separator);
+  border-radius: var(--mac-radius);
+  margin: 0;
+  overflow: hidden;
+}
+
+.auth-check-label {
   font-size: 14px;
   line-height: 1.4;
+  font-weight: 400;
+  color: var(--auth-on);
   white-space: normal;
+  margin: 0;
 }
