@@ -68,19 +68,6 @@
         required
       />
     </div>
-    <ion-item lines="none" class="auth-check-item">
-      <ion-checkbox slot="start" [(ngModel)]="confirmedAdult" name="confirmedAdult" />
-      <ion-label class="auth-check-label">I am over 18 years old</ion-label>
-    </ion-item>
-    <ion-item lines="none" class="auth-check-item">
-      <ion-checkbox slot="start" [(ngModel)]="acceptedTerms" name="acceptedTerms" />
-      <ion-label class="auth-check-label">
-        I agree to the
-        <a routerLink="/terms" class="accent-link">Terms of Use</a>
-        and
-        <a routerLink="/privacy" class="accent-link">Privacy Policy</a>
-      </ion-label>
-    </ion-item>
     <ion-input
       label="Password"
       labelPlacement="stacked"
@@ -111,6 +98,19 @@
         ariaHidePassword="Hide confirm password"
       />
     </ion-input>
+    <ion-item lines="none" class="auth-check-item">
+      <ion-checkbox slot="start" [(ngModel)]="confirmedAdult" name="confirmedAdult" />
+      <ion-label class="auth-check-label">I am over 18 years old</ion-label>
+    </ion-item>
+    <ion-item lines="none" class="auth-check-item">
+      <ion-checkbox slot="start" [(ngModel)]="acceptedTerms" name="acceptedTerms" />
+      <ion-label class="auth-check-label">
+        I agree to the
+        <a routerLink="/terms" class="accent-link">Terms of Use</a>
+        and
+        <a routerLink="/privacy" class="accent-link">Privacy Policy</a>
+      </ion-label>
+    </ion-item>
     <ion-button expand="block" type="submit" class="kinetic-gradient" [disabled]="!canSubmit">
       Create account
     </ion-button>
