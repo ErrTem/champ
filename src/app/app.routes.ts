@@ -39,6 +39,12 @@ export const routes: Routes = [
         canActivate: [authGuard],
       },
       {
+        path: 'calendar',
+        loadComponent: () =>
+          import('./pages/profile/fighter-tools/fighter-tools.page').then((m) => m.FighterToolsPage),
+        canActivate: [authGuard],
+      },
+      {
         path: 'admin',
         loadComponent: () => import('./pages/admin/admin-tabs.page').then((m) => m.AdminTabsPage),
         canActivate: [adminGuard],
