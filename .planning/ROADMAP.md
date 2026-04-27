@@ -18,6 +18,19 @@
 
 </details>
 
+## Backlog
+
+### Phase 999.1: Close planning bookkeeping gaps (BACKLOG)
+
+**Goal:** capture + close stale planning artifacts so roadmap/status truth matches code shipped.
+**Requirements:** R1/R2 doc alignment
+**Plans:** 0 plans
+
+Plans:
+- [ ] Reconcile Phase 07 plans vs missing summaries (decide execute vs delete)
+- [ ] Update `.planning/REQUIREMENTS.md` statuses for completed phases (R3–R10)
+- [ ] Resolve Phase 01 iOS auth persistence UAT status (or document failure) and update STATE deferred table
+
 ## Next
 
 - **v1.1 (Milestone 2)**: finish deferred human verification + ship pending todo set.
