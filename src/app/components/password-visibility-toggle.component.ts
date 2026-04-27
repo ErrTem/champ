@@ -5,13 +5,16 @@ import { IonButton } from '@ionic/angular/standalone';
   selector: 'app-password-visibility-toggle',
   standalone: true,
   imports: [IonButton],
+  styleUrls: ['./password-visibility-toggle.component.scss'],
   host: {
     '[attr.slot]': "'end'",
+    class: 'pwd-toggle-host',
   },
   template: `
     <ion-button
       type="button"
       fill="clear"
+      size="small"
       class="pwd-toggle"
       (click)="onClick($event)"
       [attr.aria-label]="shown() ? ariaHidePassword() : ariaShowPassword()"

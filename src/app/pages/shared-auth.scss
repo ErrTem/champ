@@ -76,6 +76,9 @@ ion-input {
   border-radius: var(--mac-radius, 10px);
   border: 1px solid var(--mac-separator, rgba(255, 255, 255, 0.12));
   overflow: hidden;
+  /* Same baseline as Ionic stacked label + control block (~56px); keeps password rows aligned */
+  min-height: 56px;
+  box-sizing: border-box;
 }
 
 .kinetic-gradient {
@@ -147,18 +150,7 @@ ion-input {
   color: var(--auth-on);
 }
 
-/* Password visibility toggle — slotted inside ion-input */
-.pwd-toggle {
-  --padding-start: 6px;
-  --padding-end: 6px;
-  margin: 0;
-  height: auto;
-  min-height: 44px;
-  --color: var(--auth-muted);
-}
-
-.pwd-toggle-svg {
-  width: 22px;
-  height: 22px;
-  display: block;
-}
+/*
+ * Password toggle styling lives on PasswordVisibilityToggleComponent so it
+ * applies under Angular encapsulation (shared-auth.scss cannot style it alone).
+ */
