@@ -15,6 +15,7 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/angular/standalone';
+import { PasswordVisibilityToggleComponent } from '../../components/password-visibility-toggle.component';
 import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../environments/environment';
 
@@ -24,6 +25,7 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./register.page.scss'],
   imports: [
     FormsModule,
+    PasswordVisibilityToggleComponent,
     RouterLink,
     IonHeader,
     IonToolbar,
@@ -53,6 +55,8 @@ export class RegisterPage {
   confirmedAdult = false;
   profileType: 'user' | 'fighter' | '' = '';
   error = '';
+  passwordVisible = false;
+  confirmPasswordVisible = false;
 
   private digitsOnly(v: string): string {
     return (v ?? '').replace(/\D/g, '');

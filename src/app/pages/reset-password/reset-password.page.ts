@@ -12,6 +12,7 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/angular/standalone';
+import { PasswordVisibilityToggleComponent } from '../../components/password-visibility-toggle.component';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
@@ -20,6 +21,7 @@ import { AuthService } from '../../core/services/auth.service';
   styleUrls: ['./reset-password.page.scss'],
   imports: [
     FormsModule,
+    PasswordVisibilityToggleComponent,
     RouterLink,
     IonHeader,
     IonToolbar,
@@ -42,6 +44,8 @@ export class ResetPasswordPage {
   password = '';
   confirm = '';
   error = '';
+  passwordVisible = false;
+  confirmPasswordVisible = false;
 
   submit(): void {
     const token = this.token();
