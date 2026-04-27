@@ -1,8 +1,7 @@
 <ion-content fullscreen="true" class="auth-shell">
   <app-header title="Fighter tools" />
 
-  <div class="auth-hero">
-    <p class="kicker">Fighter</p>
+  <div class="auth-hero hero-elegant">
     <h1 class="display">Manage your schedule</h1>
     <p class="sub">Services, availability, and upcoming bookings.</p>
   </div>
@@ -164,7 +163,7 @@
           } @else if (bookings.length === 0) {
             <p class="sub">No upcoming bookings</p>
           } @else {
-            <ion-list lines="none">
+            <ion-list lines="none" class="glass list-elegant">
               @for (b of bookings; track b.id) {
                 <ion-item lines="none">
                   <ion-label>

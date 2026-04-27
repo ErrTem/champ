@@ -2,6 +2,31 @@
   margin-top: 12px;
 }
 
+.hero-elegant .display {
+  text-transform: none;
+  letter-spacing: -0.035em;
+}
+
+.hero-elegant .sub {
+  color: rgba(226, 226, 226, 0.72);
+}
+
+.glass {
+  background: rgba(31, 31, 31, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.list-elegant {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.list-elegant ion-item {
+  --background: transparent;
+}
+
 .row {
   display: flex;
   align-items: center;
