@@ -25,6 +25,7 @@ type SlotBucket = 'morning' | 'afternoon' | 'evening';
 
 const DISPLAY_TIMEZONE = 'America/Los_Angeles';
 const HORIZON_DAYS = 30;
+const DOW_MON_START = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const;
 
 @Component({
   selector: 'app-book-placeholder',
@@ -72,6 +73,9 @@ export class BookPlaceholderPage implements OnDestroy {
   availabilityByDate = new Map<string, AvailabilityDay>();
 
   horizonDates: string[] = [];
+  horizonSet = new Set<string>();
+  months: string[] = []; // YYYY-MM
+  selectedMonth: string | null = null; // YYYY-MM
   displayedMonthLabel = '';
 
   selectedDate: string | null = null; // YYYY-MM-DD (America/Los_Angeles)
@@ -80,6 +84,7 @@ export class BookPlaceholderPage implements OnDestroy {
   reserving = false;
   reserveError:
     | { kind: 'slot-unavailable' }
+    | { kind: 'too-soon'; title: string; body: string }
     | { kind: 'generic'; title: string; body: string }
     | null = null;
 
@@ -213,7 +218,18 @@ export class BookPlaceholderPage implements OnDestroy {
       return fmt.format(d);
     });
 
-    this.displayedMonthLabel = this.formatMonthLabel(this.horizonDates[0] ?? fmt.format(today));
+    this.horizonSet = new Set(this.horizonDates);
+    this.months = this.uniqueMonthsFromDates(this.horizonDates);
+
+    const monthFromSelected = this.selectedDate ? this.selectedDate.slice(0, 7) : null;
+    this.selectedMonth =
+      (monthFromSelected && this.months.includes(monthFromSelected) ? monthFromSelected : null) ??
+      this.months[0] ??
+      null;
+
+    this.displayedMonthLabel = this.selectedMonth
+      ? this.formatMonthLabel(`${this.selectedMonth}-01`)
+      : this.formatMonthLabel(this.horizonDates[0] ?? fmt.format(today));
   }
 
   private loadAvailability(): void {
@@ -261,6 +277,12 @@ export class BookPlaceholderPage implements OnDestroy {
     this.selectedDate = date;
     this.selectedSlotId = null;
     this.reserveError = null;
+
+    const m = date.slice(0, 7);
+    if (this.months.includes(m)) {
+      this.selectedMonth = m;
+      this.displayedMonthLabel = this.formatMonthLabel(`${m}-01`);
+    }
   }
 
   pickDifferentDate(): void {
@@ -317,6 +339,14 @@ export class BookPlaceholderPage implements OnDestroy {
           }
           if (e?.status === 409 && e?.code === 'SLOT_UNAVAILABLE') {
             this.reserveError = { kind: 'slot-unavailable' };
+            return;
+          }
+          if (e?.status === 400 && e?.code === 'BOOKING_TOO_SOON') {
+            this.reserveError = {
+              kind: 'too-soon',
+              title: 'Too soon to book',
+              body: e?.message || 'Bookings must be made at least 24 hours in advance.',
+            };
             return;
           }
           this.reserveError = {
@@ -424,6 +454,107 @@ export class BookPlaceholderPage implements OnDestroy {
     })
       .format(utcMid)
       .toUpperCase();
+  }
+
+  get calendarCells(): Array<{ date: string | null; dayNum: string | null; disabled: boolean }> {
+    if (!this.selectedMonth) return [];
+
+    const [y, m] = this.selectedMonth.split('-').map((x) => Number(x));
+    const fmt = new Intl.DateTimeFormat('en-CA', {
+      timeZone: DISPLAY_TIMEZONE,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+
+    const firstOfMonth = fmt.format(new Date(Date.UTC(y, m - 1, 1, 12, 0, 0)));
+    const firstDow = this.dowIndexMonStart(firstOfMonth);
+
+    const days: string[] = [];
+    for (let day = 1; day <= 31; day++) {
+      const d = fmt.format(new Date(Date.UTC(y, m - 1, day, 12, 0, 0)));
+      if (d.slice(0, 7) !== this.selectedMonth) break;
+      days.push(d);
+    }
+
+    const cells: Array<{ date: string | null; dayNum: string | null; disabled: boolean }> = [];
+    for (let i = 0; i < firstDow; i++) {
+      cells.push({ date: null, dayNum: null, disabled: true });
+    }
+    for (const d of days) {
+      cells.push({
+        date: d,
+        dayNum: d.split('-')[2] ?? null,
+        disabled: !this.horizonSet.has(d),
+      });
+    }
+    const rem = cells.length % 7;
+    if (rem !== 0) {
+      const pad = 7 - rem;
+      for (let i = 0; i < pad; i++) cells.push({ date: null, dayNum: null, disabled: true });
+    }
+    return cells;
+  }
+
+  monthCanGoPrev(): boolean {
+    if (!this.selectedMonth) return false;
+    const idx = this.months.indexOf(this.selectedMonth);
+    return idx > 0;
+  }
+
+  monthCanGoNext(): boolean {
+    if (!this.selectedMonth) return false;
+    const idx = this.months.indexOf(this.selectedMonth);
+    return idx >= 0 && idx < this.months.length - 1;
+  }
+
+  monthPrev(): void {
+    if (!this.selectedMonth) return;
+    const idx = this.months.indexOf(this.selectedMonth);
+    if (idx <= 0) return;
+    const next = this.months[idx - 1]!;
+    this.selectedMonth = next;
+    this.displayedMonthLabel = this.formatMonthLabel(`${next}-01`);
+  }
+
+  monthNext(): void {
+    if (!this.selectedMonth) return;
+    const idx = this.months.indexOf(this.selectedMonth);
+    if (idx < 0 || idx >= this.months.length - 1) return;
+    const next = this.months[idx + 1]!;
+    this.selectedMonth = next;
+    this.displayedMonthLabel = this.formatMonthLabel(`${next}-01`);
+  }
+
+  selectCalendarCell(cell: { date: string | null; disabled: boolean }): void {
+    if (!cell.date || cell.disabled) return;
+    this.selectDate(cell.date);
+  }
+
+  dowLabels(): string[] {
+    return [...DOW_MON_START];
+  }
+
+  private uniqueMonthsFromDates(dates: string[]): string[] {
+    const out: string[] = [];
+    for (const d of dates) {
+      const m = d.slice(0, 7);
+      if (!out.includes(m)) out.push(m);
+    }
+    return out;
+  }
+
+  private dowIndexMonStart(date: string): number {
+    // date is YYYY-MM-DD in DISPLAY_TIMEZONE. Return 0..6 where 0=Mon.
+    const [y, m, d] = date.split('-').map((x) => Number(x));
+    const utcMid = new Date(Date.UTC(y, m - 1, d, 12, 0, 0));
+    const wd = new Intl.DateTimeFormat('en-US', {
+      timeZone: DISPLAY_TIMEZONE,
+      weekday: 'short',
+    }).format(utcMid);
+    const idxSunStart = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(wd);
+    if (idxSunStart < 0) return 0;
+    return (idxSunStart + 6) % 7;
   }
 
   get selectedSlot(): Slot | null {

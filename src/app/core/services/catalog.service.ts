@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -135,15 +135,55 @@ function minPriceCents(services: Service[]): number | null {
   return Math.min(...services.map((s) => s.priceCents));
 }
 
+export type FightersFilters = {
+  minPriceCents?: number;
+  maxPriceCents?: number;
+  disciplines?: string[];
+  modalities?: Array<'online' | 'in_person'>;
+};
+
 @Injectable({ providedIn: 'root' })
 export class CatalogService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = environment.apiUrl;
 
-  getFighters(): Observable<FighterListItem[]> {
+  getFighters(filters?: FightersFilters): Observable<FighterListItem[]> {
+    const normalized: FightersFilters = {
+      minPriceCents: filters?.minPriceCents,
+      maxPriceCents: filters?.maxPriceCents,
+      disciplines: (filters?.disciplines ?? []).filter(Boolean),
+      modalities: (filters?.modalities ?? []).filter((m) => m === 'online' || m === 'in_person'),
+    };
+
     if (environment.mockCatalog) {
+      const fighters = MOCK_FIGHTERS.filter((f) => {
+        const hasDisciplines =
+          normalized.disciplines && normalized.disciplines.length
+            ? (f.disciplines ?? []).some((d) => normalized.disciplines!.includes(d))
+            : true;
+        if (!hasDisciplines) return false;
+
+        const needsServiceConstraint =
+          normalized.minPriceCents !== undefined ||
+          normalized.maxPriceCents !== undefined ||
+          (normalized.modalities?.length ?? 0) > 0;
+        if (!needsServiceConstraint) return true;
+
+        return f.services.some((s) => {
+          if (normalized.minPriceCents !== undefined && s.priceCents < normalized.minPriceCents) return false;
+          if (normalized.maxPriceCents !== undefined && s.priceCents > normalized.maxPriceCents) return false;
+          if (normalized.modalities && normalized.modalities.length > 0) {
+            if (s.modality !== 'online' && s.modality !== 'in_person') return false;
+            if (!normalized.modalities.includes(s.modality)) return false;
+          }
+          return true;
+        });
+      })
+        .slice()
+        .sort((a, b) => a.name.localeCompare(b.name));
+
       return of(
-        MOCK_FIGHTERS.map((f) => ({
+        fighters.map((f) => ({
           id: f.id,
           name: f.name,
           photoUrl: f.photoUrl ?? null,
@@ -153,7 +193,21 @@ export class CatalogService {
         })),
       );
     }
-    return this.http.get<FighterListItem[]>(`${this.baseUrl}/fighters`, { withCredentials: true });
+
+    let params = new HttpParams();
+    if (normalized.minPriceCents !== undefined) params = params.set('minPriceCents', String(normalized.minPriceCents));
+    if (normalized.maxPriceCents !== undefined) params = params.set('maxPriceCents', String(normalized.maxPriceCents));
+    for (const d of normalized.disciplines ?? []) {
+      params = params.append('discipline', d);
+    }
+    for (const m of normalized.modalities ?? []) {
+      params = params.append('modality', m);
+    }
+
+    return this.http.get<FighterListItem[]>(`${this.baseUrl}/fighters`, {
+      withCredentials: true,
+      params,
+    });
   }
 
   getFighterProfile(fighterId: string): Observable<FighterProfile> {

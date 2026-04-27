@@ -1,8 +1,8 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { DateTime } from 'luxon';
 import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { BOOKING_HOLD_TTL_MINUTES, SLOT_UNAVAILABLE_CODE } from './bookings.constants';
+import { BOOKING_HOLD_TTL_MINUTES, BOOKING_TOO_SOON_CODE, SLOT_UNAVAILABLE_CODE } from './bookings.constants';
 import { BookingDto, BookingListItemDto } from './dto/booking.dto';
 
 @Injectable()
@@ -155,7 +155,7 @@ export class BookingsService {
   async createBooking(input: { userId: string; slotId: string }): Promise<BookingDto> {
     const { userId, slotId } = input;
 
-    const nowUtc = new Date();
+    const nowUtc = DateTime.utc().toJSDate();
     const expiresAtUtc = new Date(nowUtc.getTime() + BOOKING_HOLD_TTL_MINUTES * 60 * 1000);
 
     return this.prisma.$transaction(async (tx) => {
@@ -171,6 +171,17 @@ export class BookingsService {
       });
 
       if (!slot) throw new NotFoundException('Slot not found');
+
+      const startsAtUtcMs = DateTime.fromJSDate(slot.startsAtUtc, { zone: 'utc' }).toMillis();
+      const nowUtcMs = DateTime.fromJSDate(nowUtc, { zone: 'utc' }).toMillis();
+      const diffMs = startsAtUtcMs - nowUtcMs;
+      const minLeadMs = 24 * 60 * 60 * 1000;
+      if (diffMs < minLeadMs) {
+        throw new BadRequestException({
+          code: BOOKING_TOO_SOON_CODE,
+          message: 'Bookings must be made at least 24 hours in advance.',
+        });
+      }
 
       const booking = await tx.booking.create({
         data: {

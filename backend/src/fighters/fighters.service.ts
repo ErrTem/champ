@@ -4,13 +4,53 @@ import { FighterListItemDto } from './dto/fighter-list-item.dto';
 import { FighterProfileDto } from './dto/fighter-profile.dto';
 import { ServiceDto } from './dto/service.dto';
 
+type FightersListFilters = {
+  minPriceCents: number | null;
+  maxPriceCents: number | null;
+  disciplines: string[];
+  modalities: Array<'online' | 'in_person'>;
+};
+
 @Injectable()
 export class FightersService {
   constructor(private readonly prisma: PrismaService) {}
 
   async listPublished(): Promise<FighterListItemDto[]> {
+    return this.listPublishedFiltered({
+      minPriceCents: null,
+      maxPriceCents: null,
+      disciplines: [],
+      modalities: [],
+    });
+  }
+
+  async listPublishedFiltered(filters: FightersListFilters): Promise<FighterListItemDto[]> {
+    const { minPriceCents, maxPriceCents, disciplines, modalities } = filters;
+
+    const serviceLevel: {
+      published: true;
+      priceCents?: { gte?: number; lte?: number };
+      modality?: { in: Array<'online' | 'in_person'> };
+    } = { published: true };
+
+    const priceCents: { gte?: number; lte?: number } = {};
+    if (minPriceCents !== null) priceCents.gte = minPriceCents;
+    if (maxPriceCents !== null) priceCents.lte = maxPriceCents;
+    if (Object.keys(priceCents).length > 0) serviceLevel.priceCents = priceCents;
+
+    if (modalities.length > 0) serviceLevel.modality = { in: modalities };
+
+    const where: Record<string, unknown> = { published: true };
+    if (disciplines.length > 0) {
+      where.disciplines = { hasSome: disciplines };
+    }
+    const hasServiceConstraints = Object.keys(serviceLevel).length > 1;
+    if (hasServiceConstraints) {
+      where.services = { some: serviceLevel };
+    }
+
     const fighters = await this.prisma.fighter.findMany({
-      where: { published: true },
+      where,
       orderBy: { name: 'asc' },
       select: {
         id: true,

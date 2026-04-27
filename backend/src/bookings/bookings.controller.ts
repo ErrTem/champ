@@ -1,8 +1,18 @@
-import { Body, ConflictException, Controller, Get, Post, Req, UseGuards, Param } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  ConflictException,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { JwtAccessAuthGuard } from '../auth/guards/jwt-access.guard';
 import { BookingsService } from './bookings.service';
+import { BOOKING_TOO_SOON_CODE, SLOT_UNAVAILABLE_CODE } from './bookings.constants';
 import { CreateBookingDto } from './dto/create-booking.dto';
-import { SLOT_UNAVAILABLE_CODE } from './bookings.constants';
 
 type JwtUser = { sub: string; email: string };
 
@@ -36,6 +46,16 @@ export class BookingsController {
           throw new ConflictException({
             code: SLOT_UNAVAILABLE_CODE,
             message: 'That time is no longer available. Please pick another slot.',
+          });
+        }
+      }
+      if (e instanceof BadRequestException) {
+        const res = e.getResponse();
+        const code = typeof res === 'object' && res !== null ? (res as { code?: unknown }).code : undefined;
+        if (code === BOOKING_TOO_SOON_CODE) {
+          throw new BadRequestException({
+            code: BOOKING_TOO_SOON_CODE,
+            message: 'Bookings must be made at least 24 hours in advance.',
           });
         }
       }

@@ -9,8 +9,12 @@ import {
   IonTabButton,
   IonTabs,
 } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { calendarOutline, compassOutline, personOutline, shieldCheckmarkOutline } from 'ionicons/icons';
+import {
+  calendarOutline,
+  compassOutline,
+  personOutline,
+  shieldCheckmarkOutline,
+} from 'ionicons/icons';
 import { AuthService } from '../core/services/auth.service';
 
 @Component({
@@ -36,7 +40,6 @@ export class TabsPage {
   readonly user = this.auth.user;
 
   constructor() {
-    addIcons({ compassOutline, calendarOutline, personOutline, shieldCheckmarkOutline });
     this.auth.loadProfile().subscribe();
   }
 }

@@ -11,24 +11,61 @@
   </section>
 
   <section class="sticky-filters">
-    <div class="chip-row">
-      @for (chip of chips; track chip) {
-        <ion-chip class="chip" [class.chip-active]="chip === 'All'">
-          <ion-label>{{ chip }}</ion-label>
-        </ion-chip>
-      }
-    </div>
+    <ion-accordion-group [multiple]="false" value="">
+      <ion-accordion value="filters">
+        <ion-item slot="header" class="filters-header" lines="none">
+          <ion-icon name="filter-outline" aria-hidden="true"></ion-icon>
+          <ion-label>
+            <div class="filters-title">Filters</div>
+            <div class="filters-sub">{{ filtersSummary() }}</div>
+          </ion-label>
+          <ion-button fill="clear" size="small" class="reset-btn" (click)="resetFilters(); $event.stopPropagation()">
+            Reset
+          </ion-button>
+        </ion-item>
 
-    <div class="filter-row">
-      <div class="pill">
-        <ion-icon name="filter-outline" aria-hidden="true"></ion-icon>
-        <span class="pill-label">Refine</span>
-      </div>
-      <div class="pill">
-        <span class="pill-label">Price range</span>
-        <ion-icon name="chevron-down-outline" aria-hidden="true"></ion-icon>
-      </div>
-    </div>
+        <div slot="content" class="filters-content">
+          <ion-item class="filter-item" lines="none">
+            <ion-label>Discipline</ion-label>
+            <ion-select
+              interface="popover"
+              [value]="selectedDiscipline ?? 'any'"
+              (ionChange)="setDiscipline($any($event.detail.value))"
+            >
+              @for (d of disciplineOptions; track d) {
+                <ion-select-option [value]="d">{{ d === 'any' ? 'Any' : d }}</ion-select-option>
+              }
+            </ion-select>
+          </ion-item>
+
+          <ion-item class="filter-item" lines="none">
+            <ion-label>Training</ion-label>
+            <ion-select
+              interface="popover"
+              [value]="selectedModality"
+              (ionChange)="setModality($any($event.detail.value))"
+            >
+              @for (m of modalityOptions; track m.value) {
+                <ion-select-option [value]="m.value">{{ m.label }}</ion-select-option>
+              }
+            </ion-select>
+          </ion-item>
+
+          <ion-item class="filter-item" lines="none">
+            <ion-label>Price</ion-label>
+            <ion-select
+              interface="popover"
+              [value]="selectedPrice"
+              (ionChange)="setPrice($any($event.detail.value))"
+            >
+              @for (p of priceOptions; track p.value) {
+                <ion-select-option [value]="p.value">{{ p.label }}</ion-select-option>
+              }
+            </ion-select>
+          </ion-item>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
   </section>
 
   @if (loading) {

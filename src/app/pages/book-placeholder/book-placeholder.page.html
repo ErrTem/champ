@@ -21,30 +21,51 @@
     @if (step === 'select') {
       <section class="hero">
         <p class="kicker">Schedule session</p>
-        <h2 class="headline">{{ displayedMonthLabel }}</h2>
+        <div class="month-bar">
+          <button
+            class="month-nav"
+            type="button"
+            [disabled]="!monthCanGoPrev()"
+            (click)="monthPrev()"
+            aria-label="Previous month"
+          >
+            <ion-icon name="chevron-back-outline"></ion-icon>
+          </button>
+          <h2 class="headline month-label">{{ displayedMonthLabel }}</h2>
+          <button
+            class="month-nav"
+            type="button"
+            [disabled]="!monthCanGoNext()"
+            (click)="monthNext()"
+            aria-label="Next month"
+          >
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
+        </div>
       </section>
 
       <section class="calendar card well">
         <div class="dow">
-          <div>Mon</div>
-          <div>Tue</div>
-          <div>Wed</div>
-          <div>Thu</div>
-          <div>Fri</div>
-          <div>Sat</div>
-          <div>Sun</div>
+          @for (dow of dowLabels(); track dow) {
+            <div>{{ dow }}</div>
+          }
         </div>
 
         <div class="day-grid">
-          @for (d of horizonDates; track d) {
-            <button
-              class="day"
-              [class.selected]="d === selectedDate"
-              (click)="selectDate(d)"
-              type="button"
-            >
-              <span class="day-num">{{ d.split('-')[2] }}</span>
-            </button>
+          @for (c of calendarCells; track c.date ?? $index) {
+            @if (c.date) {
+              <button
+                class="day"
+                [class.selected]="c.date === selectedDate"
+                [class.disabled]="c.disabled"
+                (click)="selectCalendarCell(c)"
+                type="button"
+              >
+                <span class="day-num">{{ c.dayNum }}</span>
+              </button>
+            } @else {
+              <div class="day day-blank" aria-hidden="true"></div>
+            }
           }
         </div>
       </section>
@@ -186,6 +207,10 @@
             <p class="alert-title">That time just got taken.</p>
             <p class="alert-body">Pick another time — we refreshed today’s availability.</p>
             <ion-button fill="clear" (click)="viewUpdatedTimes()">View updated times</ion-button>
+          } @else if (reserveError.kind === 'too-soon') {
+            <p class="alert-title">{{ reserveError.title }}</p>
+            <p class="alert-body">{{ reserveError.body }}</p>
+            <ion-button fill="clear" (click)="changeTime()">Pick a later time</ion-button>
           } @else {
             <p class="alert-title">{{ reserveError.title }}</p>
             <p class="alert-body">{{ reserveError.body }}</p>
