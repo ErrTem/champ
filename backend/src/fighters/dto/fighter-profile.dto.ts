@@ -8,6 +8,9 @@ export class FighterProfileDto {
   bio!: string;
   disciplines!: string[];
   mediaUrls!: string[];
+  instagramUrl!: string | null;
+  facebookUrl!: string | null;
+  xUrl!: string | null;
 
   wins!: number;
   losses!: number;

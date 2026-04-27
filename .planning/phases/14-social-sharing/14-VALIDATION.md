@@ -2,12 +2,12 @@
 
 | ID | Plan | Requirement | Threat | What to validate | Type | How | Status |
 |----|------|-------------|--------|------------------|------|-----|--------|
-| 14-01-01 | 01 | R10 | T-14-01 | Admin API accepts valid social URLs; rejects `javascript:`/invalid schemes | e2e | `cd backend && npm test` | ⬜ pending |
-| 14-01-02 | 01 | R10 | T-14-05 | Public `GET /fighters/:fighterId` includes optional social fields for published fighter | e2e | `cd backend && npm test` | ⬜ pending |
-| 14-02-01 | 02 | R10 | T-14-04 | URL safety util rejects `javascript:`/`data:` and non-https URLs; only allowlisted schemes pass | unit | `npm test` | ⬜ pending |
-| 14-02-02 | 02 | R10 | T-14-02 | Share action copies canonical fighter profile URL on web/PWA (minimum always works) | integration | `npm test` + manual paste check | ⬜ pending |
-| 14-02-03 | 02 | R10 | T-14-03 | Share sheet used when available; fallback to copy works when share unsupported/throws | manual | browser with/without `navigator.share` + (optional) iOS simulator | ⬜ pending |
-| 14-02-04 | 02 | R10 | T-14-04 | Social links render only when present and safe; unsafe values do not render clickable href | integration | `npm test` + manual click-through | ⬜ pending |
+| 14-01-01 | 01 | R10 | T-14-01 | Admin API accepts valid social URLs; rejects `javascript:`/invalid schemes | e2e | `cd backend && npm test` | ✅ pass |
+| 14-01-02 | 01 | R10 | T-14-05 | Public `GET /fighters/:fighterId` includes optional social fields for published fighter | e2e | `cd backend && npm test` | ✅ pass |
+| 14-02-01 | 02 | R10 | T-14-04 | URL safety util rejects `javascript:`/`data:` and non-https URLs; only allowlisted schemes pass | unit | `npm test` | ✅ pass |
+| 14-02-02 | 02 | R10 | T-14-02 | Share action copies canonical fighter profile URL on web/PWA (minimum always works) | integration | `npm test` + manual paste check | ✅ pass |
+| 14-02-03 | 02 | R10 | T-14-03 | Share sheet used when available; fallback to copy works when share unsupported/throws | manual | browser with/without `navigator.share` + (optional) iOS simulator | ✅ pass |
+| 14-02-04 | 02 | R10 | T-14-04 | Social links render only when present and safe; unsafe values do not render clickable href | integration | `npm test` + manual click-through | ✅ pass |
 
 ## Threat notes (STRIDE)
 

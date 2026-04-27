@@ -89,6 +89,9 @@ model Fighter {
   summary    String
   bio        String
   photoUrl   String?
+  instagramUrl String?
+  facebookUrl  String?
+  xUrl         String?
   disciplines String[]
   mediaUrls  String[]
   user       User?     @relation(fields: [userId], references: [id], onDelete: SetNull)

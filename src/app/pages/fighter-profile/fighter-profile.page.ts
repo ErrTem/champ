@@ -6,10 +6,13 @@ import {
   IonFooter,
   IonSkeletonText,
   IonToolbar,
+  ToastController,
 } from '@ionic/angular/standalone';
 import { finalize } from 'rxjs';
 import { FighterProfile, Service } from '../../core/models/catalog.models';
 import { CatalogService } from '../../core/services/catalog.service';
+import { ShareService } from '../../core/services/share.service';
+import { coerceSafeHttpUrl } from '../../core/utils/url-safety';
 import { buildAppleMapsUrl, buildGoogleMapsSearchUrl, formatGymAddress } from '../../shared/utils/map-links';
 
 @Component({
@@ -28,11 +31,16 @@ export class FighterProfilePage {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly catalog = inject(CatalogService);
+  private readonly share = inject(ShareService);
+  private readonly toast = inject(ToastController);
 
   loading = true;
   error = '';
   fighter: FighterProfile | null = null;
   selectedServiceId: string | null = null;
+  instagramHref: string | null = null;
+  facebookHref: string | null = null;
+  xHref: string | null = null;
 
   ionViewWillEnter(): void {
     this.fetch();
@@ -55,10 +63,18 @@ export class FighterProfilePage {
       .getFighterProfile(fighterId)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
-        next: (fighter) => (this.fighter = fighter),
+        next: (fighter) => {
+          this.fighter = fighter;
+          this.instagramHref = coerceSafeHttpUrl(fighter.instagramUrl);
+          this.facebookHref = coerceSafeHttpUrl(fighter.facebookUrl);
+          this.xHref = coerceSafeHttpUrl(fighter.xUrl);
+        },
         error: () => {
           this.fighter = null;
           this.error = "Couldn’t load fighter. Check your connection and try again.";
+          this.instagramHref = null;
+          this.facebookHref = null;
+          this.xHref = null;
         },
       });
   }
@@ -115,6 +131,27 @@ export class FighterProfilePage {
     const query = this.gymAddressQuery(fighter);
     const url = buildGoogleMapsSearchUrl(query);
     window.open(url, '_blank', 'noopener');
+  }
+
+  async shareProfile(): Promise<void> {
+    const fighterId = this.route.snapshot.paramMap.get('fighterId');
+    if (!fighterId) return;
+    const canonicalPath = `/explore/fighters/${encodeURIComponent(fighterId)}`;
+    const url = `${window.location.origin}${canonicalPath}`;
+    const title = this.fighter?.name ? `${this.fighter.name} · Champ` : 'Fighter profile · Champ';
+    const res = await this.share.shareOrCopy({ title, url });
+
+    const message =
+      res.method === 'share'
+        ? res.ok
+          ? 'Share opened'
+          : 'Couldn’t share'
+        : res.ok
+          ? 'Link copied'
+          : 'Couldn’t copy link';
+
+    const t = await this.toast.create({ message, duration: 1400, position: 'top' });
+    await t.present();
   }
 }
 

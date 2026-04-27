@@ -1,4 +1,4 @@
-import { IsArray, IsBoolean, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsArray, IsBoolean, IsOptional, IsString, IsUrl, MaxLength, MinLength } from 'class-validator';
 
 export class CreateAdminFighterDto {
   @IsString()
@@ -20,6 +20,21 @@ export class CreateAdminFighterDto {
   @IsString()
   @MaxLength(2048)
   photoUrl?: string;
+
+  @IsOptional()
+  @IsUrl({ require_protocol: true, protocols: ['https'] })
+  @MaxLength(2048)
+  instagramUrl?: string;
+
+  @IsOptional()
+  @IsUrl({ require_protocol: true, protocols: ['https'] })
+  @MaxLength(2048)
+  facebookUrl?: string;
+
+  @IsOptional()
+  @IsUrl({ require_protocol: true, protocols: ['https'] })
+  @MaxLength(2048)
+  xUrl?: string;
 
   @IsOptional()
   @IsArray()
@@ -53,6 +68,21 @@ export class UpdateAdminFighterDto {
   photoUrl?: string;
 
   @IsOptional()
+  @IsUrl({ require_protocol: true, protocols: ['https'] })
+  @MaxLength(2048)
+  instagramUrl?: string;
+
+  @IsOptional()
+  @IsUrl({ require_protocol: true, protocols: ['https'] })
+  @MaxLength(2048)
+  facebookUrl?: string;
+
+  @IsOptional()
+  @IsUrl({ require_protocol: true, protocols: ['https'] })
+  @MaxLength(2048)
+  xUrl?: string;
+
+  @IsOptional()
   @IsArray()
   disciplines?: string[];
 
@@ -67,6 +97,9 @@ export type AdminFighterDto = {
   summary: string;
   bio: string;
   photoUrl: string | null;
+  instagramUrl: string | null;
+  facebookUrl: string | null;
+  xUrl: string | null;
   disciplines: string[];
   published: boolean;
 };

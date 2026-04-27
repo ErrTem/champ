@@ -33,6 +33,9 @@ export type FighterProfile = {
   name: string;
   photoUrl?: string | null;
   bio: string;
+  instagramUrl?: string | null;
+  facebookUrl?: string | null;
+  xUrl?: string | null;
   disciplines?: string[];
   mediaUrls?: string[];
   wins: number;

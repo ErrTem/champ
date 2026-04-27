@@ -36,6 +36,9 @@
       <div class="hero-copy">
         <p class="badge">Elite Tier Trainer</p>
         <h1 class="name">{{ fighter.name }}</h1>
+        <div class="hero-actions">
+          <ion-button size="small" fill="outline" (click)="shareProfile()">Share</ion-button>
+        </div>
       </div>
     </section>
 
@@ -62,6 +65,23 @@
       <p class="kicker">The Pedigree</p>
       <p class="bio-text">{{ fighter.bio }}</p>
     </section>
+
+    @if (instagramHref || facebookHref || xHref) {
+      <section class="social">
+        <p class="kicker">Social</p>
+        <div class="social-links">
+          @if (instagramHref) {
+            <a class="social-link" [href]="instagramHref" target="_blank" rel="noopener noreferrer">Instagram</a>
+          }
+          @if (facebookHref) {
+            <a class="social-link" [href]="facebookHref" target="_blank" rel="noopener noreferrer">Facebook</a>
+          }
+          @if (xHref) {
+            <a class="social-link" [href]="xHref" target="_blank" rel="noopener noreferrer">X</a>
+          }
+        </div>
+      </section>
+    }
 
     <section class="gym">
       <div class="gym-head">

@@ -34,6 +34,6 @@
 - [x] Phase 11: Gyms + multi-timezone — completed 2026-04-27
 - [x] Phase 12: Fighter self-serve — completed 2026-04-27
 - [x] Phase 13: Notifications + calendar sync — completed 2026-04-27
-- [ ] Phase 14: Social sharing
+- [x] Phase 14: Social sharing — completed 2026-04-27
 
 </details>
