@@ -4,11 +4,11 @@ Goal: Phase 13 plans cover R9 end-to-end with minimal, shippable slice.
 
 ## Coverage checklist (must)
 
-- [ ] Push subscription stored per user (multi-device OK)
-- [ ] Fighter receives push on new booking creation
-- [ ] User reminder push at least 24h before booking start (idempotent)
-- [ ] Notification preferences exist (at least enable/disable reminders)
-- [ ] ICS export endpoint exists and UI exposes “Add to calendar”
+- [x] Push subscription stored per user (multi-device OK)
+- [x] Fighter receives push on new booking creation
+- [x] User reminder push at least 24h before booking start (idempotent)
+- [x] Notification preferences exist (at least enable/disable reminders)
+- [x] ICS export endpoint exists and UI exposes “Add to calendar”
 
 ## Key risks / focus
 

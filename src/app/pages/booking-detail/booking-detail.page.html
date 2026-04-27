@@ -45,6 +45,9 @@
       @if (checkoutError) {
         <p class="body body-error">{{ checkoutError }}</p>
       }
+      @if (icsError) {
+        <p class="body body-error">{{ icsError }}</p>
+      }
 
       @if (data.status === 'awaiting_payment') {
         <ion-button class="kinetic-gradient" expand="block" (click)="payNow()" [disabled]="openingCheckout">
@@ -55,6 +58,8 @@
           }
         </ion-button>
       }
+
+      <ion-button expand="block" fill="outline" (click)="addToCalendar()">Add to calendar</ion-button>
     </section>
   }
 </ion-content>

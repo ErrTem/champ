@@ -1,5 +1,6 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { DateTime } from 'luxon';
+import { NotificationDeliveryService } from '../notifications/notification-delivery.service';
 import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { BOOKING_HOLD_TTL_MINUTES, BOOKING_TOO_SOON_CODE, SLOT_UNAVAILABLE_CODE } from './bookings.constants';
@@ -10,6 +11,7 @@ export class BookingsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly notifications: NotificationsService,
+    private readonly delivery: NotificationDeliveryService,
   ) {}
 
   private paymentStateFromBooking(input: { status: string }): string {
@@ -158,7 +160,7 @@ export class BookingsService {
     const nowUtc = DateTime.utc().toJSDate();
     const expiresAtUtc = new Date(nowUtc.getTime() + BOOKING_HOLD_TTL_MINUTES * 60 * 1000);
 
-    return this.prisma.$transaction(async (tx) => {
+    const result = await this.prisma.$transaction(async (tx) => {
       const slot = await tx.slot.findUnique({
         where: { id: slotId },
         select: {
@@ -224,6 +226,25 @@ export class BookingsService {
         },
       };
     });
+
+    // Hook: notify fighter about new booking (delivery in Phase 13-02).
+    try {
+      const fighter = await this.prisma.fighter.findUnique({
+        where: { id: result.slot.fighterId },
+        select: { userId: true },
+      });
+      if (fighter?.userId) {
+        await this.delivery.sendFighterNewBooking({
+          bookingId: result.id,
+          fighterUserId: fighter.userId,
+          startAtUtcIso: result.slot.startsAtUtc,
+        });
+      }
+    } catch {
+      // Do not fail booking creation on notification issues.
+    }
+
+    return result;
   }
 }
 

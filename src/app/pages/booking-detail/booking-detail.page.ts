@@ -26,6 +26,8 @@ export class BookingDetailPage {
   openingCheckout = false;
   checkoutError = '';
 
+  icsError = '';
+
   ionViewWillEnter(): void {
     this.bookingId = this.route.snapshot.paramMap.get('bookingId') ?? '';
     if (!this.bookingId) {
@@ -69,6 +71,24 @@ export class BookingDetailPage {
           this.checkoutError = "Couldn’t open checkout. Check your connection and try again.";
         },
       });
+  }
+
+  addToCalendar(): void {
+    if (!this.data?.id) return;
+    this.icsError = '';
+    this.booking.downloadIcs(this.data.id).subscribe({
+      next: (blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `booking-${this.data!.id}.ics`;
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      },
+      error: () => {
+        this.icsError = 'Calendar export unavailable.';
+      },
+    });
   }
 
   formatPacificDateTime(utcIso: string | undefined): string {

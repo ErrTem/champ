@@ -33,7 +33,10 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
-              }
+              },
+              "src/manifest.webmanifest",
+              "src/combined-sw.js",
+              "src/push-sw.js"
             ],
             "styles": ["src/global.scss", "src/theme/variables.scss"],
             "scripts": [],
@@ -59,6 +62,7 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "serviceWorker": "src/ngsw-config.json",
               "outputHashing": "all"
             },
             "development": {

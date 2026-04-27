@@ -38,6 +38,9 @@ model User {
   bookings            Booking[]
   oauthIdentities     UserOAuthIdentity[]
   fighter             Fighter?
+  pushSubscriptions   PushSubscription[]
+  notificationPreference NotificationPreference?
+  notificationDeliveries NotificationDelivery[]
 }
 
 model UserOAuthIdentity {
@@ -215,10 +218,58 @@ model Booking {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  notificationDeliveries NotificationDelivery[]
+
   @@index([userId])
   @@index([fighterId])
   @@index([serviceId])
   @@index([slotId])
+}
+
+model PushSubscription {
+  id          String   @id @default(cuid())
+  userId      String
+  endpoint    String   @unique
+  p256dh      String
+  auth        String
+  userAgent   String?
+  deviceLabel String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model NotificationPreference {
+  userId                 String  @id
+  remindersEnabled       Boolean @default(true)
+  fighterNewBookingEnabled Boolean @default(true)
+  updatedAt              DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model NotificationDelivery {
+  id           String   @id @default(cuid())
+  userId       String
+  bookingId    String
+  type         String
+  scheduledFor DateTime
+  status       String
+  attemptCount Int      @default(0)
+  lastError    String?
+  sentAt       DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, bookingId, type, scheduledFor])
+  @@index([status, scheduledFor])
+  @@index([bookingId])
 }
 
 model StripeWebhookEvent {

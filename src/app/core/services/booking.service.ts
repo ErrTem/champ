@@ -67,6 +67,13 @@ export class BookingService {
     });
   }
 
+  downloadIcs(bookingId: string): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/bookings/${encodeURIComponent(bookingId)}/ics`, {
+      withCredentials: true,
+      responseType: 'blob',
+    });
+  }
+
   createCheckoutSession(bookingId: string): Observable<{ checkoutUrl: string }> {
     return this.http.post<{ checkoutUrl: string }>(
       `${this.baseUrl}/bookings/${encodeURIComponent(bookingId)}/checkout-session`,

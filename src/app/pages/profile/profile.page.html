@@ -43,6 +43,30 @@
       name="phone"
     />
     <ion-button expand="block" type="submit" class="kinetic-gradient">Save</ion-button>
+
+    <ion-list class="glass" style="margin-top: 14px; border-radius: 18px; overflow: hidden;">
+      <ion-item lines="none">
+        <ion-toggle
+          [checked]="remindersEnabled"
+          (ionChange)="setRemindersEnabled($event.detail.checked)"
+        >
+          Booking reminders
+        </ion-toggle>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-button expand="block" fill="outline" type="button" (click)="enablePush()" [disabled]="pushEnabling">
+          @if (pushEnabling) { Enabling push… } @else { Enable push notifications }
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+    @if (prefsError) {
+      <ion-text color="danger"><p class="field-error">{{ prefsError }}</p></ion-text>
+    }
+    @if (pushError) {
+      <ion-text color="danger"><p class="field-error">{{ pushError }}</p></ion-text>
+    }
+
     @if (auth.user()?.userType === 'fighter' && auth.user()?.fighterStatus === 'approved') {
       <ion-button expand="block" fill="outline" routerLink="/profile/fighter-tools">
         Fighter tools
