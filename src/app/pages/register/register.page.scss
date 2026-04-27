@@ -86,11 +86,29 @@ ion-segment-button {
   min-height: 44px;
 }
 
-.oauth-mac ion-icon {
-  font-size: 20px;
-  margin-inline-end: 8px;
+.oauth-brand {
+  display: inline-flex;
+  align-items: center;
+  margin-inline-end: 10px;
 }
 
-.oauth-apple ion-icon {
-  font-size: 22px;
+.oauth-svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.oauth-svg-google {
+  width: 18px;
+  height: 18px;
+}
+
+.oauth-svg-apple {
+  width: 20px;
+  height: 20px;
+  color: var(--auth-on);
+}
+
+.oauth-apple {
+  color: var(--auth-on);
 }
