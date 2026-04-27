@@ -45,14 +45,29 @@
         required
       />
     </div>
-    <ion-segment [value]="profileType" (ionChange)="onProfileTypeChange($event.detail.value)">
-      <ion-segment-button value="user">
-        <ion-label>Regular</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="fighter">
-        <ion-label>Fighter</ion-label>
-      </ion-segment-button>
-    </ion-segment>
+    <div id="profile-choice-heading" class="join-as-heading mac-label">I am joining as:</div>
+    <ion-radio-group
+      class="join-as-group"
+      [(ngModel)]="profileType"
+      name="profileType"
+      aria-labelledby="profile-choice-heading"
+      required
+    >
+      <ion-item lines="none" class="auth-check-item join-as-option">
+        <ion-radio slot="start" value="user" />
+        <ion-label class="auth-check-label join-as-label">
+          <span class="join-as-title">Regular</span><span class="join-as-dash"> – </span>
+          <span class="join-as-desc">I want to learn from fighters</span>
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none" class="auth-check-item join-as-option">
+        <ion-radio slot="start" value="fighter" />
+        <ion-label class="auth-check-label join-as-label">
+          <span class="join-as-title">Fighter</span><span class="join-as-dash"> – </span>
+          <span class="join-as-desc">I want to train regular members</span>
+        </ion-label>
+      </ion-item>
+    </ion-radio-group>
     <ion-item lines="none" class="auth-check-item">
       <ion-checkbox slot="start" [(ngModel)]="confirmedAdult" name="confirmedAdult" />
       <ion-label class="auth-check-label">I am over 18 years old</ion-label>

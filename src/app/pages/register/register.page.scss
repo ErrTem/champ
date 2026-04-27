@@ -46,22 +46,27 @@
   border: none;
 }
 
-ion-segment {
-  --background: rgba(0, 0, 0, 0.35);
-  border-radius: var(--mac-radius);
-  border: 1px solid var(--mac-separator);
-  padding: 3px;
-  min-height: 36px;
+.join-as-heading {
+  margin-bottom: 0.35rem;
 }
 
-ion-segment-button {
-  --indicator-color: rgba(255, 255, 255, 0.14);
+.join-as-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.join-as-group ion-radio {
   --color: var(--auth-muted);
-  --color-checked: var(--auth-on);
+  --color-checked: var(--auth-secondary);
+}
+
+.join-as-label .join-as-title {
   font-weight: 600;
-  font-size: 13px;
-  letter-spacing: -0.01em;
-  border-radius: calc(var(--mac-radius) - 4px);
+}
+
+.join-as-label .join-as-desc {
+  font-weight: 400;
 }
 
 ion-item.auth-check-item {

@@ -9,8 +9,8 @@ import {
   IonInput,
   IonItem,
   IonLabel,
-  IonSegment,
-  IonSegmentButton,
+  IonRadio,
+  IonRadioGroup,
   IonText,
   IonTitle,
   IonToolbar,
@@ -36,8 +36,8 @@ import { environment } from '../../../environments/environment';
     IonItem,
     IonLabel,
     IonCheckbox,
-    IonSegment,
-    IonSegmentButton,
+    IonRadio,
+    IonRadioGroup,
     IonText,
   ],
 })
@@ -75,11 +75,6 @@ export class RegisterPage {
       digits = digits.slice(1);
     }
     this.phone = this.formatUsPhone(digits);
-  }
-
-  onProfileTypeChange(value: string | number | null | undefined): void {
-    const v = String(value ?? '');
-    this.profileType = v === 'fighter' ? 'fighter' : v === 'user' ? 'user' : '';
   }
 
   private phoneE164(): string | null {
