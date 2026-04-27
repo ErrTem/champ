@@ -17,6 +17,11 @@
 .auth-shell {
   --background: var(--auth-bg);
   color: var(--auth-on);
+  --mac-radius: 10px;
+  --mac-separator: rgba(255, 255, 255, 0.12);
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 .auth-hero {
@@ -98,4 +103,42 @@ ion-input {
 .field-error {
   margin: 0 0 0.25rem;
   font-size: 14px;
+}
+
+/* OAuth — macOS-style outline + inline brand SVGs (login/register) */
+.oauth-mac {
+  --border-radius: var(--mac-radius);
+  --border-width: 1px;
+  --border-color: var(--mac-separator);
+  font-weight: 510;
+  letter-spacing: -0.02em;
+  text-transform: none;
+  min-height: 44px;
+}
+
+.oauth-brand {
+  display: inline-flex;
+  align-items: center;
+  margin-inline-end: 10px;
+}
+
+.oauth-svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.oauth-svg-google {
+  width: 18px;
+  height: 18px;
+}
+
+.oauth-svg-apple {
+  width: 20px;
+  height: 20px;
+  color: var(--auth-on);
+}
+
+.oauth-apple {
+  color: var(--auth-on);
 }
