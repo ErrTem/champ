@@ -5,6 +5,7 @@ import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalo
 import { provideServiceWorker } from '@angular/service-worker';
 import { addIcons } from 'ionicons';
 import {
+  calendarClearOutline,
   calendarOutline,
   chevronBackOutline,
   chevronDownOutline,
@@ -25,18 +26,19 @@ import { authInterceptor } from './app/core/interceptors/auth.interceptor';
 import { environment } from './environments/environment';
 
 addIcons({
-  compassOutline,
-  calendarOutline,
-  timeOutline,
-  personOutline,
-  shieldCheckmarkOutline,
-  filterOutline,
-  chevronDownOutline,
-  chevronBackOutline,
-  chevronForwardOutline,
-  sunnyOutline,
-  partlySunnyOutline,
-  moonOutline,
+  'compass-outline': compassOutline,
+  'calendar-outline': calendarOutline,
+  'calendar-clear-outline': calendarClearOutline,
+  'time-outline': timeOutline,
+  'person-outline': personOutline,
+  'shield-checkmark-outline': shieldCheckmarkOutline,
+  'filter-outline': filterOutline,
+  'chevron-down-outline': chevronDownOutline,
+  'chevron-back-outline': chevronBackOutline,
+  'chevron-forward-outline': chevronForwardOutline,
+  'sunny-outline': sunnyOutline,
+  'partly-sunny-outline': partlySunnyOutline,
+  'moon-outline': moonOutline,
 });
 
 bootstrapApplication(AppComponent, {
