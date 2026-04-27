@@ -4,6 +4,18 @@ import { DateTime } from 'luxon';
 
 const prisma = new PrismaClient();
 
+const DEFAULT_GYM = {
+  id: 'gym_default_01',
+  name: 'Default Gym',
+  timezone: 'America/Los_Angeles',
+  addressLine1: '1 Default St',
+  addressLine2: null as string | null,
+  city: 'Los Angeles',
+  state: 'CA',
+  postalCode: '90001',
+  countryCode: 'US',
+};
+
 type SeedScheduleRule = {
   dayOfWeek: number;
   startMinute: number;
@@ -189,6 +201,21 @@ function generateSlotsForRules(args: {
 }
 
 async function main() {
+  await prisma.gym.upsert({
+    where: { id: DEFAULT_GYM.id },
+    create: DEFAULT_GYM,
+    update: {
+      name: DEFAULT_GYM.name,
+      timezone: DEFAULT_GYM.timezone,
+      addressLine1: DEFAULT_GYM.addressLine1,
+      addressLine2: DEFAULT_GYM.addressLine2,
+      city: DEFAULT_GYM.city,
+      state: DEFAULT_GYM.state,
+      postalCode: DEFAULT_GYM.postalCode,
+      countryCode: DEFAULT_GYM.countryCode,
+    },
+  });
+
   // Ensure a stable test login user exists for manual QA.
   const passwordHash = await bcrypt.hash(TEST_USER.password, 12);
   await prisma.user.upsert({
@@ -234,6 +261,7 @@ async function main() {
       where: { id: f.id },
       create: {
         id: f.id,
+        gymId: DEFAULT_GYM.id,
         published: f.published ?? true,
         name: f.name,
         summary: f.summary,
@@ -247,6 +275,7 @@ async function main() {
         yearsPro: f.yearsPro ?? 0,
       },
       update: {
+        gymId: DEFAULT_GYM.id,
         published: f.published ?? true,
         name: f.name,
         summary: f.summary,

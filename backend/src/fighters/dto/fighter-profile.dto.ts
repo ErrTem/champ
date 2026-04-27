@@ -1,4 +1,5 @@
 import { ServiceDto } from './service.dto';
+import { GymDto } from '../../gyms/dto/gym.dto';
 
 export class FighterProfileDto {
   id!: string;
@@ -13,6 +14,7 @@ export class FighterProfileDto {
   draws!: number;
   yearsPro!: number;
 
+  gym!: GymDto;
   services!: ServiceDto[];
 }
 

@@ -23,7 +23,6 @@ import { CatalogService } from '../../core/services/catalog.service';
 type BookingStep = 'select' | 'review' | 'created';
 type SlotBucket = 'morning' | 'afternoon' | 'evening';
 
-const DISPLAY_TIMEZONE = 'America/Los_Angeles';
 const HORIZON_DAYS = 30;
 const DOW_MON_START = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const;
 
@@ -61,6 +60,7 @@ export class BookPlaceholderPage implements OnDestroy {
 
   fighter: FighterProfile | null = null;
   service: Service | null = null;
+  availabilityTimezone: string | null = null;
 
   step: BookingStep = 'select';
 
@@ -78,7 +78,7 @@ export class BookPlaceholderPage implements OnDestroy {
   selectedMonth: string | null = null; // YYYY-MM
   displayedMonthLabel = '';
 
-  selectedDate: string | null = null; // YYYY-MM-DD (America/Los_Angeles)
+  selectedDate: string | null = null; // YYYY-MM-DD (fighter/availability timezone)
   selectedSlotId: string | null = null;
 
   reserving = false;
@@ -135,15 +135,6 @@ export class BookPlaceholderPage implements OnDestroy {
           this.fighterId = b.slot.fighterId;
           this.serviceId = b.slot.serviceId;
           this.selectedSlotId = b.slot.slotId;
-          // Keep existing selectedDate if present; otherwise derive in DISPLAY_TIMEZONE.
-          if (!this.selectedDate) {
-            this.selectedDate = new Intl.DateTimeFormat('en-CA', {
-              timeZone: DISPLAY_TIMEZONE,
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-            }).format(new Date(b.slot.startsAtUtc));
-          }
 
           this.catalog
             .getFighterProfile(this.fighterId)
@@ -155,6 +146,9 @@ export class BookPlaceholderPage implements OnDestroy {
                 if (!this.service) {
                   this.errorSelection = 'Selected service not found.';
                   return;
+                }
+                if (!this.selectedDate) {
+                  this.selectedDate = this.formatIsoDateInTz(new Date(b.slot.startsAtUtc));
                 }
                 this.buildHorizon();
                 this.loadAvailability();
@@ -207,7 +201,7 @@ export class BookPlaceholderPage implements OnDestroy {
   private buildHorizon(): void {
     const today = new Date();
     const fmt = new Intl.DateTimeFormat('en-CA', {
-      timeZone: DISPLAY_TIMEZONE,
+      timeZone: this.displayTimezone,
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
@@ -239,12 +233,14 @@ export class BookPlaceholderPage implements OnDestroy {
     this.errorAvailability = '';
     this.availabilityDays = [];
     this.availabilityByDate = new Map<string, AvailabilityDay>();
+    this.availabilityTimezone = null;
 
     this.booking
       .getAvailability({ fighterId: this.fighterId, serviceId: this.serviceId, days: HORIZON_DAYS })
       .pipe(finalize(() => (this.loadingAvailability = false)))
       .subscribe({
         next: (res) => {
+          this.availabilityTimezone = res.timezone ?? null;
           this.availabilityDays = res.days ?? [];
           this.availabilityByDate = new Map(this.availabilityDays.map((d) => [d.date, d]));
 
@@ -414,7 +410,7 @@ export class BookPlaceholderPage implements OnDestroy {
   private hourInTz(utcIso: string): number {
     const d = new Date(utcIso);
     const parts = new Intl.DateTimeFormat('en-US', {
-      timeZone: DISPLAY_TIMEZONE,
+      timeZone: this.displayTimezone,
       hour: '2-digit',
       hour12: false,
     }).formatToParts(d);
@@ -425,7 +421,7 @@ export class BookPlaceholderPage implements OnDestroy {
   formatSlotTime(utcIso: string): string {
     const d = new Date(utcIso);
     return new Intl.DateTimeFormat('en-US', {
-      timeZone: DISPLAY_TIMEZONE,
+      timeZone: this.displayTimezone,
       hour: '2-digit',
       minute: '2-digit',
       hour12: false,
@@ -433,11 +429,11 @@ export class BookPlaceholderPage implements OnDestroy {
   }
 
   formatSelectedDate(date: string): string {
-    // date is YYYY-MM-DD in DISPLAY_TIMEZONE; format as "Apr 24, 2026"
+    // date is YYYY-MM-DD in displayTimezone; format as "Apr 24, 2026"
     const [y, m, d] = date.split('-').map((x) => Number(x));
     const utcMid = new Date(Date.UTC(y, m - 1, d, 12, 0, 0));
     return new Intl.DateTimeFormat('en-US', {
-      timeZone: DISPLAY_TIMEZONE,
+      timeZone: this.displayTimezone,
       month: 'short',
       day: '2-digit',
       year: 'numeric',
@@ -448,7 +444,7 @@ export class BookPlaceholderPage implements OnDestroy {
     const [y, m, d] = date.split('-').map((x) => Number(x));
     const utcMid = new Date(Date.UTC(y, m - 1, d, 12, 0, 0));
     return new Intl.DateTimeFormat('en-US', {
-      timeZone: DISPLAY_TIMEZONE,
+      timeZone: this.displayTimezone,
       month: 'long',
       year: 'numeric',
     })
@@ -461,7 +457,7 @@ export class BookPlaceholderPage implements OnDestroy {
 
     const [y, m] = this.selectedMonth.split('-').map((x) => Number(x));
     const fmt = new Intl.DateTimeFormat('en-CA', {
-      timeZone: DISPLAY_TIMEZONE,
+      timeZone: this.displayTimezone,
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
@@ -545,11 +541,11 @@ export class BookPlaceholderPage implements OnDestroy {
   }
 
   private dowIndexMonStart(date: string): number {
-    // date is YYYY-MM-DD in DISPLAY_TIMEZONE. Return 0..6 where 0=Mon.
+    // date is YYYY-MM-DD in displayTimezone. Return 0..6 where 0=Mon.
     const [y, m, d] = date.split('-').map((x) => Number(x));
     const utcMid = new Date(Date.UTC(y, m - 1, d, 12, 0, 0));
     const wd = new Intl.DateTimeFormat('en-US', {
-      timeZone: DISPLAY_TIMEZONE,
+      timeZone: this.displayTimezone,
       weekday: 'short',
     }).format(utcMid);
     const idxSunStart = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(wd);
@@ -571,6 +567,19 @@ export class BookPlaceholderPage implements OnDestroy {
     if (modality === 'online') return 'Online';
     if (modality === 'in_person') return 'In person';
     return modality;
+  }
+
+  private get displayTimezone(): string {
+    return this.availabilityTimezone ?? this.fighter?.gym?.timezone ?? 'utc';
+  }
+
+  private formatIsoDateInTz(d: Date): string {
+    return new Intl.DateTimeFormat('en-CA', {
+      timeZone: this.displayTimezone,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).format(d);
   }
 }
 

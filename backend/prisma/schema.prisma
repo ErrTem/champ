@@ -79,6 +79,7 @@ model PasswordResetToken {
 model Fighter {
   id         String    @id @default(cuid())
   userId     String?   @unique
+  gymId      String    @default("gym_default_01")
   published  Boolean   @default(false)
   name       String
   summary    String
@@ -96,9 +97,34 @@ model Fighter {
   scheduleRules FighterScheduleRule[]
   slots     Slot[]
   bookings  Booking[]
+  gym       Gym       @relation(fields: [gymId], references: [id], onDelete: Restrict)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([gymId])
+}
+
+model Gym {
+  id            String    @id @default(cuid())
+  name          String
+
+  addressLine1  String
+  addressLine2  String?
+  city          String
+  state         String
+  postalCode    String
+  countryCode   String    @default("US")
+
+  /// IANA timezone, e.g. "America/Los_Angeles"
+  timezone      String
+
+  fighters      Fighter[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([name])
 }
 
 model Service {

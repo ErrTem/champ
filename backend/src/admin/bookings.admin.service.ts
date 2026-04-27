@@ -1,6 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DateTime } from 'luxon';
-import { AVAILABILITY_TIMEZONE } from '../availability/availability.constants';
 import { PrismaService } from '../prisma/prisma.service';
 import type {
   AdminBookingDetailDto,
@@ -8,21 +7,21 @@ import type {
   AdminBookingsQueryDto,
 } from './dto/admin-bookings.dto';
 
-function parsePtDateBounds(args: { from?: string; to?: string }): {
+function parseDateBounds(args: { from?: string; to?: string; timezone: string }): {
   fromUtc?: Date;
   toUtcExclusive?: Date;
 } {
-  const { from, to } = args;
+  const { from, to, timezone } = args;
   const out: { fromUtc?: Date; toUtcExclusive?: Date } = {};
 
   if (from) {
-    const startLocal = DateTime.fromISO(from, { zone: AVAILABILITY_TIMEZONE }).startOf('day');
+    const startLocal = DateTime.fromISO(from, { zone: timezone }).startOf('day');
     if (!startLocal.isValid) throw new BadRequestException('Invalid from');
     out.fromUtc = startLocal.toUTC().toJSDate();
   }
 
   if (to) {
-    const endLocalExclusive = DateTime.fromISO(to, { zone: AVAILABILITY_TIMEZONE })
+    const endLocalExclusive = DateTime.fromISO(to, { zone: timezone })
       .startOf('day')
       .plus({ days: 1 });
     if (!endLocalExclusive.isValid) throw new BadRequestException('Invalid to');
@@ -37,7 +36,12 @@ export class BookingsAdminService {
   constructor(private readonly prisma: PrismaService) {}
 
   async list(query: AdminBookingsQueryDto): Promise<AdminBookingListItemDto[]> {
-    const { fromUtc, toUtcExclusive } = parsePtDateBounds({ from: query.from, to: query.to });
+    if ((query.from || query.to) && !query.fighterId) {
+      throw new BadRequestException('from/to require fighterId (timezone scope)');
+    }
+
+    const timezone = query.fighterId ? await this.resolveFighterGymTimezone(query.fighterId) : 'utc';
+    const { fromUtc, toUtcExclusive } = parseDateBounds({ from: query.from, to: query.to, timezone });
 
     const bookings = await this.prisma.booking.findMany({
       where: {
@@ -97,6 +101,16 @@ export class BookingsAdminService {
       service: booking.service,
       user: booking.user,
     };
+  }
+
+  private async resolveFighterGymTimezone(fighterId: string): Promise<string> {
+    const fighter = await this.prisma.fighter.findUnique({
+      where: { id: fighterId },
+      select: { gym: { select: { timezone: true } } },
+    });
+    const tz = fighter?.gym?.timezone?.trim();
+    if (!tz) throw new BadRequestException('Invalid fighterId (missing gym/timezone)');
+    return tz;
   }
 }
 

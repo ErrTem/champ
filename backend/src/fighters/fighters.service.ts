@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { FighterListItemDto } from './dto/fighter-list-item.dto';
 import { FighterProfileDto } from './dto/fighter-profile.dto';
 import { ServiceDto } from './dto/service.dto';
+import { GymDto } from '../gyms/dto/gym.dto';
 
 type FightersListFilters = {
   minPriceCents: number | null;
@@ -94,6 +95,19 @@ export class FightersService {
         losses: true,
         draws: true,
         yearsPro: true,
+        gym: {
+          select: {
+            id: true,
+            name: true,
+            timezone: true,
+            addressLine1: true,
+            addressLine2: true,
+            city: true,
+            state: true,
+            postalCode: true,
+            countryCode: true,
+          },
+        },
         services: {
           where: { published: true },
           orderBy: { priceCents: 'asc' },
@@ -122,6 +136,18 @@ export class FightersService {
       currency: s.currency,
     }));
 
+    const gym: GymDto = {
+      id: fighter.gym.id,
+      name: fighter.gym.name,
+      timezone: fighter.gym.timezone,
+      addressLine1: fighter.gym.addressLine1,
+      addressLine2: fighter.gym.addressLine2 ?? null,
+      city: fighter.gym.city,
+      state: fighter.gym.state,
+      postalCode: fighter.gym.postalCode,
+      countryCode: fighter.gym.countryCode,
+    };
+
     return {
       id: fighter.id,
       name: fighter.name,
@@ -133,6 +159,7 @@ export class FightersService {
       losses: fighter.losses,
       draws: fighter.draws,
       yearsPro: fighter.yearsPro,
+      gym,
       services,
     };
   }

@@ -31,7 +31,7 @@
  (completed 2026-04-26)
 - [x] Phase 9: Registration upgrades (OAuth, phone/terms, roles, fighter approval) — completed 2026-04-27
 - [x] Phase 10: Booking UX + rules fixes (filters, calendar UI, 24h rule) — completed 2026-04-27
-- [ ] Phase 11: Gyms + multi-timezone
+- [x] Phase 11: Gyms + multi-timezone — completed 2026-04-27
 - [ ] Phase 12: Fighter self-serve
 - [ ] Phase 13: Notifications + calendar sync
 - [ ] Phase 14: Social sharing

@@ -63,6 +63,20 @@
       <p class="bio-text">{{ fighter.bio }}</p>
     </section>
 
+    <section class="gym">
+      <div class="gym-head">
+        <h2 class="gym-title">Gym</h2>
+        <div class="gym-actions">
+          <ion-button size="small" fill="outline" class="gym-map" (click)="openAppleMaps(fighter)">Apple Maps</ion-button>
+          <ion-button size="small" fill="outline" class="gym-map" (click)="openGoogleMaps(fighter)">Google Maps</ion-button>
+        </div>
+      </div>
+      <div class="gym-card">
+        <p class="gym-name">{{ fighter.gym.name }}</p>
+        <p class="gym-address">{{ gymAddressQuery(fighter) }}</p>
+      </div>
+    </section>
+
     <section class="services">
       <div class="services-head">
         <h2 class="services-title">Services</h2>

@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { DateTime } from 'luxon';
-import { AVAILABILITY_TIMEZONE, SLOT_STEP_MINUTES } from '../availability/availability.constants';
+import { SLOT_STEP_MINUTES } from '../availability/availability.constants';
 import { PrismaService } from '../prisma/prisma.service';
 import type { AdminScheduleRuleDto } from './dto/admin-schedule.dto';
 
@@ -102,7 +102,8 @@ export class ScheduleAdminService {
       }
     });
 
-    const startLocal = DateTime.now().setZone(AVAILABILITY_TIMEZONE).startOf('day');
+    const gymTimezone = await this.resolveFighterGymTimezone(fighterId);
+    const startLocal = DateTime.now().setZone(gymTimezone).startOf('day');
     const days = 30;
     const startUtc = startLocal.toUTC().toJSDate();
     const endUtcExclusive = startLocal.plus({ days }).toUTC().toJSDate();
@@ -163,6 +164,16 @@ export class ScheduleAdminService {
     }
 
     return { ok: true };
+  }
+
+  private async resolveFighterGymTimezone(fighterId: string): Promise<string> {
+    const fighter = await this.prisma.fighter.findUnique({
+      where: { id: fighterId },
+      select: { gym: { select: { timezone: true } } },
+    });
+    const tz = fighter?.gym?.timezone?.trim();
+    if (!tz) throw new BadRequestException('Invalid fighterId (missing gym/timezone)');
+    return tz;
   }
 }
 

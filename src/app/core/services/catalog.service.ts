@@ -17,6 +17,17 @@ const MOCK_FIGHTERS: FighterProfile[] = [
     losses: 3,
     draws: 1,
     yearsPro: 6,
+    gym: {
+      id: 'gym_default_01',
+      name: 'Default Gym',
+      timezone: 'America/Los_Angeles',
+      addressLine1: '1 Default St',
+      addressLine2: null,
+      city: 'Los Angeles',
+      state: 'CA',
+      postalCode: '90001',
+      countryCode: 'US',
+    },
     services: [
       {
         id: 'svc_ali_30_ol',
@@ -48,6 +59,17 @@ const MOCK_FIGHTERS: FighterProfile[] = [
     losses: 2,
     draws: 0,
     yearsPro: 5,
+    gym: {
+      id: 'gym_default_01',
+      name: 'Default Gym',
+      timezone: 'America/Los_Angeles',
+      addressLine1: '1 Default St',
+      addressLine2: null,
+      city: 'Los Angeles',
+      state: 'CA',
+      postalCode: '90001',
+      countryCode: 'US',
+    },
     services: [
       {
         id: 'svc_noah_45_ol',
@@ -78,6 +100,17 @@ const MOCK_FIGHTERS: FighterProfile[] = [
     losses: 1,
     draws: 0,
     yearsPro: 2,
+    gym: {
+      id: 'gym_default_01',
+      name: 'Default Gym',
+      timezone: 'America/Los_Angeles',
+      addressLine1: '1 Default St',
+      addressLine2: null,
+      city: 'Los Angeles',
+      state: 'CA',
+      postalCode: '90001',
+      countryCode: 'US',
+    },
     services: [
       {
         id: 'svc_maya_30_ol',
@@ -109,6 +142,17 @@ const MOCK_FIGHTERS: FighterProfile[] = [
     losses: 4,
     draws: 0,
     yearsPro: 4,
+    gym: {
+      id: 'gym_default_01',
+      name: 'Default Gym',
+      timezone: 'America/Los_Angeles',
+      addressLine1: '1 Default St',
+      addressLine2: null,
+      city: 'Los Angeles',
+      state: 'CA',
+      postalCode: '90001',
+      countryCode: 'US',
+    },
     services: [
       {
         id: 'svc_sam_30_ol',

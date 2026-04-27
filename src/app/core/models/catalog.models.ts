@@ -16,6 +16,18 @@ export type Service = {
   currency: string;
 };
 
+export type Gym = {
+  id: string;
+  name: string;
+  timezone: string;
+  addressLine1: string;
+  addressLine2?: string | null;
+  city: string;
+  state: string;
+  postalCode: string;
+  countryCode: string;
+};
+
 export type FighterProfile = {
   id: string;
   name: string;
@@ -27,6 +39,7 @@ export type FighterProfile = {
   losses: number;
   draws: number;
   yearsPro: number;
+  gym: Gym;
   services: Service[];
 };
 

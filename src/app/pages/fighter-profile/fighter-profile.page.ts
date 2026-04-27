@@ -10,6 +10,7 @@ import {
 import { finalize } from 'rxjs';
 import { FighterProfile, Service } from '../../core/models/catalog.models';
 import { CatalogService } from '../../core/services/catalog.service';
+import { buildAppleMapsUrl, buildGoogleMapsSearchUrl, formatGymAddress } from '../../shared/utils/map-links';
 
 @Component({
   selector: 'app-fighter-profile',
@@ -90,6 +91,30 @@ export class FighterProfilePage {
     void this.router.navigate(['/book'], {
       queryParams: { fighterId, serviceId: this.selectedServiceId },
     });
+  }
+
+  gymAddressQuery(fighter: FighterProfile): string {
+    return formatGymAddress({
+      name: fighter.gym.name,
+      addressLine1: fighter.gym.addressLine1,
+      addressLine2: fighter.gym.addressLine2 ?? null,
+      city: fighter.gym.city,
+      state: fighter.gym.state,
+      postalCode: fighter.gym.postalCode,
+      countryCode: fighter.gym.countryCode,
+    });
+  }
+
+  openAppleMaps(fighter: FighterProfile): void {
+    const query = this.gymAddressQuery(fighter);
+    const url = buildAppleMapsUrl(query);
+    window.open(url, '_blank', 'noopener');
+  }
+
+  openGoogleMaps(fighter: FighterProfile): void {
+    const query = this.gymAddressQuery(fighter);
+    const url = buildGoogleMapsSearchUrl(query);
+    window.open(url, '_blank', 'noopener');
   }
 }
 

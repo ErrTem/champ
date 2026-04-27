@@ -1,6 +1,5 @@
 import { IsArray, IsInt, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { AVAILABILITY_TIMEZONE, MAX_DAYS } from '../availability.constants';
 import { SlotDto } from './slot.dto';
 
 export class AvailabilityRangeDto {
@@ -22,7 +21,8 @@ export class AvailabilityDayDto {
 }
 
 export class AvailabilityResponseDto {
-  timezone: typeof AVAILABILITY_TIMEZONE = AVAILABILITY_TIMEZONE;
+  @IsString()
+  timezone!: string;
 
   @ValidateNested()
   @Type(() => AvailabilityRangeDto)

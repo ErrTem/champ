@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DateTime } from 'luxon';
 import { PrismaService } from '../prisma/prisma.service';
-import { AVAILABILITY_TIMEZONE, MAX_DAYS, SLOT_STEP_MINUTES } from './availability.constants';
+import { MAX_DAYS, SLOT_STEP_MINUTES } from './availability.constants';
 import { AvailabilityQueryDto } from './dto/availability-query.dto';
 import { AvailabilityDayDto, AvailabilityRangeDto, AvailabilityResponseDto } from './dto/availability-response.dto';
 import { SlotDto } from './dto/slot.dto';
@@ -12,7 +12,8 @@ export class AvailabilityService {
 
   async getAvailability(query: AvailabilityQueryDto): Promise<AvailabilityResponseDto> {
     const days = Math.min(Math.max(query.days ?? MAX_DAYS, 1), MAX_DAYS);
-    const startLocal = this.resolveStartLocalDate(query.fromDate);
+    const gymTimezone = await this.resolveGymTimezone(query.fighterId);
+    const startLocal = this.resolveStartLocalDate({ fromDate: query.fromDate, gymTimezone });
     const fromDate = startLocal.toISODate();
     if (!fromDate) {
       throw new BadRequestException('Invalid fromDate');
@@ -62,7 +63,7 @@ export class AvailabilityService {
 
     const dayMap = new Map<string, SlotDto[]>();
     for (const s of availableSlots) {
-      const date = DateTime.fromJSDate(s.startsAtUtc, { zone: 'utc' }).setZone(AVAILABILITY_TIMEZONE).toISODate();
+      const date = DateTime.fromJSDate(s.startsAtUtc, { zone: 'utc' }).setZone(gymTimezone).toISODate();
       if (!date) continue;
       const arr = dayMap.get(date) ?? [];
       arr.push({
@@ -87,22 +88,35 @@ export class AvailabilityService {
     const range: AvailabilityRangeDto = { fromDate, days };
 
     return {
-      timezone: AVAILABILITY_TIMEZONE,
+      timezone: gymTimezone,
       range,
       days: responseDays,
     };
   }
 
-  private resolveStartLocalDate(fromDate?: string): DateTime {
+  private resolveStartLocalDate(args: { fromDate?: string; gymTimezone: string }): DateTime {
+    const { fromDate, gymTimezone } = args;
     if (!fromDate) {
-      return DateTime.now().setZone(AVAILABILITY_TIMEZONE).startOf('day');
+      return DateTime.now().setZone(gymTimezone).startOf('day');
     }
 
-    const parsed = DateTime.fromISO(fromDate, { zone: AVAILABILITY_TIMEZONE });
+    const parsed = DateTime.fromISO(fromDate, { zone: gymTimezone });
     if (!parsed.isValid) {
       throw new BadRequestException('Invalid fromDate');
     }
     return parsed.startOf('day');
+  }
+
+  private async resolveGymTimezone(fighterId: string): Promise<string> {
+    const fighter = await this.prisma.fighter.findUnique({
+      where: { id: fighterId },
+      select: { gym: { select: { timezone: true } } },
+    });
+    const tz = fighter?.gym?.timezone?.trim();
+    if (!tz) {
+      throw new Error(`Missing gym/timezone for fighterId=${fighterId}`);
+    }
+    return tz;
   }
 
   private generateCandidateSlots(args: {

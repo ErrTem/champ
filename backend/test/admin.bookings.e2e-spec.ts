@@ -137,9 +137,7 @@ describe('Admin bookings — e2e', () => {
 
     // Status filter.
     const confirmedOnly = await request
-      .get(
-        `/admin/bookings?from=2030-01-05&to=2030-01-06&status=confirmed`,
-      )
+      .get(`/admin/bookings?status=confirmed`)
       .expect(200);
     const idsConfirmed = (confirmedOnly.body ?? []).map((x: any) => String(x.id));
     expect(idsConfirmed).toContain(bA.id);

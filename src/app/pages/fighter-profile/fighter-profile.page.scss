@@ -171,6 +171,64 @@
   color: rgba(226, 226, 226, 0.78);
 }
 
+.gym {
+  padding: 26px 16px 0;
+  max-width: 720px;
+}
+
+.gym-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.gym-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.gym-title {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  font-style: italic;
+  font-size: 22px;
+  color: var(--text);
+}
+
+.gym-map {
+  --border-color: rgba(255, 180, 168, 0.35);
+  --color: var(--primary-soft);
+}
+
+.gym-card {
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--surface-low);
+}
+
+.gym-name {
+  margin: 0 0 8px;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.gym-address {
+  margin: 0;
+  font-family: Manrope, system-ui, -apple-system, Segoe UI, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
 .services {
   padding: 34px 16px 22px;
 }
