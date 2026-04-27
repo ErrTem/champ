@@ -47,13 +47,20 @@
 }
 
 .join-as-heading {
-  margin-bottom: 0.35rem;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--auth-muted);
+  margin: 0 0 0.4rem;
+  padding: 0 2px;
 }
 
 .join-as-group {
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
+  /* space below Fighter row, before next field */
+  margin-bottom: 0.5rem;
 }
 
 .join-as-group ion-radio {
