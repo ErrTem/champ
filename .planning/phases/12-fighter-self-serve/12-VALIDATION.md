@@ -1,7 +1,7 @@
 ---
 phase: 12-fighter-self-serve
 created: 2026-04-26
-status: draft
+status: complete
 ---
 
 # Phase 12: Fighter self-serve — Validation

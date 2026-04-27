@@ -147,6 +147,12 @@ const TEST_USER = {
   name: 'Test User',
 };
 
+const TEST_FIGHTER_USER = {
+  email: 'fighter@champ.local',
+  password: 'Pass_12345678',
+  name: 'Test Fighter',
+};
+
 const DEFAULT_DEV_ADMIN = {
   email: 'admin@example.com',
   password: 'adminadmin',
@@ -231,6 +237,31 @@ async function main() {
     },
   });
 
+  // Ensure stable approved fighter user exists for manual QA.
+  const fighterPasswordHash = await bcrypt.hash(TEST_FIGHTER_USER.password, 12);
+  const fighterUser = await prisma.user.upsert({
+    where: { email: TEST_FIGHTER_USER.email },
+    create: {
+      email: TEST_FIGHTER_USER.email,
+      passwordHash: fighterPasswordHash,
+      name: TEST_FIGHTER_USER.name,
+      userType: 'fighter',
+      fighterStatus: 'approved',
+      fighterApprovedAt: DateTime.utc().toJSDate(),
+      acceptedTermsAt: DateTime.utc().toJSDate(),
+      confirmedAdultAt: DateTime.utc().toJSDate(),
+    },
+    update: {
+      passwordHash: fighterPasswordHash,
+      name: TEST_FIGHTER_USER.name,
+      userType: 'fighter',
+      fighterStatus: 'approved',
+      fighterApprovedAt: DateTime.utc().toJSDate(),
+      acceptedTermsAt: DateTime.utc().toJSDate(),
+      confirmedAdultAt: DateTime.utc().toJSDate(),
+    },
+  });
+
   const adminEmail = getEnv('ADMIN_EMAIL');
   const adminPassword = getEnv('ADMIN_PASSWORD');
   const adminName = getEnv('ADMIN_NAME');
@@ -262,6 +293,7 @@ async function main() {
       create: {
         id: f.id,
         gymId: DEFAULT_GYM.id,
+        ...(f.id === 'ftr_ali_01' ? { userId: fighterUser.id } : {}),
         published: f.published ?? true,
         name: f.name,
         summary: f.summary,
@@ -276,6 +308,7 @@ async function main() {
       },
       update: {
         gymId: DEFAULT_GYM.id,
+        ...(f.id === 'ftr_ali_01' ? { userId: fighterUser.id } : {}),
         published: f.published ?? true,
         name: f.name,
         summary: f.summary,

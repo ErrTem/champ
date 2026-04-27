@@ -67,5 +67,24 @@ export class NotificationsService {
       startsAtUtc: toIsoMaybe(input.startsAtUtc),
     });
   }
+
+  notifyBookingCancelledByFighter(
+    input: NotifyBookingBaseInput & { refundPolicy: 'manual' | 'not_applicable'; note?: string },
+  ): void {
+    const deepLink = this.buildBookingDeepLink(input.bookingId);
+    const includeRecipient = process.env.NODE_ENV !== 'production';
+    this.emitDevEmail({
+      eventType: 'booking.cancelled_by_fighter',
+      from: 'noreply@champ.local',
+      ...(includeRecipient ? { to: input.toEmail } : { to: maskEmail(input.toEmail) }),
+      bookingId: input.bookingId,
+      deepLink,
+      fighterName: input.fighterName,
+      serviceTitle: input.serviceTitle,
+      startsAtUtc: toIsoMaybe(input.startsAtUtc),
+      refundPolicy: input.refundPolicy,
+      note: input.note,
+    });
+  }
 }
 

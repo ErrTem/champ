@@ -37,6 +37,7 @@ model User {
   passwordResetTokens PasswordResetToken[]
   bookings            Booking[]
   oauthIdentities     UserOAuthIdentity[]
+  fighter             Fighter?
 }
 
 model UserOAuthIdentity {
@@ -87,6 +88,7 @@ model Fighter {
   photoUrl   String?
   disciplines String[]
   mediaUrls  String[]
+  user       User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   wins     Int @default(0)
   losses   Int @default(0)

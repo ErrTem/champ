@@ -7,6 +7,7 @@ import { BookingsModule } from './bookings/bookings.module';
 import { FightersModule } from './fighters/fighters.module';
 import { GymsModule } from './gyms/gyms.module';
 import { HealthModule } from './health/health.module';
+import { FighterSelfModule } from './fighter-self/fighter-self.module';
 import { PaymentsModule } from './payments/payments.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
@@ -23,6 +24,7 @@ import { UsersModule } from './users/users.module';
     AvailabilityModule,
     BookingsModule,
     PaymentsModule,
+    FighterSelfModule,
     AdminModule,
   ],
 })

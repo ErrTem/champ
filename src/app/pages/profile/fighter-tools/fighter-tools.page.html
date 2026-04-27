@@ -1,0 +1,193 @@
+<ion-content fullscreen="true" class="auth-shell">
+  <app-header title="Fighter tools" />
+
+  <div class="auth-hero">
+    <p class="kicker">Fighter</p>
+    <h1 class="display">Manage your schedule</h1>
+    <p class="sub">Services, availability, and upcoming bookings.</p>
+  </div>
+
+  <div class="auth-form">
+    @if (loading) {
+      <ion-card>
+        <ion-card-content>
+          <ion-skeleton-text animated="true" style="width: 80%"></ion-skeleton-text>
+          <ion-skeleton-text animated="true" style="width: 60%"></ion-skeleton-text>
+        </ion-card-content>
+      </ion-card>
+    } @else if (!isApprovedFighter()) {
+      <ion-text color="warning">
+        <p class="field-error">Fighter tools available only for approved fighters.</p>
+      </ion-text>
+    } @else {
+      @if (error) {
+        <ion-text color="danger"><p class="field-error">{{ error }}</p></ion-text>
+      }
+
+      <ion-card>
+        <ion-card-content>
+          <p class="kicker">Schedule rules</p>
+          <p class="sub">Set weekly windows. Slots regenerate automatically.</p>
+
+          @if (loadingRules) {
+            <ion-skeleton-text animated="true" style="width: 90%"></ion-skeleton-text>
+            <ion-skeleton-text animated="true" style="width: 70%"></ion-skeleton-text>
+          } @else {
+            @for (day of dayLabels; track $index; let dayIdx = $index) {
+              <ion-card class="mini">
+                <ion-card-content>
+                  <div class="row">
+                    <div class="kicker">{{ day }}</div>
+                    <ion-button fill="outline" size="small" type="button" (click)="addWindow(dayIdx)">
+                      Add window
+                    </ion-button>
+                  </div>
+
+                  @if ((rulesByDay[dayIdx] ?? []).length === 0) {
+                    <p class="sub">No windows</p>
+                  } @else {
+                    <ion-list lines="none">
+                      @for (r of rulesByDay[dayIdx]; track $index; let ruleIdx = $index) {
+                        <ion-item lines="none">
+                          <ion-label>Start</ion-label>
+                          <ion-input
+                            type="time"
+                            [value]="minuteToTime(r.startMinute)"
+                            (ionInput)="setStart(dayIdx, ruleIdx, $any($event.target).value)"
+                          />
+                        </ion-item>
+                        <ion-item lines="none">
+                          <ion-label>End</ion-label>
+                          <ion-input
+                            type="time"
+                            [value]="minuteToTime(r.endMinute)"
+                            (ionInput)="setEnd(dayIdx, ruleIdx, $any($event.target).value)"
+                          />
+                          <ion-button fill="clear" type="button" (click)="removeWindow(dayIdx, ruleIdx)">
+                            Remove
+                          </ion-button>
+                        </ion-item>
+                      }
+                    </ion-list>
+                  }
+                </ion-card-content>
+              </ion-card>
+            }
+
+            <ion-button expand="block" class="kinetic-gradient" type="button" [disabled]="savingRules" (click)="saveRules()">
+              Save schedule
+            </ion-button>
+          }
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-content>
+          <p class="kicker">Services</p>
+          <p class="sub">Create or update your offerings.</p>
+          <ion-button fill="outline" type="button" (click)="openCreate()">Create service</ion-button>
+
+          @if (editing) {
+            <ion-card class="mini">
+              <ion-card-content>
+                <p class="kicker">{{ editing.mode === 'create' ? 'Create' : 'Edit' }}</p>
+                <ion-item lines="none">
+                  <ion-label>Title</ion-label>
+                  <ion-input [(ngModel)]="editing.title" placeholder="Title" />
+                </ion-item>
+                <ion-item lines="none">
+                  <ion-label>Duration (min)</ion-label>
+                  <ion-input type="number" [(ngModel)]="editing.durationMinutes" />
+                </ion-item>
+                <ion-item lines="none">
+                  <ion-label>Modality</ion-label>
+                  <ion-select [(ngModel)]="editing.modality">
+                    <ion-select-option value="online">Online</ion-select-option>
+                    <ion-select-option value="in_person">In person</ion-select-option>
+                  </ion-select>
+                </ion-item>
+                <ion-item lines="none">
+                  <ion-label>Price (cents)</ion-label>
+                  <ion-input type="number" [(ngModel)]="editing.priceCents" />
+                </ion-item>
+                <ion-item lines="none">
+                  <ion-label>Currency</ion-label>
+                  <ion-input [(ngModel)]="editing.currency" />
+                </ion-item>
+                <ion-item lines="none">
+                  <ion-label>Published</ion-label>
+                  <ion-toggle [(ngModel)]="editing.published"></ion-toggle>
+                </ion-item>
+
+                <ion-button expand="block" type="button" class="kinetic-gradient" [disabled]="savingService" (click)="saveService()">
+                  Save
+                </ion-button>
+                <ion-button expand="block" type="button" fill="outline" [disabled]="savingService" (click)="cancelEdit()">
+                  Cancel
+                </ion-button>
+              </ion-card-content>
+            </ion-card>
+          }
+
+          @if (servicesLoading) {
+            <ion-skeleton-text animated="true" style="width: 90%"></ion-skeleton-text>
+            <ion-skeleton-text animated="true" style="width: 70%"></ion-skeleton-text>
+          } @else if (services.length === 0) {
+            <p class="sub">No services yet</p>
+          } @else {
+            <ion-list lines="none">
+              @for (s of services; track s.id) {
+                <ion-item lines="none">
+                  <ion-label>
+                    <div class="kicker">{{ s.title }}</div>
+                    <div class="sub">
+                      {{ s.durationMinutes }} min • {{ s.modality }} • {{ formatMoney(s.priceCents, s.currency) }}
+                    </div>
+                  </ion-label>
+                  <ion-chip>{{ s.published ? 'Published' : 'Hidden' }}</ion-chip>
+                  <ion-button fill="clear" type="button" (click)="openEdit(s)">Edit</ion-button>
+                </ion-item>
+              }
+            </ion-list>
+          }
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-content>
+          <p class="kicker">Upcoming bookings</p>
+          <p class="sub">You can cancel future bookings. User gets email notification.</p>
+
+          @if (bookingsLoading) {
+            <ion-skeleton-text animated="true" style="width: 90%"></ion-skeleton-text>
+            <ion-skeleton-text animated="true" style="width: 70%"></ion-skeleton-text>
+          } @else if (bookings.length === 0) {
+            <p class="sub">No upcoming bookings</p>
+          } @else {
+            <ion-list lines="none">
+              @for (b of bookings; track b.id) {
+                <ion-item lines="none">
+                  <ion-label>
+                    <div class="kicker">{{ b.service.title }}</div>
+                    <div class="sub">{{ b.startsAtUtc }}</div>
+                    <div class="sub">{{ b.user.email }}</div>
+                  </ion-label>
+                  <ion-chip>{{ b.status }}</ion-chip>
+                  <ion-button
+                    fill="outline"
+                    type="button"
+                    [disabled]="!!cancelling()[b.id]"
+                    (click)="cancelBooking(b)"
+                  >
+                    Cancel
+                  </ion-button>
+                </ion-item>
+              }
+            </ion-list>
+          }
+        </ion-card-content>
+      </ion-card>
+    }
+  </div>
+</ion-content>
+
