@@ -67,11 +67,6 @@
       <ion-text color="danger"><p class="field-error">{{ pushError }}</p></ion-text>
     }
 
-    @if (auth.user()?.userType === 'fighter' && auth.user()?.fighterStatus === 'approved') {
-      <ion-button expand="block" fill="outline" routerLink="/profile/fighter-tools">
-        Fighter tools
-      </ion-button>
-    }
     @if (auth.user()?.isAdmin) {
       <ion-button expand="block" fill="outline" routerLink="/admin">Admin</ion-button>
     }

@@ -31,8 +31,41 @@ describe('TabsPage', () => {
     const text = (fixture.nativeElement as HTMLElement).textContent ?? '';
     expect(text).toContain('Explore');
     expect(text).toContain('Bookings');
+    expect(text).not.toContain('Calendar');
     expect(text).toContain('Profile');
     expect(text).not.toContain('Admin');
+  });
+
+  it('should show Calendar tab only for approved fighter user', async () => {
+    const userSig = signal<AuthUser | null>({
+      id: 'u1',
+      email: 'fighter@b.com',
+      name: null,
+      phone: null,
+      isAdmin: false,
+      userType: 'fighter',
+      fighterStatus: 'approved',
+    });
+
+    await TestBed.configureTestingModule({
+      imports: [TabsPage],
+      providers: [
+        provideRouter([]),
+        {
+          provide: AuthService,
+          useValue: {
+            user: userSig.asReadonly(),
+            loadProfile: () => of(userSig()),
+          },
+        },
+      ],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(TabsPage);
+    fixture.detectChanges();
+
+    const text = (fixture.nativeElement as HTMLElement).textContent ?? '';
+    expect(text).toContain('Calendar');
   });
 
   it('should show Admin tab only for admin user', async () => {
