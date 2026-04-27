@@ -35,12 +35,14 @@
 .phone-input {
   flex: 1 1 auto;
   --background: transparent;
+  --border-radius: 0;
   border-radius: 0;
+  border: none;
+  overflow: visible;
   min-width: 0;
 }
 
-.phone-input::part(native),
-.phone-input {
+.phone-row .phone-input {
   border: none;
 }
 

@@ -66,12 +66,16 @@
   gap: 1rem;
 }
 
+/* Match phone-field look: rounded rectangle + subtle border inside .auth-shell */
 ion-input {
   --background: var(--auth-elevated);
   --color: var(--auth-on);
   --padding-start: 12px;
   --padding-end: 12px;
-  border-radius: 0.25rem;
+  --border-radius: var(--mac-radius, 10px);
+  border-radius: var(--mac-radius, 10px);
+  border: 1px solid var(--mac-separator, rgba(255, 255, 255, 0.12));
+  overflow: hidden;
 }
 
 .kinetic-gradient {
