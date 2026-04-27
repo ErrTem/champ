@@ -15,6 +15,7 @@ import {
   personOutline,
   shieldCheckmarkOutline,
   sunnyOutline,
+  timeOutline,
 } from 'ionicons/icons';
 
 import { routes } from './app/app.routes';
@@ -24,6 +25,7 @@ import { authInterceptor } from './app/core/interceptors/auth.interceptor';
 addIcons({
   compassOutline,
   calendarOutline,
+  timeOutline,
   personOutline,
   shieldCheckmarkOutline,
   filterOutline,
