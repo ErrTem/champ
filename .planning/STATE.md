@@ -93,3 +93,9 @@ Decisions are logged in `PROJECT.md` Key Decisions table.
 Last session: 2026-04-26T00:00:00.000Z
 Stopped at: Milestone v1.1 start
 Resume file: `.planning/REQUIREMENTS.md`
+
+## Quick Tasks Completed
+
+| Date (UTC)   | Slug              | Summary |
+|--------------|-------------------|---------|
+| 2026-04-28   | register-macos-ui | Register: +1 US phone row, Terms/Privacy copy and `/privacy` page, OAuth icons, macOS-style controls. |

@@ -6,6 +6,7 @@ import {
   IonCheckbox,
   IonContent,
   IonHeader,
+  IonIcon,
   IonInput,
   IonItem,
   IonLabel,
@@ -34,6 +35,7 @@ import { environment } from '../../../environments/environment';
     IonItem,
     IonLabel,
     IonCheckbox,
+    IonIcon,
     IonSegment,
     IonSegmentButton,
     IonText,
@@ -66,7 +68,10 @@ export class RegisterPage {
   }
 
   onPhoneInput(value: string | number | null | undefined): void {
-    const digits = this.digitsOnly(String(value ?? ''));
+    let digits = this.digitsOnly(String(value ?? ''));
+    if (digits.length === 11 && digits.startsWith('1')) {
+      digits = digits.slice(1);
+    }
     this.phone = this.formatUsPhone(digits);
   }
 

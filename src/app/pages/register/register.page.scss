@@ -1,1 +1,96 @@
 @import '../shared-auth.scss';
+
+:host {
+  --mac-radius: 10px;
+  --mac-separator: rgba(255, 255, 255, 0.12);
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.mac-label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--auth-muted);
+  margin: 0 0 0.35rem;
+  padding: 0 2px;
+}
+
+.phone-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  border-radius: var(--mac-radius);
+  overflow: hidden;
+  border: 1px solid var(--mac-separator);
+  background: var(--auth-elevated);
+}
+
+.phone-cc {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--auth-on);
+  border-right: 1px solid var(--mac-separator);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.phone-input {
+  flex: 1 1 auto;
+  --background: transparent;
+  border-radius: 0;
+  min-width: 0;
+}
+
+.phone-input::part(native),
+.phone-input {
+  border: none;
+}
+
+ion-segment {
+  --background: rgba(0, 0, 0, 0.35);
+  border-radius: var(--mac-radius);
+  border: 1px solid var(--mac-separator);
+  padding: 3px;
+  min-height: 36px;
+}
+
+ion-segment-button {
+  --indicator-color: rgba(255, 255, 255, 0.14);
+  --color: var(--auth-muted);
+  --color-checked: var(--auth-on);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  border-radius: calc(var(--mac-radius) - 4px);
+}
+
+.terms-mac-label {
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: normal;
+}
+
+.oauth-mac {
+  --border-radius: var(--mac-radius);
+  --border-width: 1px;
+  --border-color: var(--mac-separator);
+  font-weight: 510;
+  letter-spacing: -0.02em;
+  text-transform: none;
+  min-height: 44px;
+}
+
+.oauth-mac ion-icon {
+  font-size: 20px;
+  margin-inline-end: 8px;
+}
+
+.oauth-apple ion-icon {
+  font-size: 22px;
+}

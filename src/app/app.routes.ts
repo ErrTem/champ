@@ -122,6 +122,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/terms/terms.page').then((m) => m.TermsPage),
   },
   {
+    path: 'privacy',
+    loadComponent: () => import('./pages/privacy/privacy.page').then((m) => m.PrivacyPage),
+  },
+  {
     path: 'forgot-password',
     loadComponent: () =>
       import('./pages/forgot-password/forgot-password.page').then((m) => m.ForgotPasswordPage),
