@@ -37,10 +37,10 @@ services:
       - key: ADMIN_PASSWORD
         sync: false
 
+  # Static sites: do not set `plan: free` — not a valid Blueprint value for runtime: static (Render error).
   - type: web
     name: champ-web
     runtime: static
-    plan: free
     buildCommand: npm ci && npm run build:render
     staticPublishPath: ./www
     envVars:
