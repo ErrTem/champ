@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import type Stripe from 'stripe';
 import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
@@ -129,7 +130,7 @@ export class PaymentsService {
       });
     } catch (e) {
       // Duplicate event id (or race) — treat as idempotent success.
-      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2002') return;
+      if (e instanceof PrismaClientKnownRequestError && e.code === 'P2002') return;
       throw e;
     }
 
@@ -149,7 +150,7 @@ export class PaymentsService {
     bookingId: string;
     stripeCheckoutSessionId?: string;
   }): Promise<void> {
-    const didConfirm = await this.prisma.$transaction(async (tx) => {
+    const didConfirm = await this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const booking = await tx.booking.findUnique({
         where: { id: input.bookingId },
         select: { id: true, status: true, slotId: true, stripeCheckoutSessionId: true },

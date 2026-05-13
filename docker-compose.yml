@@ -24,6 +24,7 @@ services:
     environment:
       PORT: 3000
       NODE_ENV: production
+      CORS_ORIGINS: http://localhost:4200,http://localhost:8100
       DATABASE_URL: postgresql://postgres:postgres@db:5432/champ_dev
       JWT_ACCESS_SECRET: change-me-min-32-chars-xxxxxxxxxxxx
       JWT_REFRESH_SECRET: change-me-min-32-chars-xxxxxxxxxxxx

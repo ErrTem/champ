@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { DateTime } from 'luxon';
-import { Prisma } from '@prisma/client';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { PrismaService } from '../prisma/prisma.service';
 import { PushService } from '../push/push.service';
 import { NotificationPreferencesService } from './notification-preferences.service';
@@ -49,7 +49,7 @@ export class NotificationDeliveryService {
         data: { status: 'sent', attemptCount: { increment: 1 }, sentAt: new Date() },
       });
     } catch (e) {
-      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2002') return;
+      if (e instanceof PrismaClientKnownRequestError && e.code === 'P2002') return;
       await this.prisma.notificationDelivery.create({
         data: {
           userId: input.fighterUserId,
@@ -108,7 +108,7 @@ export class NotificationDeliveryService {
         });
         deliveryId = row.id;
       } catch (e) {
-        if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2002') continue;
+        if (e instanceof PrismaClientKnownRequestError && e.code === 'P2002') continue;
         continue;
       }
 

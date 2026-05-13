@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import type { Prisma } from '@prisma/client';
 import { DateTime } from 'luxon';
 import { SLOT_STEP_MINUTES } from '../availability/availability.constants';
 import { PrismaService } from '../prisma/prisma.service';
@@ -87,7 +88,7 @@ export class ScheduleAdminService {
     const activeRules = inputRules.filter((r) => r.active);
     validateNoOverlaps(activeRules);
 
-    await this.prisma.$transaction(async (tx) => {
+    await this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       await tx.fighterScheduleRule.deleteMany({ where: { fighterId } });
       if (inputRules.length > 0) {
         await tx.fighterScheduleRule.createMany({

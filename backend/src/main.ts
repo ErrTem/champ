@@ -4,6 +4,14 @@ import { NestFactory } from '@nestjs/core';
 import cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 
+function corsOrigins(): string[] {
+  const raw = process.env.CORS_ORIGINS?.trim();
+  if (raw) {
+    return raw.split(',').map((o) => o.trim()).filter(Boolean);
+  }
+  return ['http://localhost:8100', 'http://localhost:4200'];
+}
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { rawBody: true });
   app.use(cookieParser());
@@ -15,7 +23,7 @@ async function bootstrap() {
     }),
   );
   app.enableCors({
-    origin: ['http://localhost:8100', 'http://localhost:4200'],
+    origin: corsOrigins(),
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   });

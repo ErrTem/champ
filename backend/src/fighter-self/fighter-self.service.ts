@@ -4,6 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import type { Prisma } from '@prisma/client';
 import { DateTime } from 'luxon';
 import { ScheduleAdminService } from '../admin/schedule.admin.service';
 import { NotificationsService } from '../notifications/notifications.service';
@@ -200,7 +201,7 @@ export class FighterSelfService {
       throw new BadRequestException('Cannot cancel booking that already started');
     }
 
-    await this.prisma.$transaction(async (tx) => {
+    await this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const updated = await tx.booking.updateMany({
         where: { id: booking.id, fighterId },
         data: { status: 'cancelled_by_fighter' },

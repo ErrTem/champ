@@ -13,6 +13,8 @@ npx prisma db push
 npm run start:dev
 ```
 
+`npm run build` (e.g. for production) runs `prisma generate` automatically via `prebuild`, then compiles the API.
+
 After any Prisma schema change, run `npx prisma db push` again (or migrate in production).
 
 Health check: `GET http://localhost:3000/health`

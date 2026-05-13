@@ -1,0 +1,53 @@
+# Render Blueprint: https://render.com/docs/blueprint-spec
+# Connect repo in Render → New → Blueprint → pick this file.
+# After first deploy, if service names change, update CORS_ORIGINS / API_PUBLIC_URL to match public URLs.
+
+databases:
+  - name: champ-db
+    plan: free
+    databaseName: champ
+    user: champ
+
+services:
+  - type: web
+    name: champ-api
+    runtime: docker
+    region: oregon
+    plan: free
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3000"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: champ-db
+          property: connectionString
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: CORS_ORIGINS
+        value: https://champ-web.onrender.com
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+
+  - type: web
+    name: champ-web
+    runtime: static
+    region: oregon
+    plan: free
+    buildCommand: npm ci && npm run build:render
+    staticPublishPath: ./www
+    envVars:
+      - key: API_PUBLIC_URL
+        value: https://champ-api.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

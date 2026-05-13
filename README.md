@@ -10,6 +10,10 @@ Ionic/Angular client + NestJS API (`backend/`). See `backend/README.md` for API 
 
 Secrets stay local: copy `.env.example` files; never commit real `.env`.
 
+## Deploy (Render)
+
+Blueprint and steps: [docs/deploy-render.md](docs/deploy-render.md) (`render.yaml` at repo root).
+
 ## Getting started (clone → run)
 
 ```bash

@@ -5,6 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import type { Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { createHash, randomBytes } from 'crypto';
 import { PrismaService } from '../prisma/prisma.service';
@@ -80,7 +81,7 @@ export class AuthService {
       userId = identity.userId;
       userEmail = identity.user.email;
     } else {
-      const created = await this.prisma.$transaction(async (tx) => {
+      const created = await this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
         const existingUser =
           email ? await tx.user.findUnique({ where: { email } }) : null;
 

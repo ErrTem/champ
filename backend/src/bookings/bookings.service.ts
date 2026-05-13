@@ -1,4 +1,5 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import type { Prisma } from '@prisma/client';
 import { DateTime } from 'luxon';
 import { NotificationDeliveryService } from '../notifications/notification-delivery.service';
 import { NotificationsService } from '../notifications/notifications.service';
@@ -30,7 +31,7 @@ export class BookingsService {
 
     const transitioned: string[] = [];
     for (const c of candidates) {
-      const didExpire = await this.prisma.$transaction(async (tx) => {
+      const didExpire = await this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
         const updated = await tx.booking.updateMany({
           where: { id: c.id, userId, status: 'awaiting_payment', expiresAtUtc: { lt: nowUtc } },
           data: { status: 'expired' },
@@ -160,7 +161,7 @@ export class BookingsService {
     const nowUtc = DateTime.utc().toJSDate();
     const expiresAtUtc = new Date(nowUtc.getTime() + BOOKING_HOLD_TTL_MINUTES * 60 * 1000);
 
-    const result = await this.prisma.$transaction(async (tx) => {
+    const result = await this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const slot = await tx.slot.findUnique({
         where: { id: slotId },
         select: {

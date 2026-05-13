@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import type { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 
 export type FighterApprovalRow = {
@@ -32,7 +33,7 @@ export class FighterApprovalsAdminService {
   }
 
   async approve(userId: string): Promise<{ ok: true }> {
-    await this.prisma.$transaction(async (tx) => {
+    await this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const user = await tx.user.findUnique({
         where: { id: userId },
         select: { id: true, userType: true, fighterStatus: true, name: true, email: true },

@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import type { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { FighterListItemDto } from './dto/fighter-list-item.dto';
 import { FighterProfileDto } from './dto/fighter-profile.dto';
@@ -41,7 +42,7 @@ export class FightersService {
 
     if (modalities.length > 0) serviceLevel.modality = { in: modalities };
 
-    const where: Record<string, unknown> = { published: true };
+    const where: Prisma.FighterWhereInput = { published: true };
     if (disciplines.length > 0) {
       where.disciplines = { hasSome: disciplines };
     }
