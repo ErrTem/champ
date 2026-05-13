@@ -2,7 +2,17 @@ import 'reflect-metadata';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import cookieParser from 'cookie-parser';
+import session from 'express-session';
 import { AppModule } from './app.module';
+
+function oauthSessionSecret(): string {
+  const fromEnv = process.env.SESSION_SECRET?.trim();
+  if (fromEnv) return fromEnv;
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('SESSION_SECRET is required when NODE_ENV=production (OAuth state)');
+  }
+  return 'dev-only-oauth-session-secret-min-32-chars-xx';
+}
 
 function corsOrigins(): string[] {
   const raw = process.env.CORS_ORIGINS?.trim();
@@ -15,6 +25,20 @@ function corsOrigins(): string[] {
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { rawBody: true });
   app.use(cookieParser());
+  const secure = process.env.NODE_ENV === 'production';
+  app.use(
+    session({
+      secret: oauthSessionSecret(),
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure,
+        path: '/',
+      },
+    }),
+  );
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
