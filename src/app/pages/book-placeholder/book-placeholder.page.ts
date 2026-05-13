@@ -17,6 +17,7 @@ import {
 import { finalize } from 'rxjs';
 import { FighterProfile, Service } from '../../core/models/catalog.models';
 import { AvailabilityDay, Booking, Slot } from '../../core/models/booking.models';
+import { AuthService } from '../../core/services/auth.service';
 import { BookingService, CreateBookingError } from '../../core/services/booking.service';
 import { CatalogService } from '../../core/services/catalog.service';
 
@@ -51,6 +52,7 @@ export class BookPlaceholderPage implements OnDestroy {
   private readonly router = inject(Router);
   private readonly catalog = inject(CatalogService);
   private readonly booking = inject(BookingService);
+  private readonly auth = inject(AuthService);
 
   private qpSub: { unsubscribe(): void } | null = null;
 
@@ -310,7 +312,8 @@ export class BookPlaceholderPage implements OnDestroy {
   }
 
   backToExplore(): void {
-    void this.router.navigateByUrl('/explore');
+    const u = this.auth.user();
+    void this.router.navigateByUrl(u?.userType === 'fighter' ? '/profile' : '/explore');
   }
 
   reserveSlot(): void {

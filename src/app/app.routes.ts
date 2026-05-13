@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { adminGuard } from './core/guards/admin.guard';
+import { exploreClientOnlyGuard } from './core/guards/explore-client-only.guard';
 
 export const routes: Routes = [
   {
@@ -9,10 +10,12 @@ export const routes: Routes = [
     children: [
       {
         path: 'explore',
+        canActivate: [exploreClientOnlyGuard],
         loadComponent: () => import('./pages/catalog/catalog.page').then((m) => m.CatalogPage),
       },
       {
         path: 'explore/fighters/:fighterId',
+        canActivate: [exploreClientOnlyGuard],
         loadComponent: () =>
           import('./pages/fighter-profile/fighter-profile.page').then((m) => m.FighterProfilePage),
       },

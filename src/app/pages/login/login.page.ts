@@ -48,7 +48,8 @@ export class LoginPage {
           void this.router.navigateByUrl(returnTo);
           return;
         }
-        void this.router.navigateByUrl('/explore');
+        const u = this.auth.user();
+        void this.router.navigateByUrl(u ? this.auth.postAuthHomePath(u) : '/explore');
       },
       error: () => {
         this.error = 'Invalid email or password';

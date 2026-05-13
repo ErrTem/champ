@@ -13,7 +13,8 @@ export const adminGuard: CanActivateFn = (_route, state) => {
           queryParams: { returnTo: state.url },
         });
       }
-      return u.isAdmin ? true : router.createUrlTree(['/explore']);
+      if (u.isAdmin) return true;
+      return router.createUrlTree([u.userType === 'fighter' ? '/profile' : '/explore']);
     }),
   );
 };

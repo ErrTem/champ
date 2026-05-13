@@ -119,4 +119,9 @@ export class AuthService {
       .patch<AuthUser>(`${this.baseUrl}/users/me`, body, { withCredentials: true })
       .pipe(tap((u) => this._user.set(u)));
   }
+
+  /** Default shell route after login when no safe returnTo. Fighters skip client catalog. */
+  postAuthHomePath(user: AuthUser): string {
+    return user.userType === 'fighter' ? '/profile' : '/explore';
+  }
 }

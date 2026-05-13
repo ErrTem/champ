@@ -14,6 +14,7 @@ import {
 } from '@ionic/angular/standalone';
 import { finalize } from 'rxjs';
 import { BookingListItem } from '../../core/models/booking.models';
+import { AuthService } from '../../core/services/auth.service';
 import { BookingService } from '../../core/services/booking.service';
 import { HeaderComponent } from '../../shell/header.component';
 
@@ -41,6 +42,9 @@ type Tab = 'upcoming' | 'past';
 export class MyBookingsPage {
   private readonly booking = inject(BookingService);
   private readonly router = inject(Router);
+  private readonly auth = inject(AuthService);
+
+  readonly user = this.auth.user;
 
   tab: Tab = 'upcoming';
   loading = true;
@@ -111,6 +115,10 @@ export class MyBookingsPage {
 
   explore(): void {
     void this.router.navigateByUrl('/explore');
+  }
+
+  goProfile(): void {
+    void this.router.navigateByUrl('/profile');
   }
 
   formatPacificDateTime(utcIso: string): string {

@@ -36,8 +36,13 @@
   } @else if (visibleBookings.length === 0) {
     <section class="state state-empty">
       <p class="state-title">No bookings yet</p>
-      <p class="state-body">When you book a session, it’ll appear here. Explore fighters to get started.</p>
-      <ion-button class="kinetic-gradient" expand="block" (click)="explore()">Explore fighters</ion-button>
+      @if (user()?.userType === 'fighter') {
+        <p class="state-body">When clients book with you, sessions will appear here.</p>
+        <ion-button class="kinetic-gradient" expand="block" (click)="goProfile()">Open profile</ion-button>
+      } @else {
+        <p class="state-body">When you book a session, it’ll appear here. Explore fighters to get started.</p>
+        <ion-button class="kinetic-gradient" expand="block" (click)="explore()">Explore fighters</ion-button>
+      }
     </section>
   } @else {
     <section class="list">
