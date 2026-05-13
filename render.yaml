@@ -40,7 +40,6 @@ services:
   - type: web
     name: champ-web
     runtime: static
-    region: oregon
     plan: free
     buildCommand: npm ci && npm run build:render
     staticPublishPath: ./www
