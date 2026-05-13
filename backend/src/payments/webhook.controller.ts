@@ -1,4 +1,11 @@
-import { BadRequestException, Controller, Headers, Post, Req } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Headers,
+  Post,
+  Req,
+  ServiceUnavailableException,
+} from '@nestjs/common';
 import type { Request } from 'express';
 import { PaymentsService } from './payments.service';
 import { StripeClient } from './stripe.client';
@@ -17,8 +24,18 @@ export class WebhookController {
     @Req() req: RawBodyRequest,
     @Headers('stripe-signature') signatureHeader?: string,
   ) {
-    const secret = process.env.STRIPE_WEBHOOK_SECRET;
-    if (!secret) throw new Error('STRIPE_WEBHOOK_SECRET is required');
+    if (!this.stripeClient.stripe) {
+      throw new ServiceUnavailableException(
+        'Stripe is not configured (set STRIPE_SECRET_KEY to accept webhooks).',
+      );
+    }
+
+    const secret = process.env.STRIPE_WEBHOOK_SECRET?.trim();
+    if (!secret) {
+      throw new ServiceUnavailableException(
+        'Stripe webhooks are not configured (set STRIPE_WEBHOOK_SECRET).',
+      );
+    }
     if (!signatureHeader) throw new BadRequestException('Missing Stripe-Signature header');
 
     const rawBody = req.rawBody;

@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  ServiceUnavailableException,
+} from '@nestjs/common';
 import type { Prisma } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import type Stripe from 'stripe';
@@ -13,6 +18,16 @@ export class PaymentsService {
     private readonly stripeClient: StripeClient,
     private readonly notifications: NotificationsService,
   ) {}
+
+  private requireStripe(): Stripe {
+    const stripe = this.stripeClient.stripe;
+    if (!stripe) {
+      throw new ServiceUnavailableException(
+        'Stripe is not configured (set STRIPE_SECRET_KEY to enable payments).',
+      );
+    }
+    return stripe;
+  }
 
   async createOrReuseCheckoutSession(input: {
     bookingId: string;
@@ -36,11 +51,11 @@ export class PaymentsService {
     const appUrl = process.env.PUBLIC_APP_URL;
     if (!appUrl) throw new Error('PUBLIC_APP_URL is required');
 
+    const stripe = this.requireStripe();
+
     // Reuse existing active session when possible (D-04).
     if (booking.stripeCheckoutSessionId) {
-      const session = await this.stripeClient.stripe.checkout.sessions.retrieve(
-        booking.stripeCheckoutSessionId,
-      );
+      const session = await stripe.checkout.sessions.retrieve(booking.stripeCheckoutSessionId);
       if (session.status !== 'expired' && session.url) {
         return { checkoutUrl: session.url, sessionId: session.id };
       }
@@ -63,7 +78,7 @@ export class PaymentsService {
     cancelUrl.searchParams.set('bookingId', booking.id);
     cancelUrl.searchParams.set('result', 'cancel');
 
-    const session = await this.stripeClient.stripe.checkout.sessions.create({
+    const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       payment_method_types: ['card'],
       line_items: [
@@ -107,7 +122,8 @@ export class PaymentsService {
     if (booking.status === 'confirmed') return { ok: true };
     if (booking.status !== 'awaiting_payment') return { ok: true };
 
-    const session = await this.stripeClient.stripe.checkout.sessions.retrieve(input.stripeSessionId);
+    const stripe = this.requireStripe();
+    const session = await stripe.checkout.sessions.retrieve(input.stripeSessionId);
     const paymentOk =
       session.payment_status === 'paid' ||
       // stripe types: session.status can be "complete" for successful Checkout

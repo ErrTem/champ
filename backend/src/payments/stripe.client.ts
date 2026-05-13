@@ -3,12 +3,14 @@ import Stripe from 'stripe';
 
 @Injectable()
 export class StripeClient {
-  readonly stripe: Stripe;
+  /** `null` when `STRIPE_SECRET_KEY` is unset (local dev without payments). */
+  readonly stripe: Stripe | null;
 
   constructor() {
-    const secretKey = process.env.STRIPE_SECRET_KEY;
+    const secretKey = process.env.STRIPE_SECRET_KEY?.trim();
     if (!secretKey) {
-      throw new Error('STRIPE_SECRET_KEY is required');
+      this.stripe = null;
+      return;
     }
 
     this.stripe = new Stripe(secretKey, {
