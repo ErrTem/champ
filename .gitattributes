@@ -1,0 +1,2 @@
+# Shell scripts must use LF so Linux containers (Docker) get valid shebangs.
+*.sh text eol=lf
