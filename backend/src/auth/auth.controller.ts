@@ -16,19 +16,14 @@ import { ConfirmResetDto } from './dto/confirm-reset.dto';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { RequestResetDto } from './dto/request-reset.dto';
+import { sharedBrowserCookieOptions } from './http-cookie-policy';
 import type { OAuthProfile } from './strategies/google.strategy';
 
 const ACCESS_MAX_AGE_MS = 900 * 1000;
 const REFRESH_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 
 function cookieBase() {
-  const secure = process.env.NODE_ENV === 'production';
-  return {
-    httpOnly: true,
-    sameSite: 'lax' as const,
-    secure,
-    path: '/',
-  };
+  return sharedBrowserCookieOptions();
 }
 
 function setAuthCookies(res: Response, accessToken: string, refreshToken: string) {

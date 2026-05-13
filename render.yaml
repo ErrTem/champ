@@ -32,6 +32,8 @@ services:
         generateValue: true
       - key: CORS_ORIGINS
         value: https://champ-web.onrender.com
+      - key: AUTH_COOKIE_SAMESITE
+        value: none
       - key: ADMIN_EMAIL
         sync: false
       - key: ADMIN_PASSWORD

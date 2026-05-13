@@ -4,6 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import { AppModule } from './app.module';
+import { sharedBrowserCookieOptions } from './auth/http-cookie-policy';
 
 function oauthSessionSecret(): string {
   const fromEnv = process.env.SESSION_SECRET?.trim();
@@ -25,18 +26,12 @@ function corsOrigins(): string[] {
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { rawBody: true });
   app.use(cookieParser());
-  const secure = process.env.NODE_ENV === 'production';
   app.use(
     session({
       secret: oauthSessionSecret(),
       resave: false,
       saveUninitialized: false,
-      cookie: {
-        httpOnly: true,
-        sameSite: 'lax',
-        secure,
-        path: '/',
-      },
+      cookie: sharedBrowserCookieOptions(),
     }),
   );
   app.useGlobalPipes(
