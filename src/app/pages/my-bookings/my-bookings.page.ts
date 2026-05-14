@@ -16,7 +16,6 @@ import { finalize } from 'rxjs';
 import { BookingListItem } from '../../core/models/booking.models';
 import { AuthService } from '../../core/services/auth.service';
 import { BookingService } from '../../core/services/booking.service';
-import { HeaderComponent } from '../../shell/header.component';
 
 const DISPLAY_TIMEZONE = 'America/Los_Angeles';
 type Tab = 'upcoming' | 'past';
@@ -27,7 +26,6 @@ type Tab = 'upcoming' | 'past';
   styleUrls: ['./my-bookings.page.scss'],
   imports: [
     CommonModule,
-    HeaderComponent,
     IonContent,
     IonSegment,
     IonSegmentButton,

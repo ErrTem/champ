@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   IonAccordion,
   IonAccordionGroup,
@@ -17,7 +17,6 @@ import {
 import { finalize } from 'rxjs';
 import { FighterListItem } from '../../core/models/catalog.models';
 import { CatalogService, FightersFilters } from '../../core/services/catalog.service';
-import { HeaderComponent } from '../../shell/header.component';
 
 type PriceBucket = 'any' | 'under50' | '50to100' | '100plus';
 type ModalityBucket = 'any' | 'online' | 'in_person';
@@ -28,8 +27,6 @@ type ModalityBucket = 'any' | 'online' | 'in_person';
   styleUrls: ['./catalog.page.scss'],
   imports: [
     CommonModule,
-    RouterLink,
-    HeaderComponent,
     IonContent,
     IonText,
     IonButton,

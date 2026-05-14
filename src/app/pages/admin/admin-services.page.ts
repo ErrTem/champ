@@ -20,15 +20,12 @@ import {
 } from '@ionic/angular/standalone';
 import { finalize } from 'rxjs';
 import { AdminApiService, AdminFighter, AdminService } from '../../core/services/admin-api.service';
-import { HeaderComponent } from '../../shell/header.component';
-
 @Component({
   selector: 'app-admin-services',
   templateUrl: './admin-services.page.html',
   imports: [
     CommonModule,
     FormsModule,
-    HeaderComponent,
     IonContent,
     IonText,
     IonCard,

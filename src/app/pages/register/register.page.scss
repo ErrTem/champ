@@ -1,4 +1,4 @@
-@import '../shared-auth.scss';
+@use '../shared-auth.scss' as *;
 
 .mac-label {
   font-size: 13px;

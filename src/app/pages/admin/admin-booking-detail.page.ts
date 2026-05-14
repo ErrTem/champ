@@ -1,36 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import {
-  IonButton,
-  IonCard,
-  IonCardContent,
-  IonContent,
-  IonHeader,
-  IonSkeletonText,
-  IonText,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/angular/standalone';
+import { ActivatedRoute } from '@angular/router';
+import { IonCard, IonCardContent, IonContent, IonSkeletonText, IonText } from '@ionic/angular/standalone';
 import { finalize } from 'rxjs';
 import { AdminApiService, AdminBookingDetail } from '../../core/services/admin-api.service';
 
 @Component({
   selector: 'app-admin-booking-detail',
   templateUrl: './admin-booking-detail.page.html',
-  imports: [
-    CommonModule,
-    RouterLink,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonText,
-    IonCard,
-    IonCardContent,
-    IonButton,
-    IonSkeletonText,
-  ],
+  imports: [CommonModule, IonContent, IonText, IonCard, IonCardContent, IonSkeletonText],
 })
 export class AdminBookingDetailPage implements OnInit {
   private readonly route = inject(ActivatedRoute);

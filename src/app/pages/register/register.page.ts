@@ -13,15 +13,12 @@ import {
   IonButton,
   IonCheckbox,
   IonContent,
-  IonHeader,
   IonInput,
   IonItem,
   IonLabel,
   IonRadio,
   IonRadioGroup,
   IonText,
-  IonTitle,
-  IonToolbar,
 } from '@ionic/angular/standalone';
 import { PasswordVisibilityToggleComponent } from '../../components/password-visibility-toggle.component';
 import { AuthService } from '../../core/services/auth.service';
@@ -57,9 +54,6 @@ function passwordsMatchValidator(): ValidatorFn {
     ReactiveFormsModule,
     PasswordVisibilityToggleComponent,
     RouterLink,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonContent,
     IonButton,
     IonInput,

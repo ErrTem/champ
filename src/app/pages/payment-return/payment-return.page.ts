@@ -1,15 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import {
-  IonButton,
-  IonContent,
-  IonHeader,
-  IonSpinner,
-  IonText,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/angular/standalone';
+import { IonButton, IonContent, IonSpinner } from '@ionic/angular/standalone';
 import { Subscription, timer } from 'rxjs';
 import { Booking } from '../../core/models/booking.models';
 import { BookingService } from '../../core/services/booking.service';
@@ -21,11 +13,7 @@ import { BookingService } from '../../core/services/booking.service';
   imports: [
     CommonModule,
     RouterLink,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonContent,
-    IonText,
     IonSpinner,
     IonButton,
   ],

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   IonButton,
   IonButtons,
@@ -11,7 +11,6 @@ import {
   IonIcon,
   IonSkeletonText,
   IonSpinner,
-  IonText,
   IonTitle,
   IonToolbar,
 } from '@ionic/angular/standalone';
@@ -34,13 +33,11 @@ const DOW_MON_START = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const
   styleUrls: ['./book-placeholder.page.scss'],
   imports: [
     CommonModule,
-    RouterLink,
     IonButtons,
     IonHeader,
     IonToolbar,
     IonTitle,
     IonContent,
-    IonText,
     IonSkeletonText,
     IonButton,
     IonFooter,

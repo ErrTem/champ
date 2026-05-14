@@ -1,28 +1,95 @@
-<ion-content fullscreen="true" class="success-shell">
+<ion-content fullscreen="true" class="success-shell" [scrollY]="true">
   @if (loading) {
-    <section class="card glass">
-      <ion-skeleton-text class="line lg" animated="true"></ion-skeleton-text>
-      <ion-skeleton-text class="line md" animated="true"></ion-skeleton-text>
-    </section>
-  } @else if (error) {
-    <section class="card glass">
-      <p class="headline">Booking confirmed</p>
-      <p class="body">{{ error }}</p>
-      <ion-button class="kinetic-gradient" expand="block" routerLink="/my-bookings">Go to My bookings</ion-button>
-    </section>
-  } @else if (data) {
-    <section class="card glass">
-      <p class="kicker">Booking confirmed</p>
-      <h2 class="headline">You’re all set</h2>
-      <p class="body">Your booking is confirmed. You can view details anytime in My bookings.</p>
-
-      <div class="meta">
-        <div><span class="label">Status</span> <span class="value">{{ data.status }}</span></div>
-        <div><span class="label">Booking ID</span> <span class="value mono">{{ data.id }}</span></div>
+    <div class="success-stage">
+      <div class="bg-layer" aria-hidden="true"></div>
+      <div class="success-canvas">
+        <div class="hero-icon-wrap skel">
+          <div class="hero-glow"></div>
+          <div class="hero-icon-box"></div>
+        </div>
+        <div class="head-block skel-head">
+          <div class="skel-pill"></div>
+          <ion-skeleton-text class="skel-title" animated="true"></ion-skeleton-text>
+          <ion-skeleton-text class="skel-sub" animated="true"></ion-skeleton-text>
+        </div>
+        <div class="detail-grid">
+          <div class="detail-card skel-card"><ion-skeleton-text animated="true" class="skel-line-lg"></ion-skeleton-text></div>
+          <div class="detail-card skel-card"><ion-skeleton-text animated="true" class="skel-line-lg"></ion-skeleton-text></div>
+        </div>
       </div>
+    </div>
+  } @else if (error) {
+    <div class="success-stage">
+      <div class="bg-layer" aria-hidden="true"></div>
+      <div class="success-canvas narrow">
+        <div class="head-block">
+          <span class="tier-badge">Issue</span>
+          <h1 class="display-title">Could not<br />load booking</h1>
+          <p class="lead">{{ error }}</p>
+        </div>
+        <ion-button class="kinetic-gradient" expand="block" routerLink="/my-bookings">Go to My Bookings</ion-button>
+      </div>
+    </div>
+  } @else if (data) {
+    <div class="success-stage">
+      <div class="bg-layer" aria-hidden="true">
+        <div class="blob blob-primary"></div>
+        <div class="blob blob-secondary"></div>
+        <img
+          class="athlete-bg"
+          alt=""
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkm0mZC4SY301jfyd2kgL7lbv1gGJIDalYnKTPq8UUByssJXR6LRfPAVMXrBZ48fpxg9jGMB7srHEs8_8K8OOa0WoiTOFcMvzzSOn4NnDKKENKlMCXp3DDybMmzHfTx8E2mrFdqoy5NfUBZdam-v1O8Y5d4nqfK52M5_QwkSBgVXnDCCynGI2QG2bCDCGs09DMb4Jm2AOrb30sqNINCkZ5bIy2UfPQgOR3Ss6bIkHgdIhUbaCZScNE_fDAYBPL-CzEtDhfyCmCNx8"
+        />
+      </div>
+      <div class="success-canvas">
+        <div class="hero-icon-wrap">
+          <div class="hero-glow"></div>
+          <div class="hero-icon-box">
+            <ion-icon name="fitness-outline" class="hero-icon" aria-hidden="true"></ion-icon>
+          </div>
+        </div>
 
-      <ion-button class="kinetic-gradient" expand="block" routerLink="/my-bookings">Go to My bookings</ion-button>
-    </section>
+        <div class="head-block">
+          <span class="tier-badge">{{ badgeLabel() }}</span>
+          <h1 class="display-title">Booking<br />Confirmed!</h1>
+          <p class="lead">
+            Prepare for greatness. You are training with
+            <span class="lead-accent">{{ fighterDisplayName() }}</span>.
+          </p>
+        </div>
+
+        <div class="detail-grid">
+          <div class="detail-card">
+            <div class="detail-icon-wrap">
+              <ion-icon name="calendar-outline" aria-hidden="true"></ion-icon>
+            </div>
+            <div>
+              <p class="detail-kicker">Session date</p>
+              <p class="detail-title">{{ formatSessionDate() }}</p>
+              <p class="detail-sub">{{ formatTimeRange() }}</p>
+            </div>
+          </div>
+          <div class="detail-card">
+            <div class="detail-icon-wrap">
+              <ion-icon name="location-outline" aria-hidden="true"></ion-icon>
+            </div>
+            <div>
+              <p class="detail-kicker">Session</p>
+              <p class="detail-title">{{ sessionTitle() }}</p>
+              <p class="detail-sub">{{ sessionSubtitle() }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <ion-button class="kinetic-gradient" expand="block" routerLink="/my-bookings">Go to My Bookings</ion-button>
+          <ion-button class="ghost-outline" expand="block" fill="outline" (click)="addToCalendar()" [disabled]="!canAddToCalendar()">
+            Add to Calendar
+          </ion-button>
+        </div>
+
+        <p class="foot-tag">Persistence Over Everything</p>
+      </div>
+    </div>
   }
 </ion-content>
-

@@ -6,11 +6,8 @@ import { map } from 'rxjs';
 import {
   IonButton,
   IonContent,
-  IonHeader,
   IonInput,
   IonText,
-  IonTitle,
-  IonToolbar,
 } from '@ionic/angular/standalone';
 import { PasswordVisibilityToggleComponent } from '../../components/password-visibility-toggle.component';
 import { AuthService } from '../../core/services/auth.service';
@@ -23,9 +20,6 @@ import { AuthService } from '../../core/services/auth.service';
     FormsModule,
     PasswordVisibilityToggleComponent,
     RouterLink,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonContent,
     IonButton,
     IonInput,

@@ -6,7 +6,6 @@ import {
   IonCard,
   IonCardContent,
   IonContent,
-  IonHeader,
   IonInput,
   IonItem,
   IonLabel,
@@ -15,8 +14,6 @@ import {
   IonSelectOption,
   IonSkeletonText,
   IonText,
-  IonTitle,
-  IonToolbar,
   ToastController,
 } from '@ionic/angular/standalone';
 import { finalize } from 'rxjs';
@@ -28,9 +25,6 @@ import { AdminApiService, AdminFighter, AdminScheduleRule } from '../../core/ser
   imports: [
     CommonModule,
     FormsModule,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonContent,
     IonText,
     IonList,

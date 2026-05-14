@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IonButton, IonChip, IonContent, IonHeader, IonLabel, IonSkeletonText, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonButton, IonChip, IonContent, IonLabel, IonSkeletonText } from '@ionic/angular/standalone';
 import { finalize } from 'rxjs';
 import { Booking } from '../../core/models/booking.models';
 import { BookingService } from '../../core/services/booking.service';
@@ -12,7 +12,7 @@ const DISPLAY_TIMEZONE = 'America/Los_Angeles';
   selector: 'app-booking-detail',
   templateUrl: './booking-detail.page.html',
   styleUrls: ['./booking-detail.page.scss'],
-  imports: [CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonChip, IonLabel, IonSkeletonText],
+  imports: [CommonModule, IonContent, IonButton, IonChip, IonLabel, IonSkeletonText],
 })
 export class BookingDetailPage {
   private readonly route = inject(ActivatedRoute);

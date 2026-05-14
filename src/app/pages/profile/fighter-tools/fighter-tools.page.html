@@ -42,7 +42,7 @@
                     </ion-button>
                   </div>
 
-                  @if ((rulesByDay[dayIdx] ?? []).length === 0) {
+                  @if (rulesByDay[dayIdx].length === 0) {
                     <p class="sub">No windows</p>
                   } @else {
                     <ion-list lines="none">

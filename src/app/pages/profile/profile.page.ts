@@ -13,7 +13,6 @@ import {
 import { AuthService } from '../../core/services/auth.service';
 import { NotificationPreferences, NotificationPreferencesService } from '../../core/services/notification-preferences.service';
 import { PushService } from '../../core/services/push.service';
-import { HeaderComponent } from '../../shell/header.component';
 
 @Component({
   selector: 'app-profile',
@@ -22,7 +21,6 @@ import { HeaderComponent } from '../../shell/header.component';
   imports: [
     FormsModule,
     RouterLink,
-    HeaderComponent,
     IonContent,
     IonButton,
     IonInput,
