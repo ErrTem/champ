@@ -34,7 +34,7 @@ Verify milestone achieved its definition of done. Check requirements coverage, c
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/audit-milestone.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/audit-milestone.md
 </execution_context>
 
 <context>
@@ -48,6 +48,6 @@ Glob: .planning/phases/*/*-VERIFICATION.md
 </context>
 
 <process>
-Execute the audit-milestone workflow from @D:/programming/champ-app/.cursor/get-shit-done/workflows/audit-milestone.md end-to-end.
+Execute end-to-end.
 Preserve all workflow gates (scope determination, verification reading, integration check, requirements coverage, routing).
 </process>

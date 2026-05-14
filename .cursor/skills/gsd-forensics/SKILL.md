@@ -1,6 +1,6 @@
 ---
 name: gsd-forensics
-description: "Post-mortem investigation for failed GSD workflows — analyzes git history, artifacts, and state to diagnose what went wrong"
+description: "Post-mortem investigation for failed GSD workflows — diagnoses what went wrong."
 ---
 
 <cursor_skill_adapter>
@@ -35,7 +35,7 @@ Output: Forensic report saved to `.planning/forensics/`, presented inline, with 
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/forensics.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/forensics.md
 </execution_context>
 
 <context>
@@ -52,7 +52,7 @@ Output: Forensic report saved to `.planning/forensics/`, presented inline, with 
 </context>
 
 <process>
-Read and execute the forensics workflow from @D:/programming/champ-app/.cursor/get-shit-done/workflows/forensics.md end-to-end.
+Execute end-to-end.
 </process>
 
 <success_criteria>

@@ -10,7 +10,7 @@ Run a ≤6-question interview, score frameworks, return a ranked recommendation 
 </role>
 
 <required_reading>
-Read `D:/programming/champ-app/.cursor/get-shit-done/references/ai-frameworks.md` before asking questions. This is your decision matrix.
+Read `D:/programming/champ/.cursor/get-shit-done/references/ai-frameworks.md` before asking questions. This is your decision matrix.
 </required_reading>
 
 <project_context>

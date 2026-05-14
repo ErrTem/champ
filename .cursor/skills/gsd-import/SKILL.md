@@ -31,14 +31,14 @@ When the workflow needs to spawn a subagent:
 Import external plan files into the GSD planning system with conflict detection against PROJECT.md decisions.
 
 - **--from**: Import an external plan file, detect conflicts, write as GSD PLAN.md, validate via gsd-plan-checker.
-
-Future: `--prd` mode for PRD extraction is planned for a follow-up PR.
+- **--from-gsd2**: Reverse-migrate a GSD-2 project (`.gsd/` directory) back to GSD v1 (`.planning/`) format. Runs `gsd-tools.cjs from-gsd2`. Pass `--path <dir>` to migrate a project at a different path.
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/import.md
-@D:/programming/champ-app/.cursor/get-shit-done/references/ui-brand.md
-@D:/programming/champ-app/.cursor/get-shit-done/references/gate-prompts.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/import.md
+@D:/programming/champ/.cursor/get-shit-done/references/ui-brand.md
+@D:/programming/champ/.cursor/get-shit-done/references/gate-prompts.md
+@D:/programming/champ/.cursor/get-shit-done/references/doc-conflict-engine.md
 </execution_context>
 
 <context>
@@ -46,5 +46,10 @@ Future: `--prd` mode for PRD extraction is planned for a follow-up PR.
 </context>
 
 <process>
-Execute the import workflow end-to-end.
+If `--from-gsd2` is in {{GSD_ARGS}}:
+Run: `node "D:/programming/champ/.cursor/get-shit-done/bin/gsd-tools.cjs" from-gsd2`
+Pass `--path <dir>` if provided. Present the migration result to the user.
+Stop here (do not run the standard import workflow).
+
+Otherwise, execute the import workflow end-to-end.
 </process>

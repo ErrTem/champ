@@ -36,9 +36,9 @@ changes that are irrelevant to code review.
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/pr-branch.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/pr-branch.md
 </execution_context>
 
 <process>
-Execute the pr-branch workflow from @D:/programming/champ-app/.cursor/get-shit-done/workflows/pr-branch.md end-to-end.
+Execute end-to-end.
 </process>

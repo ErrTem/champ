@@ -37,7 +37,7 @@ Output: updated SECURITY.md.
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/secure-phase.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/secure-phase.md
 </execution_context>
 
 <context>
@@ -45,6 +45,6 @@ Phase: {{GSD_ARGS}} — optional, defaults to last completed phase.
 </context>
 
 <process>
-Execute @D:/programming/champ-app/.cursor/get-shit-done/workflows/secure-phase.md.
+Execute end-to-end.
 Preserve all workflow gates.
 </process>

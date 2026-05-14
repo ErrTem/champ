@@ -34,10 +34,10 @@ Use when `.planning/phases/` has accumulated directories from past milestones.
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/cleanup.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/cleanup.md
 </execution_context>
 
 <process>
-Follow the cleanup workflow at @D:/programming/champ-app/.cursor/get-shit-done/workflows/cleanup.md.
+Execute end-to-end.
 Identify completed milestones, show a dry-run summary, and archive on confirmation.
 </process>

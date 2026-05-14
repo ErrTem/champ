@@ -1,6 +1,6 @@
 ---
 name: gsd-sketch
-description: "Rapidly sketch UI/design ideas using throwaway HTML mockups with multi-variant exploration"
+description: "Sketch UI/design ideas with throwaway HTML mockups, or propose what to sketch next (frontier mode)"
 ---
 
 <cursor_skill_adapter>
@@ -30,18 +30,24 @@ When the workflow needs to spawn a subagent:
 <objective>
 Explore design directions through throwaway HTML mockups before committing to implementation.
 Each sketch produces 2-3 variants for comparison. Sketches live in `.planning/sketches/` and
-integrate with GSD commit patterns, state tracking, and handoff workflows.
+integrate with GSD commit patterns, state tracking, and handoff workflows. Loads spike
+findings to ground mockups in real data shapes and validated interaction patterns.
+
+Two modes:
+- **Idea mode** (default) — describe a design idea to sketch
+- **Frontier mode** (no argument or "frontier") — analyzes existing sketch landscape and proposes consistency and frontier sketches
 
 Does not require `/gsd-new-project` — auto-creates `.planning/sketches/` if needed.
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/sketch.md
-@D:/programming/champ-app/.cursor/get-shit-done/references/ui-brand.md
-@D:/programming/champ-app/.cursor/get-shit-done/references/sketch-theme-system.md
-@D:/programming/champ-app/.cursor/get-shit-done/references/sketch-interactivity.md
-@D:/programming/champ-app/.cursor/get-shit-done/references/sketch-tooling.md
-@D:/programming/champ-app/.cursor/get-shit-done/references/sketch-variant-patterns.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/sketch.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/sketch-wrap-up.md
+@D:/programming/champ/.cursor/get-shit-done/references/ui-brand.md
+@D:/programming/champ/.cursor/get-shit-done/references/sketch-theme-system.md
+@D:/programming/champ/.cursor/get-shit-done/references/sketch-interactivity.md
+@D:/programming/champ/.cursor/get-shit-done/references/sketch-tooling.md
+@D:/programming/champ/.cursor/get-shit-done/references/sketch-variant-patterns.md
 </execution_context>
 
 <runtime_note>
@@ -53,9 +59,13 @@ Design idea: {{GSD_ARGS}}
 
 **Available flags:**
 - `--quick` — Skip mood/direction intake, jump straight to decomposition and building. Use when the design direction is already clear.
+- `--wrap-up` — Package sketch design findings into a persistent project skill for future build conversations. Runs the sketch-wrap-up workflow.
 </context>
 
 <process>
-Execute the sketch workflow from @D:/programming/champ-app/.cursor/get-shit-done/workflows/sketch.md end-to-end.
-Preserve all workflow gates (intake, decomposition, variant evaluation, MANIFEST updates, commit patterns).
+Parse the first token of {{GSD_ARGS}}:
+- If it is `--wrap-up`: strip the flag, execute the sketch-wrap-up workflow end-to-end.
+- Otherwise: execute the sketch workflow end-to-end.
+
+Preserve all workflow gates (intake, decomposition, target stack research, variant evaluation, MANIFEST updates, commit patterns).
 </process>

@@ -100,3 +100,39 @@ ion-item.auth-check-item {
   white-space: normal;
   margin: 0;
 }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.join-as-group.join-as-invalid {
+  outline: 2px solid var(--ion-color-danger);
+  outline-offset: 2px;
+  border-radius: var(--mac-radius);
+}
+
+.phone-row.phone-row-invalid {
+  border-color: var(--ion-color-danger);
+}
+
+/* Ionic + NgControl set ion-invalid / ng-invalid while pristine; keep default border until touched */
+.auth-form ion-input.ion-invalid:not(.ng-touched),
+.auth-form ion-input.ng-invalid:not(.ng-touched) {
+  border-color: var(--mac-separator);
+}
+
+.auth-form ion-input.register-field-invalid {
+  border-color: var(--ion-color-danger);
+}
+
+ion-item.auth-check-item.auth-check-invalid {
+  border-color: var(--ion-color-danger);
+}

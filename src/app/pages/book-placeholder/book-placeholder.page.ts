@@ -3,6 +3,7 @@ import { Component, OnDestroy, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   IonButton,
+  IonButtons,
   IonChip,
   IonContent,
   IonFooter,
@@ -34,6 +35,7 @@ const DOW_MON_START = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const
   imports: [
     CommonModule,
     RouterLink,
+    IonButtons,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -564,6 +566,61 @@ export class BookPlaceholderPage implements OnDestroy {
   formatUsd(cents: number): string {
     const dollars = Math.round(cents / 100);
     return `$${dollars}`;
+  }
+
+  /** Full currency string for checkout-style totals (uses service currency). */
+  formatMoney(cents: number, currency: string): string {
+    try {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: currency || 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(cents / 100);
+    } catch {
+      return this.formatUsd(cents);
+    }
+  }
+
+  /** e.g. OCT 24, 2024 — uppercase editorial label in fighter TZ */
+  formatReviewDateUpper(date: string): string {
+    const [y, m, d] = date.split('-').map((x) => Number(x));
+    const utcMid = new Date(Date.UTC(y, m - 1, d, 12, 0, 0));
+    return new Intl.DateTimeFormat('en-US', {
+      timeZone: this.displayTimezone,
+      month: 'short',
+      day: '2-digit',
+      year: 'numeric',
+    })
+      .format(utcMid)
+      .toUpperCase();
+  }
+
+  /** e.g. 9:00 AM — 10:30 AM */
+  formatSlotRange(startIso: string, endIso: string): string {
+    const opts: Intl.DateTimeFormatOptions = {
+      timeZone: this.displayTimezone,
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    };
+    const a = new Intl.DateTimeFormat('en-US', opts).format(new Date(startIso));
+    const b = new Intl.DateTimeFormat('en-US', opts).format(new Date(endIso));
+    return `${a} — ${b}`;
+  }
+
+  reviewLocationLine(): string {
+    const g = this.fighter?.gym;
+    if (!g) return '';
+    const place = [g.name, g.city].filter(Boolean).join(', ');
+    return place.toUpperCase();
+  }
+
+  /** Short chip for summary card (no fake “elite tier” — uses discipline or neutral copy). */
+  sessionTierLabel(): string {
+    const d = this.fighter?.disciplines?.[0]?.trim();
+    if (d) return d.toUpperCase();
+    return 'SESSION';
   }
 
   modalityLabel(modality: string): string {

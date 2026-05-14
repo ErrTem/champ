@@ -36,7 +36,7 @@ Output: Test files committed with message `test(phase-{N}): add unit and E2E tes
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/add-tests.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/add-tests.md
 </execution_context>
 
 <context>
@@ -47,6 +47,6 @@ Phase: {{GSD_ARGS}}
 </context>
 
 <process>
-Execute the add-tests workflow from @D:/programming/champ-app/.cursor/get-shit-done/workflows/add-tests.md end-to-end.
+Execute end-to-end.
 Preserve all workflow gates (classification approval, test plan approval, RED-GREEN verification, gap reporting).
 </process>

@@ -37,9 +37,9 @@ Three modes:
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/undo.md
-@D:/programming/champ-app/.cursor/get-shit-done/references/ui-brand.md
-@D:/programming/champ-app/.cursor/get-shit-done/references/gate-prompts.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/undo.md
+@D:/programming/champ/.cursor/get-shit-done/references/ui-brand.md
+@D:/programming/champ/.cursor/get-shit-done/references/gate-prompts.md
 </execution_context>
 
 <context>
@@ -47,5 +47,5 @@ Three modes:
 </context>
 
 <process>
-Execute the undo workflow from @D:/programming/champ-app/.cursor/get-shit-done/workflows/undo.md end-to-end.
+Execute end-to-end.
 </process>

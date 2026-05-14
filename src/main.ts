@@ -5,17 +5,24 @@ import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalo
 import { provideServiceWorker } from '@angular/service-worker';
 import { addIcons } from 'ionicons';
 import {
+  arrowBackOutline,
+  arrowForwardOutline,
   calendarClearOutline,
   calendarOutline,
+  cardOutline,
   chevronBackOutline,
   chevronDownOutline,
   chevronForwardOutline,
   compassOutline,
   filterOutline,
+  fitnessOutline,
+  locationOutline,
+  lockClosedOutline,
   moonOutline,
   partlySunnyOutline,
   personOutline,
   shieldCheckmarkOutline,
+  shieldOutline,
   sunnyOutline,
   timeOutline,
 } from 'ionicons/icons';
@@ -26,11 +33,18 @@ import { authInterceptor } from './app/core/interceptors/auth.interceptor';
 import { environment } from './environments/environment';
 
 addIcons({
+  'arrow-back-outline': arrowBackOutline,
+  'arrow-forward-outline': arrowForwardOutline,
+  'card-outline': cardOutline,
   'compass-outline': compassOutline,
   'calendar-outline': calendarOutline,
   'calendar-clear-outline': calendarClearOutline,
+  'fitness-outline': fitnessOutline,
+  'location-outline': locationOutline,
+  'lock-closed-outline': lockClosedOutline,
   'time-outline': timeOutline,
   'person-outline': personOutline,
+  'shield-outline': shieldOutline,
   'shield-checkmark-outline': shieldCheckmarkOutline,
   'filter-outline': filterOutline,
   'chevron-down-outline': chevronDownOutline,

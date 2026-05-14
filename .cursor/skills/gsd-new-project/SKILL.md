@@ -51,14 +51,14 @@ Initialize a new project through unified flow: questioning → research (optiona
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/new-project.md
-@D:/programming/champ-app/.cursor/get-shit-done/references/questioning.md
-@D:/programming/champ-app/.cursor/get-shit-done/references/ui-brand.md
-@D:/programming/champ-app/.cursor/get-shit-done/templates/project.md
-@D:/programming/champ-app/.cursor/get-shit-done/templates/requirements.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/new-project.md
+@D:/programming/champ/.cursor/get-shit-done/references/questioning.md
+@D:/programming/champ/.cursor/get-shit-done/references/ui-brand.md
+@D:/programming/champ/.cursor/get-shit-done/templates/project.md
+@D:/programming/champ/.cursor/get-shit-done/templates/requirements.md
 </execution_context>
 
 <process>
-Execute the new-project workflow from @D:/programming/champ-app/.cursor/get-shit-done/workflows/new-project.md end-to-end.
+Execute end-to-end.
 Preserve all workflow gates (validation, approvals, commits, routing).
 </process>

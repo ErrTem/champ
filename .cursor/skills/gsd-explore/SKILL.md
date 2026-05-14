@@ -36,9 +36,9 @@ Accepts an optional topic argument: `/gsd-explore authentication strategy`
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/explore.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/explore.md
 </execution_context>
 
 <process>
-Execute the explore workflow from @D:/programming/champ-app/.cursor/get-shit-done/workflows/explore.md end-to-end.
+Execute end-to-end.
 </process>

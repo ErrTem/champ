@@ -32,7 +32,7 @@ Scan all phases for pending, skipped, blocked, and human_needed UAT items. Cross
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/audit-uat.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/audit-uat.md
 </execution_context>
 
 <context>

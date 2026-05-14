@@ -1,6 +1,6 @@
 ---
 name: gsd-eval-review
-description: "Retroactively audit an executed AI phase's evaluation coverage — scores each eval dimension as COVERED/PARTIAL/MISSING and produces an actionable EVAL-REVIEW.md with remediation..."
+description: "Audit an executed AI phase's evaluation coverage and produce an EVAL-REVIEW.md remediation plan."
 ---
 
 <cursor_skill_adapter>
@@ -34,8 +34,8 @@ Produces EVAL-REVIEW.md with score, verdict, gaps, and remediation plan.
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/eval-review.md
-@D:/programming/champ-app/.cursor/get-shit-done/references/ai-evals.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/eval-review.md
+@D:/programming/champ/.cursor/get-shit-done/references/ai-evals.md
 </execution_context>
 
 <context>
@@ -43,6 +43,6 @@ Phase: {{GSD_ARGS}} — optional, defaults to last completed phase.
 </context>
 
 <process>
-Execute @D:/programming/champ-app/.cursor/get-shit-done/workflows/eval-review.md end-to-end.
+Execute end-to-end.
 Preserve all workflow gates.
 </process>

@@ -1,6 +1,6 @@
 ---
 name: gsd-ai-integration-phase
-description: "Generate AI design contract (AI-SPEC.md) for phases that involve building AI systems — framework selection, implementation guidance from official docs, and evaluation strategy"
+description: "Generate an AI-SPEC.md design contract for phases that involve building AI systems."
 ---
 
 <cursor_skill_adapter>
@@ -34,9 +34,9 @@ Flow: Select Framework → Research Docs → Research Domain → Design Eval Str
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/ai-integration-phase.md
-@D:/programming/champ-app/.cursor/get-shit-done/references/ai-frameworks.md
-@D:/programming/champ-app/.cursor/get-shit-done/references/ai-evals.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/ai-integration-phase.md
+@D:/programming/champ/.cursor/get-shit-done/references/ai-frameworks.md
+@D:/programming/champ/.cursor/get-shit-done/references/ai-evals.md
 </execution_context>
 
 <context>
@@ -44,6 +44,6 @@ Phase number: {{GSD_ARGS}} — optional, auto-detects next unplanned phase if om
 </context>
 
 <process>
-Execute @D:/programming/champ-app/.cursor/get-shit-done/workflows/ai-integration-phase.md end-to-end.
+Execute end-to-end.
 Preserve all workflow gates.
 </process>

@@ -1,5 +1,13 @@
 import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import {
   IonButton,
@@ -19,12 +27,34 @@ import { PasswordVisibilityToggleComponent } from '../../components/password-vis
 import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../environments/environment';
 
+function usPhoneValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const raw = String(control.value ?? '');
+    const digits = raw.replace(/\D/g, '');
+    const ten = digits.length === 11 && digits.startsWith('1') ? digits.slice(1) : digits;
+    if (ten.length === 0) return null;
+    return ten.length === 10 ? null : { usPhone: true };
+  };
+}
+
+function passwordsMatchValidator(): ValidatorFn {
+  return (group: AbstractControl): ValidationErrors | null => {
+    if (!(group instanceof FormGroup)) return null;
+    const password = group.get('password')?.value as string | undefined;
+    const confirm = group.get('confirm')?.value as string | undefined;
+    if (password == null || confirm == null || password === '' || confirm === '') {
+      return null;
+    }
+    return password === confirm ? null : { passwordMismatch: true };
+  };
+}
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
   imports: [
-    FormsModule,
+    ReactiveFormsModule,
     PasswordVisibilityToggleComponent,
     RouterLink,
     IonHeader,
@@ -44,16 +74,25 @@ import { environment } from '../../../environments/environment';
 export class RegisterPage {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly fb = inject(FormBuilder);
   readonly apiUrl = environment.apiUrl;
 
-  email = '';
-  password = '';
-  confirm = '';
-  name = '';
-  phone = '';
-  acceptedTerms = false;
-  confirmedAdult = false;
-  profileType: 'user' | 'fighter' | '' = '';
+  readonly form = this.fb.group(
+    {
+      profileType: this.fb.control<'user' | 'fighter' | ''>('', {
+        validators: [Validators.required],
+      }),
+      name: [''],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required, usPhoneValidator()]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirm: ['', [Validators.required]],
+      confirmedAdult: [false, [Validators.requiredTrue]],
+      acceptedTerms: [false, [Validators.requiredTrue]],
+    },
+    { validators: [passwordsMatchValidator()], updateOn: 'change' },
+  );
+
   error = '';
   passwordVisible = false;
   confirmPasswordVisible = false;
@@ -69,31 +108,48 @@ export class RegisterPage {
     return `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`;
   }
 
-  onPhoneInput(value: string | number | null | undefined): void {
-    let digits = this.digitsOnly(String(value ?? ''));
+  onPhoneIonInput(ev: { detail?: { value?: string | null } }): void {
+    let digits = this.digitsOnly(String(ev.detail?.value ?? ''));
     if (digits.length === 11 && digits.startsWith('1')) {
       digits = digits.slice(1);
     }
-    this.phone = this.formatUsPhone(digits);
+    const formatted = this.formatUsPhone(digits);
+    const phoneCtrl = this.form.controls.phone;
+    if (formatted !== phoneCtrl.value) {
+      phoneCtrl.setValue(formatted);
+    }
   }
 
-  private phoneE164(): string | null {
-    const digits = this.digitsOnly(this.phone);
+  invalidShow(controlName: string): boolean {
+    const c = this.form.get(controlName);
+    return !!c && c.invalid && c.touched;
+  }
+
+  invalidProfileType(): boolean {
+    const c = this.form.controls.profileType;
+    return c.invalid && c.touched;
+  }
+
+  passwordMismatchShow(): boolean {
+    const p = this.form.controls.password;
+    const c = this.form.controls.confirm;
+    return (
+      !!this.form.errors?.['passwordMismatch'] &&
+      (p.touched || c.touched) &&
+      (p.value !== '' || c.value !== '')
+    );
+  }
+
+  checkboxInvalidShow(controlName: 'confirmedAdult' | 'acceptedTerms'): boolean {
+    const ctrl = this.form.get(controlName);
+    return !!ctrl && ctrl.invalid && ctrl.touched;
+  }
+
+  private phoneE164(phoneDisplay: string): string | null {
+    const digits = this.digitsOnly(phoneDisplay);
     const ten = digits.length === 11 && digits.startsWith('1') ? digits.slice(1) : digits;
     if (ten.length !== 10) return null;
     return `+1${ten}`;
-  }
-
-  get canSubmit(): boolean {
-    return (
-      !!this.email.trim() &&
-      this.password.length >= 8 &&
-      this.password === this.confirm &&
-      this.phoneE164() !== null &&
-      this.acceptedTerms === true &&
-      this.confirmedAdult === true &&
-      (this.profileType === 'user' || this.profileType === 'fighter')
-    );
   }
 
   oauth(provider: 'google' | 'apple'): void {
@@ -101,33 +157,33 @@ export class RegisterPage {
   }
 
   submit(): void {
-    if (this.password !== this.confirm) {
-      this.error = 'Passwords do not match';
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
       return;
     }
-    const phone = this.phoneE164();
+    const v = this.form.getRawValue();
+    const phoneDisplay = v.phone ?? '';
+    const phone = this.phoneE164(phoneDisplay);
     if (!phone) {
       this.error = 'Enter valid US phone number';
       return;
     }
-    if (!this.acceptedTerms || !this.confirmedAdult) {
-      this.error = 'Confirm age and accept terms to continue';
-      return;
-    }
-    if (this.profileType !== 'user' && this.profileType !== 'fighter') {
+    if (v.profileType !== 'user' && v.profileType !== 'fighter') {
       this.error = 'Choose profile type to continue';
       return;
     }
+    const email = (v.email ?? '').trim();
+    const password = v.password ?? '';
     this.error = '';
     this.auth
       .register({
-        email: this.email,
-        password: this.password,
-        name: this.name || undefined,
+        email,
+        password,
+        name: (v.name ?? '').trim() || undefined,
         phone,
         acceptedTerms: true,
         confirmedAdult: true,
-        profileType: this.profileType,
+        profileType: v.profileType,
       })
       .subscribe({
         next: () => void this.router.navigateByUrl('/profile'),

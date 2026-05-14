@@ -36,7 +36,7 @@ planning via /gsd-plan-phase --reviews.
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/review.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/review.md
 </execution_context>
 
 <context>
@@ -53,5 +53,5 @@ Phase number: extracted from {{GSD_ARGS}} (required)
 </context>
 
 <process>
-Execute the review workflow from @D:/programming/champ-app/.cursor/get-shit-done/workflows/review.md end-to-end.
+Execute end-to-end.
 </process>

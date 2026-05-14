@@ -34,8 +34,8 @@ Flow: Validate → Research UI → Verify UI-SPEC → Done
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/ui-phase.md
-@D:/programming/champ-app/.cursor/get-shit-done/references/ui-brand.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/ui-phase.md
+@D:/programming/champ/.cursor/get-shit-done/references/ui-brand.md
 </execution_context>
 
 <context>
@@ -43,6 +43,6 @@ Phase number: {{GSD_ARGS}} — optional, auto-detects next unplanned phase if om
 </context>
 
 <process>
-Execute @D:/programming/champ-app/.cursor/get-shit-done/workflows/ui-phase.md end-to-end.
+Execute end-to-end.
 Preserve all workflow gates.
 </process>

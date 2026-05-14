@@ -34,8 +34,8 @@ Routes to the profile-user workflow which orchestrates the full flow: consent ga
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/profile-user.md
-@D:/programming/champ-app/.cursor/get-shit-done/references/ui-brand.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/profile-user.md
+@D:/programming/champ/.cursor/get-shit-done/references/ui-brand.md
 </execution_context>
 
 <context>

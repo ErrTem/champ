@@ -28,6 +28,7 @@ services:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/champ_dev
       JWT_ACCESS_SECRET: change-me-min-32-chars-xxxxxxxxxxxx
       JWT_REFRESH_SECRET: change-me-min-32-chars-xxxxxxxxxxxx
+      SESSION_SECRET: change-me-min-32-chars-oauth-session
       ADMIN_EMAIL: admin@example.com
       ADMIN_PASSWORD: adminadmin
     depends_on:

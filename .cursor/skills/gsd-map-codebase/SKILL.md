@@ -36,11 +36,22 @@ Output: .planning/codebase/ folder with 7 structured documents about the codebas
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/map-codebase.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/map-codebase.md
 </execution_context>
 
+<flags>
+- **--fast**: Lightweight scan mode — spawns one mapper agent instead of four. Accepts an optional `--focus` value: `tech`, `arch`, `quality`, `concerns`, or `tech+arch` (default). Faster and lower-context than the full map.
+- **--query**: Codebase intelligence query mode. Sub-commands: `query <term>`, `status`, `diff`, `refresh`. Requires intel to be enabled in config (`intel.enabled: true`). Runs inline for query/status/diff; spawns an agent for refresh.
+- **(no flag)**: Full parallel map — spawns 4 mapper agents to produce all 7 codebase documents.
+</flags>
+
 <context>
-Focus area: {{GSD_ARGS}} (optional - if provided, tells agents to focus on specific subsystem)
+Arguments: {{GSD_ARGS}}
+
+Parse the first token of {{GSD_ARGS}}:
+- If it is `--fast`: strip the flag, run the scan workflow (passing remaining args including optional --focus).
+- If it is `--query`: strip the flag, run the intel workflow (passing remaining args as the subcommand).
+- Otherwise: pass all of {{GSD_ARGS}} as focus area to the map-codebase workflow.
 
 **Load project state if exists:**
 Check for .planning/STATE.md - loads context if project already initialized

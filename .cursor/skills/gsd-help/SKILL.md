@@ -38,10 +38,10 @@ Output ONLY the reference content below. Do NOT add:
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/help.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/help.md
 </execution_context>
 
 <process>
-Output the complete GSD command reference from @D:/programming/champ-app/.cursor/get-shit-done/workflows/help.md.
+Execute end-to-end.
 Display the reference content directly — no additions or modifications.
 </process>

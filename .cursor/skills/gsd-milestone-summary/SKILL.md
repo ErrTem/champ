@@ -35,7 +35,7 @@ Output: MILESTONE_SUMMARY written to `.planning/reports/`, presented inline, opt
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/milestone-summary.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/milestone-summary.md
 </execution_context>
 
 <context>
@@ -53,7 +53,7 @@ Output: MILESTONE_SUMMARY written to `.planning/reports/`, presented inline, opt
 </context>
 
 <process>
-Read and execute the milestone-summary workflow from @D:/programming/champ-app/.cursor/get-shit-done/workflows/milestone-summary.md end-to-end.
+Execute end-to-end.
 </process>
 
 <success_criteria>

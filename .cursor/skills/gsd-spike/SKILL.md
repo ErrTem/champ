@@ -1,6 +1,6 @@
 ---
 name: gsd-spike
-description: "Rapidly spike an idea with throwaway experiments to validate feasibility before planning"
+description: "Spike an idea through experiential exploration, or propose what to spike next (frontier mode)"
 ---
 
 <cursor_skill_adapter>
@@ -28,16 +28,22 @@ When the workflow needs to spawn a subagent:
 </cursor_skill_adapter>
 
 <objective>
-Rapid feasibility validation through focused, throwaway experiments. Each spike answers one
-specific question with observable evidence. Spikes live in `.planning/spikes/` and integrate
-with GSD commit patterns, state tracking, and handoff workflows.
+Spike an idea through experiential exploration — build focused experiments to feel the pieces
+of a future app, validate feasibility, and produce verified knowledge for the real build.
+Spikes live in `.planning/spikes/` and integrate with GSD commit patterns, state tracking,
+and handoff workflows.
+
+Two modes:
+- **Idea mode** (default) — describe an idea to spike
+- **Frontier mode** (no argument or "frontier") — analyzes existing spike landscape and proposes integration and frontier spikes
 
 Does not require `/gsd-new-project` — auto-creates `.planning/spikes/` if needed.
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/spike.md
-@D:/programming/champ-app/.cursor/get-shit-done/references/ui-brand.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/spike.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/spike-wrap-up.md
+@D:/programming/champ/.cursor/get-shit-done/references/ui-brand.md
 </execution_context>
 
 <runtime_note>
@@ -49,9 +55,14 @@ Idea: {{GSD_ARGS}}
 
 **Available flags:**
 - `--quick` — Skip decomposition/alignment, jump straight to building. Use when you already know what to spike.
+- `--text` — Use plain-text numbered lists instead of conversational prompting (for non-Claude runtimes).
+- `--wrap-up` — Package spike findings into a persistent project skill for future build conversations. Runs the spike-wrap-up workflow.
 </context>
 
 <process>
-Execute the spike workflow from @D:/programming/champ-app/.cursor/get-shit-done/workflows/spike.md end-to-end.
-Preserve all workflow gates (decomposition, risk ordering, verification, MANIFEST updates, commit patterns).
+Parse the first token of {{GSD_ARGS}}:
+- If it is `--wrap-up`: strip the flag, execute the spike-wrap-up workflow
+- Otherwise: pass all of {{GSD_ARGS}} as the idea to the spike workflow end-to-end.
+
+Preserve all workflow gates (prior spike check, decomposition, research, risk ordering, observability assessment, verification, MANIFEST updates, commit patterns).
 </process>

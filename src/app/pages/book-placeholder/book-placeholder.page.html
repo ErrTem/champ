@@ -1,4 +1,17 @@
-<ion-content class="book-shell" fullscreen="true">
+@if (step === 'review' && fighter && service) {
+  <ion-header class="ion-no-border book-review-header" translucent="true">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-button fill="clear" class="review-back" (click)="changeTime()" aria-label="Back to date and time">
+          <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title class="review-brand" slot="start">Elite Athletic</ion-title>
+    </ion-toolbar>
+  </ion-header>
+}
+
+<ion-content class="book-shell" [class.review-step]="step === 'review'" fullscreen="true">
   @if (loadingSelection) {
     <section class="card">
       <ion-skeleton-text class="line xl" animated="true"></ion-skeleton-text>
@@ -173,33 +186,110 @@
         </section>
       }
     } @else if (step === 'review') {
-      <section class="hero">
-        <p class="kicker">Review</p>
-        <h2 class="headline">Booking</h2>
+      <section class="review-hero">
+        <p class="review-kicker">Secure checkout</p>
+        <h2 class="review-headline">
+          Review<br />
+          booking
+        </h2>
       </section>
 
-      <section class="summary card glass">
-        <div class="summary-top">
-          <div class="summary-title">{{ fighter.name }}</div>
-          <div class="summary-sub">{{ service.title }}</div>
-        </div>
-
-        <div class="summary-rows">
-          <div class="row">
-            <ion-icon name="calendar-outline"></ion-icon>
-            <span>{{ selectedDate ? formatSelectedDate(selectedDate) : '' }}</span>
+      <section class="review-summary-wrap">
+        <div class="review-glow" aria-hidden="true"></div>
+        <div class="review-summary glass">
+          <div class="review-summary-inner">
+            <div class="review-thumb" [class.review-thumb--empty]="!fighter.photoUrl">
+              @if (fighter.photoUrl) {
+                <img [src]="fighter.photoUrl" [alt]="fighter.name + ' photo'" />
+              } @else {
+                <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+              }
+            </div>
+            <div class="review-summary-main">
+              <div class="review-badge-row">
+                <span class="review-exclusive-badge">{{ sessionTierLabel() }}</span>
+              </div>
+              <h3 class="review-fighter-name">{{ fighter.name }}</h3>
+              <p class="review-service-line">
+                <ion-icon name="fitness-outline" aria-hidden="true"></ion-icon>
+                <span>{{ service.title }} · {{ modalityLabel(service.modality) }}</span>
+              </p>
+              <div class="review-meta-block">
+                <div class="review-meta-row">
+                  <div class="review-meta-item">
+                    <ion-icon name="calendar-outline" class="review-meta-icon"></ion-icon>
+                    <span>{{ selectedDate ? formatReviewDateUpper(selectedDate) : '' }}</span>
+                  </div>
+                  @if (selectedSlot) {
+                    <div class="review-meta-item">
+                      <ion-icon name="time-outline" class="review-meta-icon"></ion-icon>
+                      <span>{{ formatSlotRange(selectedSlot.startsAtUtc, selectedSlot.endsAtUtc) }}</span>
+                    </div>
+                  }
+                </div>
+                @if (reviewLocationLine()) {
+                  <div class="review-meta-item review-meta-location">
+                    <ion-icon name="location-outline" class="review-meta-icon"></ion-icon>
+                    <span>{{ reviewLocationLine() }}</span>
+                  </div>
+                }
+              </div>
+            </div>
           </div>
-          <div class="row">
-            <ion-icon name="time-outline"></ion-icon>
-            <span>{{ selectedSlot ? formatSlotTime(selectedSlot.startsAtUtc) : '' }}</span>
-          </div>
-        </div>
-
-        <div class="status-preview">
-          <span class="label">Status after reserving:</span>
-          <span class="value">Awaiting payment</span>
         </div>
       </section>
+
+      <section class="review-section">
+        <h4 class="review-section-title">
+          Payment
+          <span class="review-section-rule" aria-hidden="true"></span>
+        </h4>
+        <p class="review-payment-note">
+          After you reserve, you’ll finish payment securely (card or digital wallet) on the next screen.
+        </p>
+        <div class="review-payment-placeholder">
+          <div class="review-payment-icon-wrap">
+            <ion-icon name="lock-closed-outline" aria-hidden="true"></ion-icon>
+          </div>
+          <div>
+            <span class="review-payment-title">Stripe checkout</span>
+            <span class="review-payment-sub">Encrypted · industry standard</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="review-totals">
+        <h4 class="review-section-title">
+          Order total
+          <span class="review-section-rule" aria-hidden="true"></span>
+        </h4>
+        <div class="review-totals-rows">
+          <div class="review-total-row">
+            <span class="review-total-label">Session subtotal</span>
+            <span class="review-total-value">{{ formatMoney(service.priceCents, service.currency) }}</span>
+          </div>
+        </div>
+        <div class="review-total-divider" aria-hidden="true"></div>
+        <div class="review-total-grand">
+          <div>
+            <span class="review-grand-label">Total amount</span>
+            <div class="review-grand-amount">
+              <span class="review-grand-price">{{ formatMoney(service.priceCents, service.currency) }}</span>
+              <span class="review-grand-ccy">{{ service.currency }}</span>
+            </div>
+          </div>
+          <div class="review-encrypted">
+            <ion-icon name="shield-checkmark-outline" aria-hidden="true"></ion-icon>
+            <span>Encrypted</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="review-trust-icons" aria-hidden="true">
+        <ion-icon name="shield-outline"></ion-icon>
+        <ion-icon name="lock-closed-outline"></ion-icon>
+        <ion-icon name="card-outline"></ion-icon>
+      </div>
 
       @if (reserveError) {
         <section class="alert tonal">
@@ -218,21 +308,9 @@
         </section>
       }
 
-      <ion-button
-        class="kinetic-gradient"
-        expand="block"
-        [disabled]="!selectedSlotId || reserving"
-        (click)="reserveSlot()"
-      >
-        @if (reserving) {
-          <ion-spinner name="crescent"></ion-spinner>
-          Reserving…
-        } @else {
-          Reserve slot
-        }
-      </ion-button>
+      <ion-button fill="clear" expand="block" class="review-change-time" (click)="changeTime()">Change time</ion-button>
 
-      <ion-button fill="clear" expand="block" (click)="changeTime()">Change time</ion-button>
+      <div class="review-footer-spacer" aria-hidden="true"></div>
     } @else if (step === 'created') {
       <section class="hero">
         <h2 class="headline">Booking reserved</h2>
@@ -297,6 +375,29 @@
             Confirm date & time
           </ion-button>
           <p class="footer-hint">48-hour cancellation policy applies</p>
+        </div>
+      </ion-footer>
+    }
+    @if (step === 'review') {
+      <ion-footer class="book-review-footer" translucent="true">
+        <div class="review-footer-inner">
+          <ion-button
+            class="review-confirm-pay"
+            expand="block"
+            [disabled]="!selectedSlotId || reserving"
+            (click)="reserveSlot()"
+          >
+            @if (reserving) {
+              <ion-spinner name="crescent"></ion-spinner>
+              Reserving…
+            } @else {
+              <span class="review-cta-label">Reserve slot</span>
+              <ion-icon name="arrow-forward-outline" class="review-cta-arrow" aria-hidden="true"></ion-icon>
+            }
+          </ion-button>
+          <p class="review-footer-legal">
+            By reserving you agree to the session and cancellation policy shown at checkout.
+          </p>
         </div>
       </ion-footer>
     }

@@ -39,9 +39,9 @@ Flags:
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/audit-fix.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/audit-fix.md
 </execution_context>
 
 <process>
-Execute the audit-fix workflow from @D:/programming/champ-app/.cursor/get-shit-done/workflows/audit-fix.md end-to-end.
+Execute end-to-end.
 </process>

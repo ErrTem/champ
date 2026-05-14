@@ -34,7 +34,7 @@ Closes the plan → execute → verify → ship loop.
 </objective>
 
 <execution_context>
-@D:/programming/champ-app/.cursor/get-shit-done/workflows/ship.md
+@D:/programming/champ/.cursor/get-shit-done/workflows/ship.md
 </execution_context>
 
-Execute the ship workflow from @D:/programming/champ-app/.cursor/get-shit-done/workflows/ship.md end-to-end.
+Execute the ship workflow from @D:/programming/champ/.cursor/get-shit-done/workflows/ship.md end-to-end.
