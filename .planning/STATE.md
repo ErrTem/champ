@@ -99,3 +99,4 @@ Resume file: `.planning/REQUIREMENTS.md`
 | Date (UTC)   | Slug              | Summary |
 |--------------|-------------------|---------|
 | 2026-04-28   | register-macos-ui | Register: +1 US phone row, Terms/Privacy copy and `/privacy` page, OAuth icons, macOS-style controls. |
+| 2026-05-14   | desktop-web-phone-column | Web ≥480px: center `ion-app` in 430px column with theme gutter so laptop matches phone layout. |
